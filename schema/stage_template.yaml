@@ -1,0 +1,12 @@
+properties:
+  name:
+    type: string
+    description: Template name.
+  inputs:
+    type: object
+    additionalProperties:
+      type: string
+  overlays:
+    type: object
+type: object
+title: StageTemplate

@@ -1,0 +1,50 @@
+title: Pipeline
+description: Pipeline defines the pipeline execution.
+type: object
+
+properties:
+  version:
+    description: Version defines the schema version.
+    type:
+      - string
+      - number
+
+  stages:
+    type: array
+    description: Stages defines a list of pipeline stages.
+    items:
+      $ref: ./stage.yaml
+
+  inputs:
+    type: object
+    description: Inputs defines the pipeline input parameters.
+    additionalProperties: 
+      type: object
+      additionalProperties: 
+        $ref: ./input.yaml
+
+  overlays:
+    type: object
+    description: Inputs defines the pipeline overlay parameters.
+    additionalProperties: 
+      type: object
+
+  registry:
+    $ref: ./registry.yaml
+    description: Registry provides container registry configuration.
+
+# example pipelines
+examples:
+  # example CI pipeline
+  - version: 1
+    stages:
+      - name: build
+        type: ci
+        spec:
+          steps:
+            - name: compile
+              type: script
+              spec:
+                run: |-
+                  go build
+                  go test

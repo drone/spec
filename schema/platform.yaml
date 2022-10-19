@@ -1,0 +1,50 @@
+title: Platform
+description: Platform defines the target execution environment.
+type: object
+properties:
+  arch:
+    type: string
+    enum:
+      - amd64
+      - arm
+      - arm64
+
+      # unsupported
+      - "386"
+      - ppc
+      - ppc64
+      - ppc64le
+      - riscv
+      - riscv64
+      - s390
+      - s390x
+      - sparc
+      - sparc64
+    description: Arch defines the target cpu architecture.
+  features:
+    description: Features defines the target platform features.
+    items:
+      type: string
+    type: array
+  os:
+    type: string
+    enum:
+      - linux
+      - windows
+      - macos
+
+      # unsupported
+      - darwin
+      - dragonfly
+      - freebsd
+      - netbsd
+      - openbsd
+      - plan9
+      - solaris
+    description: OS defines the target operating system.
+  variant:
+    description: Variant defines the target cpu architecture variant.
+    type: string
+  version:
+    description: Version defines the target operating system version.
+    type: string

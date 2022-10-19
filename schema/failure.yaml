@@ -1,0 +1,34 @@
+title: Failure
+type: object
+description: Failure defines a failure strategy.
+properties:
+  type:
+    description: Type defines the failure strategy type.
+    type: string
+    enum:
+    - abort
+    - manual-intervention
+    - retry
+
+oneOf:
+- allOf:
+  - properties:
+      type:
+        const: abort
+  - properties:
+      spec:
+        $ref: ./failure_abort.yaml
+- allOf:
+  - properties:
+      type:
+        const: retry
+  - properties:
+      spec:
+        $ref: ./failure_retry.yaml
+- allOf:
+  - properties:
+      type:
+        const: manual-intervention
+  - properties:
+      spec:
+        $ref: ./failure_manual.yaml

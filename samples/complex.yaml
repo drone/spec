@@ -1,0 +1,38 @@
+version: 1
+poop: 2
+inputs:
+  default:
+    username:
+      type: string
+      description: user identifier
+    password:
+      type: string
+      description: user password
+
+overlays:
+  default:
+    foo:
+      stages:
+      - name: foo
+
+stages:
+- id: build
+  type: ci
+  spec:
+    steps:
+      - type: script
+        spec:
+          script: |-
+            go build
+            go test
+
+      - type: plugin
+        spec:
+          image: plugins/docker
+          settings:
+            repo: foo/bar
+      - type: action
+        spec:
+          uses: foo/bar
+          with:
+            baz: qux

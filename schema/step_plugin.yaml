@@ -1,0 +1,39 @@
+title: StepPlugin
+type: object
+
+properties:
+  image:
+    type: string
+  uses:
+    type: string
+  connector:
+    type: string
+  pull:
+    type: string
+    enum:
+    - always
+    - never
+    - if-not-exists
+  env:
+    type: object
+    additionalProperties:
+      type: string
+    description: The step environment variables.
+  privileged:
+    type: boolean
+  user:
+    type: string
+  network:
+    type: string
+  settings:
+    type: object
+  outputs:
+    type: array
+    items:
+      type: string
+  resources:
+    $ref: ./resources.yaml
+  volumes:
+    type: array
+    items:
+      $ref: ./mount.yaml

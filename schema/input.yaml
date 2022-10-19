@@ -1,0 +1,31 @@
+title: Input
+type: object
+description: Input defines an input parameter.
+properties:
+  type:
+    description: Type defines the input type.
+    type: string
+    enum:
+    - string
+    - number
+    - bool
+    - boolean
+  desc:
+    type: string
+    description: Desc defines the input description.
+  default:
+    type:
+    - string
+    - number
+    - boolean
+  required:
+    type: boolean
+    description: Required indicates the input is required.
+  enum:
+    type: array
+    items:
+      type:
+      - string
+      - number
+      - boolean
+    description: Enum defines a list of accepted input values.

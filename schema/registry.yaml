@@ -1,0 +1,9 @@
+title: Registry
+description: Registry provides container registry details.
+type: object
+properties:
+  credentials:
+    description: Credentials provides container registry pull credentials.
+    items:
+      type: string
+    type: array

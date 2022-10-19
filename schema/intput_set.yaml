@@ -1,0 +1,4 @@
+title: Inputset
+type: object
+additionalProperties: 
+  $ref: ./input.yaml

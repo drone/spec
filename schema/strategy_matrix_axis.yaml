@@ -1,0 +1,7 @@
+title: Axis
+type: object
+description: Defines a matrix axis.
+additionalProperties: 
+  type: array
+  items:
+    type: string

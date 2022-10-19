@@ -1,0 +1,26 @@
+version: 1
+
+stages:
+- name: build
+  type: ci
+  spec:
+    steps:
+    - name: build
+      type: script
+      spec:
+        image: golang
+        run: go build
+    - name: test
+      type: script
+      spec:
+        image: golang
+        run: go test ./...
+    - name: publish
+      type: plugin
+      spec:
+        image: plugins/docker
+        settings:
+          repo: acme/server
+          username: ${{ secrets.username }}
+          password: ${{ secrets.password }}
+

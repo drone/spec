@@ -1,0 +1,51 @@
+title: StepBackground
+type: object
+
+properties:
+  image:
+    type: string
+  user:
+    type: string
+  pull:
+    type: string
+    enum:
+    - always
+    - never
+    - if-not-exists
+  shell:
+    type: string
+    enum:
+    - sh
+    - bash
+    - powershell
+    - pwsh
+  env:
+    type: object
+    additionalProperties:
+      type: string
+    description: The step environment variables.
+  exec:
+    type: string
+  entrypoint:
+    type: string
+  args:
+    type: array
+    items:
+      type: string
+  ports:
+    type: array
+    items:
+      type: string
+  network:
+    type: string
+  privileged:
+    type: boolean
+  outputs:
+    type: string
+  resources:
+    $ref: ./resources.yaml
+  volumes:
+    type: array
+    items:
+      $ref: ./mount.yaml
+

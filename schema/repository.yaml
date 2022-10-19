@@ -1,0 +1,25 @@
+title: Repository
+description: Repository defines a remote git repository.
+type: object
+properties:
+  branch:
+    description: Branch provides repository branch.
+    type: string
+  connector:
+    description: Connector provides the repository connector.
+    type: string
+  name:
+    description: Name provides the repository name.
+    type: string
+  pr:
+    description: PR provides the repository pull request.
+    type: number
+  ref:
+    description: Ref provides the repository reference.
+    type: string
+  sha:
+    description: Sha provides the repository commit sha.
+    type: string
+  tag:
+    description: Tag provides the repository tag.
+    type: string

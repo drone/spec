@@ -1,0 +1,22 @@
+properties:
+  delegate:
+    $ref: ./delegate.yaml
+    description: Configures the delegate matching logic.
+  platform:
+    $ref: ./platform.yaml
+    description: Configures the target execution platform.
+  runtime:
+    $ref: ./runtime.yaml
+    description: Configures the target runtime engine.
+  steps:
+    description: Configures a series of steps to executes.
+    items:
+      $ref: ./step.yaml
+    type: array
+  env:
+    type: object
+    additionalProperties:
+      type: string
+    description: The stage environment variables.
+type: object
+title: StageFlag
