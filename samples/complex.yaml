@@ -1,5 +1,5 @@
 version: 1
-poop: 2
+
 inputs:
   default:
     username:
