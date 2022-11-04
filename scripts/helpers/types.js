@@ -15,7 +15,7 @@ export default function getType(prop, defs) {
         return "MemStringorInt";
 
     } else if (isStringOrNumber(prop)) {
-        return "string";
+        return "StringorInt";
 
     } else if (isDict(prop)) {
         return "map[string]string";
