@@ -1,0 +1,7 @@
+title: Pull
+type: string
+description: List of pull options.
+enum:
+- if-not-exists
+- never
+- always

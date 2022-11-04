@@ -19,17 +19,21 @@ stages:
 - id: build
   type: ci
   spec:
+    platform:
+      os: linux
+      arch: arm64
+      variant: v7
     steps:
       - type: script
         spec:
-          script: |-
+          run: |-
             go build
             go test
 
       - type: plugin
         spec:
           image: plugins/docker
-          settings:
+          with:
             repo: foo/bar
       - type: action
         spec:

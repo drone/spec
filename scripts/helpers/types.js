@@ -4,7 +4,7 @@ import deepequal from "deep-equal";
  * Returns the Go representation of a json schema property.
  * @param {object} prop json schema property 
  */
-export default function getType(prop) {
+export default function getType(prop, defs) {
     if (isStringArray(prop)) {
         return "[]string";
 
@@ -60,7 +60,11 @@ export default function getType(prop) {
         return "[]string";
 
     } else if (isRef(prop)) {
-        return "*"+prop.$ref.slice(14);
+        const name = prop.$ref.slice(14);
+        if (defs[name] && defs[name].enum) {
+            return name;
+        }
+        return "*"+name;
 
     } else {
         console.error("unknown type", prop.name, prop.type);

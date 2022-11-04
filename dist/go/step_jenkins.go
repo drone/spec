@@ -16,11 +16,9 @@
 
 package yaml
 
-type StageInfra struct {
-	Clone    *Clone            `json:"clone,omitempty"`
-	Delegate *Delegate         `json:"delegate,omitempty"`
-	Platform *Platform         `json:"platform,omitempty"`
-	Runtime  *Runtime          `json:"runtime,omitempty"`
-	Steps    []*Step           `json:"steps,omitempty"`
-	Env      map[string]string `json:"env,omitempty"`
+type StepJenkins struct {
+	Env     map[string]string `json:"env,omitempty"`
+	Path    string            `json:"path,omitempty"`
+	Mirror  string            `json:"mirror,omitempty"`
+	Plugins []string          `json:"plugins,omitempty"`
 }

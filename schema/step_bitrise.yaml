@@ -6,8 +6,8 @@ properties:
     type: string
   with:
     type: object
-  connector:
-    type: string
+  # connector:
+  #   type: string
   env:
     type: object
     additionalProperties:
@@ -17,11 +17,11 @@ properties:
     type: array
     items:
       type: string
-  network:
-    type: string
-  resources:
-    $ref: ./resources.yaml
-  volumes:
-    type: array
-    items:
-      $ref: ./mount.yaml
+  # network:
+  #   type: string
+  # resources:
+  #   $ref: ./resources.yaml
+  # volumes:
+  #   type: array
+  #   items:
+  #     $ref: ./mount.yaml

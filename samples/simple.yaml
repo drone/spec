@@ -19,7 +19,7 @@ stages:
       type: plugin
       spec:
         image: plugins/docker
-        settings:
+        with:
           repo: acme/server
           username: ${{ secrets.username }}
           password: ${{ secrets.password }}

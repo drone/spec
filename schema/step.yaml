@@ -23,6 +23,7 @@ properties:
       - group
       - parallel
       - plugin
+      - jenkins
       - template
   timeout:
     type: string
@@ -93,3 +94,10 @@ oneOf:
   - properties:
       spec:
         $ref: ./step_template.yaml
+- allOf:
+  - properties:
+      type:
+        const: jenkins
+  - properties:
+      spec:
+        $ref: ./step_jenkins.yaml

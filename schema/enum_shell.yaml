@@ -1,0 +1,8 @@
+title: Shell
+type: string
+description: List of shell options.
+enum:
+- sh
+- bash
+- powershell
+- pwsh

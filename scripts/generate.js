@@ -24,12 +24,13 @@ Object.entries(schema.definitions).forEach(([k, v]) => {
         name: k,
         desc: v.description,
         path: filename,
+        enum:  [],
         props: [],
         types: [],
     }
 
     // for each property
-    Object.entries(v.properties).forEach(([propkey, propval]) => {
+    Object.entries(v.properties || {}).forEach(([propkey, propval]) => {
         const json = propkey;
         const name = Case.pascal(propkey);
 
@@ -37,14 +38,19 @@ Object.entries(schema.definitions).forEach(([k, v]) => {
         struct.props.push({
             name: name,
             json: json,
-            type: getType(propval),
+            type: getType(propval, schema.definitions),
         });
+    });
+
+    // for each enum value
+    v.enum && v.enum.forEach(text => {
+        struct.enum.push({name: struct.name + Case.pascal(text), text: text});
     });
 
     // this block of code detects if we are using the type /
     // spec pattern. If yes, we store the type enum values
     // and their associated struct types.
-    if (v.properties.type && v.properties.type.enum && v.oneOf) {
+    if (v.properties && v.properties.type && v.properties.type.enum && v.oneOf) {
         v.oneOf.forEach(({allOf}) => {
             const name = allOf[0].properties.type.const;
             const type = allOf[1].properties.spec.$ref.slice(14);
@@ -56,7 +62,7 @@ Object.entries(schema.definitions).forEach(([k, v]) => {
     }
 
     // parse the handlebars templates
-    const text = fs.readFileSync("scripts/templates/struct.handlebars");
+    const text = fs.readFileSync(`scripts/templates/${struct.enum && struct.enum.length ? "enum": "struct"}.handlebars`);
     const tmpl = Handlebars.compile(text.toString());
     
     // execute the template and write the contents

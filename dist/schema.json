@@ -622,22 +622,7 @@
             "type": "object",
             "properties": {
                 "arch": {
-                    "type": "string",
-                    "enum": [
-                        "amd64",
-                        "arm",
-                        "arm64",
-                        "386",
-                        "ppc",
-                        "ppc64",
-                        "ppc64le",
-                        "riscv",
-                        "riscv64",
-                        "s390",
-                        "s390x",
-                        "sparc",
-                        "sparc64"
-                    ],
+                    "$ref": "#/definitions/Arch",
                     "description": "Arch defines the target cpu architecture."
                 },
                 "features": {
@@ -648,19 +633,7 @@
                     "type": "array"
                 },
                 "os": {
-                    "type": "string",
-                    "enum": [
-                        "linux",
-                        "windows",
-                        "macos",
-                        "darwin",
-                        "dragonfly",
-                        "freebsd",
-                        "netbsd",
-                        "openbsd",
-                        "plan9",
-                        "solaris"
-                    ],
+                    "$ref": "#/definitions/OS",
                     "description": "OS defines the target operating system."
                 },
                 "variant": {
@@ -673,6 +646,45 @@
                 }
             },
             "x-file": "platform.yaml"
+        },
+        "Arch": {
+            "title": "Arch",
+            "type": "string",
+            "description": "List of cpu architectures.",
+            "enum": [
+                "amd64",
+                "arm",
+                "arm64",
+                "386",
+                "ppc",
+                "ppc64",
+                "ppc64le",
+                "riscv",
+                "riscv64",
+                "s390",
+                "s390x",
+                "sparc",
+                "sparc64"
+            ],
+            "x-file": "enum_arch.yaml"
+        },
+        "OS": {
+            "title": "OS",
+            "type": "string",
+            "description": "List of operating systems.",
+            "enum": [
+                "linux",
+                "windows",
+                "macos",
+                "darwin",
+                "dragonfly",
+                "freebsd",
+                "netbsd",
+                "openbsd",
+                "plan9",
+                "solaris"
+            ],
+            "x-file": "enum_os.yaml"
         },
         "Runtime": {
             "title": "Runtime",
@@ -917,6 +929,7 @@
                         "group",
                         "parallel",
                         "plugin",
+                        "jenkins",
                         "template"
                     ]
                 },
@@ -1080,6 +1093,24 @@
                             }
                         }
                     ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "type": {
+                                    "const": "jenkins"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/StepJenkins"
+                                }
+                            }
+                        }
+                    ]
                 }
             ],
             "x-file": "step.yaml"
@@ -1094,9 +1125,6 @@
                 "with": {
                     "type": "object"
                 },
-                "connector": {
-                    "type": "string"
-                },
                 "env": {
                     "type": "object",
                     "additionalProperties": {
@@ -1109,37 +1137,9 @@
                     "items": {
                         "type": "string"
                     }
-                },
-                "network": {
-                    "type": "string"
-                },
-                "resources": {
-                    "$ref": "#/definitions/Resources"
-                },
-                "volumes": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Mount"
-                    }
                 }
             },
             "x-file": "step_action.yaml"
-        },
-        "Mount": {
-            "title": "Mount",
-            "type": "object",
-            "description": "Mount defines a volume mount.",
-            "properties": {
-                "name": {
-                    "description": "Name defines the volume name.",
-                    "type": "string"
-                },
-                "path": {
-                    "description": "Path specifies the target mount path.",
-                    "type": "string"
-                }
-            },
-            "x-file": "mount.yaml"
         },
         "StepBackground": {
             "title": "StepBackground",
@@ -1214,6 +1214,22 @@
             },
             "x-file": "step_background.yaml"
         },
+        "Mount": {
+            "title": "Mount",
+            "type": "object",
+            "description": "Mount defines a volume mount.",
+            "properties": {
+                "name": {
+                    "description": "Name defines the volume name.",
+                    "type": "string"
+                },
+                "path": {
+                    "description": "Path specifies the target mount path.",
+                    "type": "string"
+                }
+            },
+            "x-file": "mount.yaml"
+        },
         "StepBitrise": {
             "title": "StepBitrise",
             "type": "object",
@@ -1223,9 +1239,6 @@
                 },
                 "with": {
                     "type": "object"
-                },
-                "connector": {
-                    "type": "string"
                 },
                 "env": {
                     "type": "object",
@@ -1238,18 +1251,6 @@
                     "type": "array",
                     "items": {
                         "type": "string"
-                    }
-                },
-                "network": {
-                    "type": "string"
-                },
-                "resources": {
-                    "$ref": "#/definitions/Resources"
-                },
-                "volumes": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Mount"
                     }
                 }
             },
@@ -1432,7 +1433,7 @@
                 "network": {
                     "type": "string"
                 },
-                "settings": {
+                "with": {
                     "type": "object"
                 },
                 "outputs": {
@@ -1472,6 +1473,32 @@
                 }
             },
             "x-file": "step_template.yaml"
+        },
+        "StepJenkins": {
+            "title": "StepJenkins",
+            "type": "object",
+            "properties": {
+                "env": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "The stage environment variables."
+                },
+                "path": {
+                    "type": "string"
+                },
+                "mirror": {
+                    "type": "string"
+                },
+                "plugins": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "x-file": "step_jenkins.yaml"
         },
         "StageCD": {
             "properties": {
@@ -1640,7 +1667,6 @@
                     "enum": [
                         "string",
                         "number",
-                        "bool",
                         "boolean"
                     ]
                 },

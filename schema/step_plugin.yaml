@@ -25,7 +25,7 @@ properties:
     type: string
   network:
     type: string
-  settings:
+  with:
     type: object
   outputs:
     type: array

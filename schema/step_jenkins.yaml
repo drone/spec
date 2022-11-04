@@ -1,19 +1,17 @@
-title: StepAction
+title: StepJenkins
 type: object
 
 properties:
-  uses:
-    type: string
-  with:
-    type: object
-  # connector:
-  #   type: string
   env:
     type: object
     additionalProperties:
       type: string
     description: The stage environment variables.
-  outputs:
+  path:
+    type: string
+  mirror:
+    type: string
+  plugins:
     type: array
     items:
       type: string
@@ -25,4 +23,3 @@ properties:
   #   type: array
   #   items:
   #     $ref: ./mount.yaml
-
