@@ -17,7 +17,15 @@
 package yaml
 
 type StepTest struct {
-	Envs map[string]string      `json:"envs,omitempty"`
-	Uses string                 `json:"uses,omitempty"`
-	With map[string]interface{} `json:"with,omitempty"`
+	Envs      map[string]string      `json:"envs,omitempty"`
+	Uses      string                 `json:"uses,omitempty"`
+	With      map[string]interface{} `json:"with,omitempty"`
+	Splitting *Splitting             `json:"splitting,omitempty"`
+	Reports   []*Report              `json:"reports,omitempty"`
+	Outputs   []string               `json:"outputs,omitempty"`
+	Image     string                 `json:"image,omitempty"`
+	Connector string                 `json:"connector,omitempty"`
+	User      string                 `json:"user,omitempty"`
+	Pull      string                 `json:"pull,omitempty"`
+	Resources *Resources             `json:"resources,omitempty"`
 }

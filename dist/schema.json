@@ -1404,6 +1404,41 @@
                 },
                 "with": {
                     "type": "object"
+                },
+                "splitting": {
+                    "$ref": "#/definitions/Splitting"
+                },
+                "reports": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Report"
+                    }
+                },
+                "outputs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "image": {
+                    "type": "string"
+                },
+                "connector": {
+                    "type": "string"
+                },
+                "user": {
+                    "type": "string"
+                },
+                "pull": {
+                    "type": "string",
+                    "enum": [
+                        "always",
+                        "never",
+                        "if-not-exists"
+                    ]
+                },
+                "resources": {
+                    "$ref": "#/definitions/Resources"
                 }
             },
             "examples": [
@@ -1425,6 +1460,22 @@
                 }
             ],
             "x-file": "step_test.yaml"
+        },
+        "Splitting": {
+            "title": "Splitting",
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "concurrency": {
+                    "type": "number"
+                },
+                "strategy": {
+                    "type": "string"
+                }
+            },
+            "x-file": "splitting.yaml"
         },
         "StepGroup": {
             "type": "object",

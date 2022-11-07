@@ -11,10 +11,34 @@ properties:
     type: string
   with:
     type: object
-  
-# todo add splitting.enabled
-# todo add splitting.concurrency
-# todo add splitting.strategy ... is this needed?
+  splitting:
+    $ref: ./splitting.yaml
+  reports:
+    type: array
+    items:
+      $ref: ./report.yaml
+  outputs:
+    type: array
+    items:
+      type: string
+
+  # these fields would be optional for
+  # use with kubernetes.
+
+  image:
+    type: string
+  connector:
+    type: string
+  user:
+    type: string
+  pull:
+    type: string
+    enum:
+    - always
+    - never
+    - if-not-exists
+  resources:
+    $ref: ./resources.yaml
 
 examples:
 - type: test
@@ -26,4 +50,4 @@ examples:
       - bar
     splitting:
       enabled: true
-      concurrency: 3 
+      concurrency: 3
