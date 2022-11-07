@@ -21,7 +21,7 @@ properties:
     - bash
     - powershell
     - pwsh
-  env:
+  envs:
     type: object
     additionalProperties:
       type: string

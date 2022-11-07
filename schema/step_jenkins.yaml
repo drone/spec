@@ -2,7 +2,7 @@ title: StepJenkins
 type: object
 
 properties:
-  env:
+  envs:
     type: object
     additionalProperties:
       type: string

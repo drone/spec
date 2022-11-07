@@ -8,7 +8,7 @@ properties:
     type: object
   # connector:
   #   type: string
-  env:
+  envs:
     type: object
     additionalProperties:
       type: string

@@ -17,7 +17,7 @@
 package yaml
 
 type StepJenkins struct {
-	Env     map[string]string `json:"env,omitempty"`
+	Envs    map[string]string `json:"envs,omitempty"`
 	Path    string            `json:"path,omitempty"`
 	Mirror  string            `json:"mirror,omitempty"`
 	Plugins []string          `json:"plugins,omitempty"`

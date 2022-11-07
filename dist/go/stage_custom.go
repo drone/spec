@@ -21,5 +21,5 @@ type StageCustom struct {
 	Platform *Platform         `json:"platform,omitempty"`
 	Runtime  *Runtime          `json:"runtime,omitempty"`
 	Steps    []*Step           `json:"steps,omitempty"`
-	Env      map[string]string `json:"env,omitempty"`
+	Envs     map[string]string `json:"envs,omitempty"`
 }

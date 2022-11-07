@@ -16,7 +16,7 @@ properties:
     items:
       $ref: ./step.yaml
     type: array
-  env:
+  envs:
     type: object
     additionalProperties:
       type: string

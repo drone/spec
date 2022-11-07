@@ -55,6 +55,8 @@ func (v *Step) UnmarshalJSON(data []byte) error {
 		v.Spec = new(StepBitrise)
 	case "script":
 		v.Spec = new(StepExec)
+	case "test":
+		v.Spec = new(StepTest)
 	case "group":
 		v.Spec = new(StepGroup)
 	case "parallel":

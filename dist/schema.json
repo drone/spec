@@ -525,7 +525,7 @@
                     },
                     "type": "array"
                 },
-                "env": {
+                "envs": {
                     "type": "object",
                     "additionalProperties": {
                         "type": "string"
@@ -1027,6 +1027,24 @@
                         {
                             "properties": {
                                 "type": {
+                                    "const": "test"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/StepTest"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "type": {
                                     "const": "group"
                                 }
                             }
@@ -1125,7 +1143,7 @@
                 "with": {
                     "type": "object"
                 },
-                "env": {
+                "envs": {
                     "type": "object",
                     "additionalProperties": {
                         "type": "string"
@@ -1168,14 +1186,14 @@
                         "pwsh"
                     ]
                 },
-                "env": {
+                "envs": {
                     "type": "object",
                     "additionalProperties": {
                         "type": "string"
                     },
                     "description": "The step environment variables."
                 },
-                "exec": {
+                "run": {
                     "type": "string"
                 },
                 "entrypoint": {
@@ -1240,7 +1258,7 @@
                 "with": {
                     "type": "object"
                 },
-                "env": {
+                "envs": {
                     "type": "object",
                     "additionalProperties": {
                         "type": "string"
@@ -1286,7 +1304,7 @@
                         "pwsh"
                     ]
                 },
-                "env": {
+                "envs": {
                     "type": "object",
                     "additionalProperties": {
                         "type": "string"
@@ -1370,6 +1388,44 @@
             ],
             "x-file": "report.yaml"
         },
+        "StepTest": {
+            "title": "StepTest",
+            "type": "object",
+            "properties": {
+                "envs": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "The stage environment variables."
+                },
+                "uses": {
+                    "type": "string"
+                },
+                "with": {
+                    "type": "object"
+                }
+            },
+            "examples": [
+                {
+                    "type": "test",
+                    "spec": {
+                        "uses": "maven",
+                        "with": {
+                            "packages": [
+                                "foo",
+                                "bar"
+                            ]
+                        },
+                        "splitting": {
+                            "enabled": true,
+                            "concurrency": 3
+                        }
+                    }
+                }
+            ],
+            "x-file": "step_test.yaml"
+        },
         "StepGroup": {
             "type": "object",
             "title": "StepGroup",
@@ -1417,7 +1473,7 @@
                         "if-not-exists"
                     ]
                 },
-                "env": {
+                "envs": {
                     "type": "object",
                     "additionalProperties": {
                         "type": "string"
@@ -1478,7 +1534,7 @@
             "title": "StepJenkins",
             "type": "object",
             "properties": {
-                "env": {
+                "envs": {
                     "type": "object",
                     "additionalProperties": {
                         "type": "string"
@@ -1521,7 +1577,7 @@
                     },
                     "type": "array"
                 },
-                "env": {
+                "envs": {
                     "type": "object",
                     "additionalProperties": {
                         "type": "string"
@@ -1554,7 +1610,7 @@
                     },
                     "type": "array"
                 },
-                "env": {
+                "envs": {
                     "type": "object",
                     "additionalProperties": {
                         "type": "string"
@@ -1591,7 +1647,7 @@
                     },
                     "type": "array"
                 },
-                "env": {
+                "envs": {
                     "type": "object",
                     "additionalProperties": {
                         "type": "string"
@@ -1624,7 +1680,7 @@
                     },
                     "type": "array"
                 },
-                "env": {
+                "envs": {
                     "type": "object",
                     "additionalProperties": {
                         "type": "string"

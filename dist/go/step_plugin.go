@@ -21,7 +21,7 @@ type StepPlugin struct {
 	Uses       string                 `json:"uses,omitempty"`
 	Connector  string                 `json:"connector,omitempty"`
 	Pull       string                 `json:"pull,omitempty"`
-	Env        map[string]string      `json:"env,omitempty"`
+	Envs       map[string]string      `json:"envs,omitempty"`
 	Privileged bool                   `json:"privileged,omitempty"`
 	User       string                 `json:"user,omitempty"`
 	Network    string                 `json:"network,omitempty"`

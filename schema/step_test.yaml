@@ -1,0 +1,29 @@
+title: StepTest
+type: object
+
+properties:
+  envs:
+    type: object
+    additionalProperties:
+      type: string
+    description: The stage environment variables.
+  uses:
+    type: string
+  with:
+    type: object
+  
+# todo add splitting.enabled
+# todo add splitting.concurrency
+# todo add splitting.strategy ... is this needed?
+
+examples:
+- type: test
+  spec:
+    uses: maven
+    with: 
+      packages:
+      - foo
+      - bar
+    splitting:
+      enabled: true
+      concurrency: 3 

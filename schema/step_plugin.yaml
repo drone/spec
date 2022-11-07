@@ -14,7 +14,7 @@ properties:
     - always
     - never
     - if-not-exists
-  env:
+  envs:
     type: object
     additionalProperties:
       type: string

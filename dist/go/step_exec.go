@@ -22,7 +22,7 @@ type StepExec struct {
 	User       string            `json:"user,omitempty"`
 	Pull       string            `json:"pull,omitempty"`
 	Shell      string            `json:"shell,omitempty"`
-	Env        map[string]string `json:"env,omitempty"`
+	Envs       map[string]string `json:"envs,omitempty"`
 	Run        string            `json:"run,omitempty"`
 	Entrypoint string            `json:"entrypoint,omitempty"`
 	Args       []string          `json:"args,omitempty"`

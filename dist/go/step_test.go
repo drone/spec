@@ -16,10 +16,8 @@
 
 package yaml
 
-type StageCD struct {
-	Delegate *Delegate         `json:"delegate,omitempty"`
-	Platform *Platform         `json:"platform,omitempty"`
-	Runtime  *Runtime          `json:"runtime,omitempty"`
-	Steps    []*Step           `json:"steps,omitempty"`
-	Envs     map[string]string `json:"envs,omitempty"`
+type StepTest struct {
+	Envs map[string]string      `json:"envs,omitempty"`
+	Uses string                 `json:"uses,omitempty"`
+	With map[string]interface{} `json:"with,omitempty"`
 }

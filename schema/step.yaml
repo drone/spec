@@ -69,6 +69,13 @@ oneOf:
 - allOf:
   - properties:
       type:
+        const: test
+  - properties:
+      spec:
+        $ref: ./step_test.yaml
+- allOf:
+  - properties:
+      type:
         const: group
   - properties:
       spec:

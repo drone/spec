@@ -19,12 +19,12 @@ properties:
     - bash
     - powershell
     - pwsh
-  env:
+  envs:
     type: object
     additionalProperties:
       type: string
     description: The step environment variables.
-  exec:
+  run:
     type: string
   entrypoint:
     type: string
