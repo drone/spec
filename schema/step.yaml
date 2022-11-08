@@ -72,7 +72,7 @@ oneOf:
         const: test
   - properties:
       spec:
-        $ref: ./step_test.yaml
+        $ref: ./step_ti.yaml
 - allOf:
   - properties:
       type:

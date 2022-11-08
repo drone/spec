@@ -1459,7 +1459,7 @@
                     }
                 }
             ],
-            "x-file": "step_test.yaml"
+            "x-file": "step_ti.yaml"
         },
         "Splitting": {
             "title": "Splitting",
