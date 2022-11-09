@@ -16,6 +16,11 @@ let schema = JSON.parse(fs.readFileSync("dist/schema.json"));
 
 // for each definition
 Object.entries(schema.definitions).forEach(([k, v]) => {
+    if (v["x-go-skip"] === true) {
+        console.log("skip definition", v.title || v.name)
+        return;
+    }
+
     // name of the go file.
     const filename = v["x-file"].replace(".yaml", ".go");
 

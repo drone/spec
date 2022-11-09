@@ -1,9 +1,17 @@
-title: Expr
+title: WhenExpr
 type: object
 properties:
   eq:
     type: string
   in:
     type: array
-    items:
-      type: string
+  not:
+    type: object
+    properties:
+      eq:
+        type: string
+      in:
+        type: string
+
+# skip and manually create go file
+x-go-skip: true

@@ -100,9 +100,7 @@
                 },
                 "when": {
                     "description": "The stage conditional logic.",
-                    "type": "string",
-                    "x-go-type": "When",
-                    "x-go-pointer": true
+                    "$ref": "#/definitions/When"
                 },
                 "on": {
                     "$ref": "#/definitions/On"
@@ -362,6 +360,59 @@
                 }
             },
             "x-file": "strategy_while.yaml"
+        },
+        "When": {
+            "title": "When",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$ref": "#/definitions/WhenCond"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/WhenCond"
+                    }
+                }
+            ],
+            "x-go-skip": true,
+            "x-file": "when.yaml"
+        },
+        "WhenCond": {
+            "title": "WhenCond",
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/WhenExpr"
+            },
+            "x-go-skip": true,
+            "x-file": "when_cond.yaml"
+        },
+        "WhenExpr": {
+            "title": "WhenExpr",
+            "type": "object",
+            "properties": {
+                "eq": {
+                    "type": "string"
+                },
+                "in": {
+                    "type": "array"
+                },
+                "not": {
+                    "type": "object",
+                    "properties": {
+                        "eq": {
+                            "type": "string"
+                        },
+                        "in": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "x-go-skip": true,
+            "x-file": "when_expr.yaml"
         },
         "On": {
             "title": "On",
@@ -945,9 +996,7 @@
                 },
                 "when": {
                     "description": "The stage conditional logic.",
-                    "type": "string",
-                    "x-go-type": "When",
-                    "x-go-pointer": true
+                    "$ref": "#/definitions/When"
                 },
                 "on": {
                     "$ref": "#/definitions/On"

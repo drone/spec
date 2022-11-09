@@ -26,9 +26,7 @@ properties:
     type: string
   when:
     description: The stage conditional logic.
-    type: string
-    x-go-type: When
-    x-go-pointer: true
+    $ref: "./when.yaml"
   on:
     $ref: ./on.yaml
 
