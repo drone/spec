@@ -100,7 +100,9 @@
                 },
                 "when": {
                     "description": "The stage conditional logic.",
-                    "type": "string"
+                    "type": "string",
+                    "x-go-type": "When",
+                    "x-go-pointer": true
                 },
                 "on": {
                     "$ref": "#/definitions/On"
@@ -943,7 +945,9 @@
                 },
                 "when": {
                     "description": "The stage conditional logic.",
-                    "type": "string"
+                    "type": "string",
+                    "x-go-type": "When",
+                    "x-go-pointer": true
                 },
                 "on": {
                     "$ref": "#/definitions/On"

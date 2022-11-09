@@ -35,7 +35,7 @@ func TestWhen(t *testing.T) {
 		{
 			yaml: `{ branch: { eq: "main" } }`,
 			want: When{
-				Expr: []map[string]*Expr{
+				Cond: []map[string]*Expr{
 					{
 						"branch": &Expr{
 							Eq: "main",
@@ -47,7 +47,7 @@ func TestWhen(t *testing.T) {
 		{
 			yaml: `[{ branch: { eq: "main" } }, { event: { eq: "pull_request" } }]`,
 			want: When{
-				Expr: []map[string]*Expr{
+				Cond: []map[string]*Expr{
 					{
 						"branch": &Expr{
 							Eq: "main",

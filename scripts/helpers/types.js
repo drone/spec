@@ -5,7 +5,10 @@ import deepequal from "deep-equal";
  * @param {object} prop json schema property 
  */
 export default function getType(prop, defs) {
-    if (isStringArray(prop)) {
+    if (!!prop["x-go-type"]) {
+        return "*" + prop["x-go-type"];
+
+    } else  if (isStringArray(prop)) {
         return "[]string";
 
     } else if (isStringOrSlice(prop)) {

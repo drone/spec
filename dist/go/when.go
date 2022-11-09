@@ -23,7 +23,7 @@ type (
 	// When defines execution conditions.
 	When struct {
 		Eval string
-		Expr []map[string]*Expr
+		Cond []map[string]*Expr
 	}
 
 	// Expr defines an execution expression.
@@ -42,14 +42,14 @@ func (v *When) UnmarshalJSON(data []byte) error {
 	}
 
 	// parse the declarative when clause array.
-	if err := json.Unmarshal(data, &v.Expr); err == nil {
+	if err := json.Unmarshal(data, &v.Cond); err == nil {
 		return nil
 	}
 
 	// parse the declarative when clause.
 	vv := map[string]*Expr{}
 	if err := json.Unmarshal(data, &vv); err == nil {
-		v.Expr = append(v.Expr, vv)
+		v.Cond = append(v.Cond, vv)
 		return nil
 	}
 

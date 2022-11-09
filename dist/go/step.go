@@ -28,7 +28,7 @@ type Step struct {
 	Type     string      `json:"type,omitempty"`
 	Timeout  string      `json:"timeout,omitempty"`
 	Strategy *Strategy   `json:"strategy,omitempty"`
-	When     string      `json:"when,omitempty"`
+	When     *When       `json:"when,omitempty"`
 	On       *On         `json:"on,omitempty"`
 	Spec     interface{} `json:"spec,omitempty"`
 }

@@ -1,0 +1,9 @@
+title: Expr
+type: object
+properties:
+  eq:
+    type: string
+  in:
+    type: array
+    items:
+      type: string

@@ -27,7 +27,7 @@ type Stage struct {
 	Name     string      `json:"name,omitempty"`
 	Strategy *Strategy   `json:"strategy,omitempty"`
 	Type     string      `json:"type,omitempty"`
-	When     string      `json:"when,omitempty"`
+	When     *When       `json:"when,omitempty"`
 	On       *On         `json:"on,omitempty"`
 	Spec     interface{} `json:"spec,omitempty"`
 }
