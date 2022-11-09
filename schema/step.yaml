@@ -34,6 +34,7 @@ properties:
   when:
     description: The stage conditional logic.
     type: string
+    x-go-type: When
   on:
     $ref: ./on.yaml
 
