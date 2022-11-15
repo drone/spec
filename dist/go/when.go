@@ -28,9 +28,9 @@ type (
 
 	// Expr defines an execution expression.
 	Expr struct {
-		Eq  string `json:"eq"`
-		In  string `json:"in"`
-		Not *Expr  `json:"not"`
+		Eq  string   `json:"eq,omitempty"`
+		In  []string `json:"in,omitempty"`
+		Not *Expr    `json:"not,omitempty"`
 	}
 )
 
@@ -54,4 +54,15 @@ func (v *When) UnmarshalJSON(data []byte) error {
 	}
 
 	return errors.New("failed to unmarshal when clause")
+}
+
+// MarshalJSON implements the marshal interface.
+func (v *When) MarshalJSON() ([]byte, error) {
+	if v.Eval != "" {
+		return json.Marshal(v.Eval)
+	}
+	if v.Cond != nil && len(v.Cond) != 0 {
+		return json.Marshal(v.Cond)
+	}
+	return []byte("null"), nil
 }

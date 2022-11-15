@@ -22,7 +22,7 @@ type RuntimeKube struct {
 	Connector         string                 `json:"connector,omitempty"`
 	Namespace         string                 `json:"namespace,omitempty"`
 	Annotations       map[string]string      `json:"annotations,omitempty"`
-	Labels            []string               `json:"labels,omitempty"`
+	Labels            map[string]string       `json:"labels,omitempty"`
 	Resources         *Resources             `json:"resources,omitempty"`
 	MountServiceToken bool                   `json:"mount_service_token,omitempty"`
 	ServiceAccount    string                 `json:"service_account,omitempty"`
@@ -31,6 +31,7 @@ type RuntimeKube struct {
 	InitTimeout       time.Duration          `json:"init_timeout,omitempty"`
 	User              string                 `json:"user,omitempty"`
 	ImagePullSecrets  []string               `json:"image_pull_secrets,omitempty"`
+	Node              string                 `json:"node,omitempty"`
 	NodeSelector      map[string]string      `json:"node_selector,omitempty"`
 	Tolerations       map[string]interface{} `json:"tolerations,omitempty"`
 }

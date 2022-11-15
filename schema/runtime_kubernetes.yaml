@@ -10,8 +10,8 @@ properties:
     additionalProperties:
       type: string
   labels:
-    type: array
-    items:
+    type: object
+    additionalProperties:
       type: string
   resources:
     $ref: ./resources.yaml
@@ -32,6 +32,8 @@ properties:
     type: array
     items:
       type: string
+  node:
+    type: string
   node_selector:
     type: object
     additionalProperties:
