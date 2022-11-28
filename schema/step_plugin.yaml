@@ -19,6 +19,10 @@ properties:
     additionalProperties:
       type: string
     description: The step environment variables.
+  reports:
+    type: array
+    items:
+      $ref: ./report.yaml
   privileged:
     type: boolean
   user:
