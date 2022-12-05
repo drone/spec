@@ -22,7 +22,7 @@ type RuntimeKube struct {
 	Connector         string                 `json:"connector,omitempty"`
 	Namespace         string                 `json:"namespace,omitempty"`
 	Annotations       map[string]string      `json:"annotations,omitempty"`
-	Labels            map[string]string       `json:"labels,omitempty"`
+	Labels            map[string]string      `json:"labels,omitempty"`
 	Resources         *Resources             `json:"resources,omitempty"`
 	MountServiceToken bool                   `json:"mount_service_token,omitempty"`
 	ServiceAccount    string                 `json:"service_account,omitempty"`

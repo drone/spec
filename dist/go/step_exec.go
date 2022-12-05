@@ -20,6 +20,7 @@ type StepExec struct {
 	Image      string            `json:"image,omitempty"`
 	Connector  string            `json:"connector,omitempty"`
 	User       string            `json:"user,omitempty"`
+	Group      string            `json:"group,omitempty"`
 	Pull       string            `json:"pull,omitempty"`
 	Shell      string            `json:"shell,omitempty"`
 	Envs       map[string]string `json:"envs,omitempty"`

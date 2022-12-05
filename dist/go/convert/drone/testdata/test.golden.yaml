@@ -1,20 +1,22 @@
 stages:
 - name: test-name
   type: ci
+  when:
+  - event:
+      in:
+      - push
+      - pull_request
   spec:
     clone:
       depth: 50
-
     runtime:
       spec: {}
       type: machine
-
     steps:
     - name: redis
       type: background
       spec:
         image: redis
-
     - name: test-step-1
       type: script
       spec:
@@ -27,7 +29,6 @@ stages:
           in:
           - main
           - develop
-
     - name: test-plugin-1
       type: plugin
       spec:

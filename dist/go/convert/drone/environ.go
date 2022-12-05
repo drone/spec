@@ -20,7 +20,6 @@ import (
 	"strings"
 
 	"github.com/coreos/go-semver/semver"
-	"github.com/drone/drone-go/drone"
 )
 
 // regular expression to extract the pull request number
@@ -29,53 +28,53 @@ var re = regexp.MustCompile("\\d+")
 
 // helper function returns repository and build environment
 // variables for environment substitution in the yaml.
-func toEnv(repo *drone.Repo, build *drone.Build, system *drone.System) map[string]string {
+func toEnv(params *Params) map[string]string {
 	env := map[string]string{
-		"DRONE_REPO":                 repo.Slug,
-		"DRONE_REPO_OWNER":           repo.Namespace,
-		"DRONE_REPO_NAMESPACE":       repo.Namespace,
-		"DRONE_REPO_NAME":            repo.Name,
-		"DRONE_REPO_LINK":            repo.Link,
-		"DRONE_REPO_BRANCH":          repo.Branch,
-		"DRONE_GIT_HTTP_URL":         repo.HTTPURL,
-		"DRONE_GIT_SSH_URL":          repo.SSHURL,
-		"DRONE_REMOTE_URL":           repo.HTTPURL,
-		"DRONE_BRANCH":               build.Target,
-		"DRONE_SOURCE_BRANCH":        build.Source,
-		"DRONE_TARGET_BRANCH":        build.Target,
-		"DRONE_COMMIT":               build.After,
-		"DRONE_COMMIT_SHA":           build.After,
-		"DRONE_COMMIT_BEFORE":        build.Before,
-		"DRONE_COMMIT_AFTER":         build.After,
-		"DRONE_COMMIT_REF":           build.Ref,
-		"DRONE_COMMIT_BRANCH":        build.Target,
-		"DRONE_COMMIT_LINK":          build.Link,
-		"DRONE_COMMIT_MESSAGE":       build.Message,
-		"DRONE_COMMIT_AUTHOR":        build.Author,
-		"DRONE_COMMIT_AUTHOR_EMAIL":  build.AuthorEmail,
-		"DRONE_COMMIT_AUTHOR_AVATAR": build.AuthorAvatar,
-		"DRONE_COMMIT_AUTHOR_NAME":   build.AuthorName,
-		"DRONE_BUILD_NUMBER":         fmt.Sprint(build.Number),
-		"DRONE_BUILD_PARENT":         fmt.Sprint(build.Parent),
-		"DRONE_BUILD_EVENT":          build.Event,
-		"DRONE_BUILD_ACTION":         build.Action,
-		"DRONE_BUILD_TRIGGER":        build.Trigger,
-		"DRONE_DEPLOY_TO":            build.Deploy,
-		"DRONE_DEPLOY_ID":            fmt.Sprint(build.DeployID),
-		"DRONE_PULL_REQUEST":         re.FindString(build.Ref),
-		"DRONE_PULL_REQUEST_TITLE":   build.Title,
+		"DRONE_REPO":                 params.Repo.Slug,
+		"DRONE_REPO_OWNER":           params.Repo.Namespace,
+		"DRONE_REPO_NAMESPACE":       params.Repo.Namespace,
+		"DRONE_REPO_NAME":            params.Repo.Name,
+		"DRONE_REPO_LINK":            params.Repo.Link,
+		"DRONE_REPO_BRANCH":          params.Repo.Branch,
+		"DRONE_GIT_HTTP_URL":         params.Repo.HTTPURL,
+		"DRONE_GIT_SSH_URL":          params.Repo.SSHURL,
+		"DRONE_REMOTE_URL":           params.Repo.HTTPURL,
+		"DRONE_BRANCH":               params.Build.Target,
+		"DRONE_SOURCE_BRANCH":        params.Build.Source,
+		"DRONE_TARGET_BRANCH":        params.Build.Target,
+		"DRONE_COMMIT":               params.Build.After,
+		"DRONE_COMMIT_SHA":           params.Build.After,
+		"DRONE_COMMIT_BEFORE":        params.Build.Before,
+		"DRONE_COMMIT_AFTER":         params.Build.After,
+		"DRONE_COMMIT_REF":           params.Build.Ref,
+		"DRONE_COMMIT_BRANCH":        params.Build.Target,
+		"DRONE_COMMIT_LINK":          params.Build.Link,
+		"DRONE_COMMIT_MESSAGE":       params.Build.Message,
+		"DRONE_COMMIT_AUTHOR":        params.Build.Author,
+		"DRONE_COMMIT_AUTHOR_EMAIL":  params.Build.AuthorEmail,
+		"DRONE_COMMIT_AUTHOR_AVATAR": params.Build.AuthorAvatar,
+		"DRONE_COMMIT_AUTHOR_NAME":   params.Build.AuthorName,
+		"DRONE_BUILD_NUMBER":         fmt.Sprint(params.Build.Number),
+		"DRONE_BUILD_PARENT":         fmt.Sprint(params.Build.Parent),
+		"DRONE_BUILD_EVENT":          params.Build.Event,
+		"DRONE_BUILD_ACTION":         params.Build.Action,
+		"DRONE_BUILD_TRIGGER":        params.Build.Trigger,
+		"DRONE_DEPLOY_TO":            params.Build.Deploy,
+		"DRONE_DEPLOY_ID":            fmt.Sprint(params.Build.DeployID),
+		"DRONE_PULL_REQUEST":         re.FindString(params.Build.Ref),
+		"DRONE_PULL_REQUEST_TITLE":   params.Build.Title,
 		"DRONE_BUILD_LINK": fmt.Sprintf(
 			"%s://%s/%s/%d",
-			system.Proto,
-			system.Host,
-			repo.Slug,
-			build.Number,
+			params.System.Proto,
+			params.System.Host,
+			params.Repo.Slug,
+			params.Build.Number,
 		),
 	}
 	// if the pipeline is for a tag, add the tag
 	// environment variables and semver variables.
-	if strings.HasPrefix(build.Ref, "refs/tags/") {
-		tag := strings.TrimPrefix(build.Ref, "refs/tags/")
+	if strings.HasPrefix(params.Build.Ref, "refs/tags/") {
+		tag := strings.TrimPrefix(params.Build.Ref, "refs/tags/")
 		env["DRONE_TAG"] = tag
 		// generate semver variables and copy into
 		// environment key values.

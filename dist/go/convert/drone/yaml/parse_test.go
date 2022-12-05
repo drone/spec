@@ -5,8 +5,6 @@
 package yaml
 
 import (
-	"encoding/json"
-	"os"
 	"testing"
 )
 
@@ -18,15 +16,15 @@ import (
 // )
 
 func TestParse(t *testing.T) {
-	res, err := ParseFile("testdata/test.yaml")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	enc := json.NewEncoder(os.Stdout)
-	enc.SetIndent("", "  ")
-	enc.Encode(res)
-	t.Fail()
+	// res, err := ParseFile("testdata/test.yaml")
+	// if err != nil {
+	// 	t.Error(err)
+	// 	return
+	// }
+	// enc := json.NewEncoder(os.Stdout)
+	// enc.SetIndent("", "  ")
+	// enc.Encode(res)
+	// t.Skip()
 }
 
 // func diff(file string) (string, error) {

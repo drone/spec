@@ -23,4 +23,6 @@ type Clone struct {
 	Insecure   bool        `json:"insecure,omitempty"`
 	Repository *Repository `json:"repository,omitempty"`
 	Trace      bool        `json:"trace,omitempty"`
+	Ref        *Reference  `json:"ref,omitempty"`
+	Sha        string      `json:"sha,omitempty"`
 }

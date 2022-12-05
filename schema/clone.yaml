@@ -17,3 +17,9 @@ properties:
   trace:
     description: Trace enables trace logging.
     type: boolean
+  ref:
+    $ref: ./reference.yaml
+    description: Reference defines the clone ref.
+  sha:
+    description: Sha provides the clone sha.
+    type: string

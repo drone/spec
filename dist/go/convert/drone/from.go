@@ -21,11 +21,18 @@ import (
 	"os"
 	"strings"
 
+	"github.com/drone/drone-go/drone"
 	v2 "github.com/harness/yaml/dist/go"
 	v1 "github.com/harness/yaml/dist/go/convert/drone/yaml"
 
 	"github.com/ghodss/yaml"
 )
+
+type Params struct {
+	Repo   drone.Repo
+	Build  drone.Build
+	System drone.System
+}
 
 // From converts the legacy drone yaml format to the
 // unified yaml format.
@@ -36,10 +43,17 @@ func From(r io.Reader) ([]byte, error) {
 	}
 
 	//
-	// TODO perform Drone variable expansion
+	// TODO convert env substitution to expression
 	//
 
-	pipeline := new(v2.Pipeline)
+	//
+	// TODO convert from_secret to expression
+	//
+
+	pipeline := &v2.Pipeline{
+		Registry: convertRegistry(stages),
+	}
+
 	for _, from := range stages {
 		if from == nil {
 			continue
@@ -60,11 +74,9 @@ func From(r io.Reader) ([]byte, error) {
 					Runtime:  convertRuntime(from),
 					Steps:    convertSteps(from),
 
-					// TODO support for stage.variables
 					// TODO support for stage.tags
-					// TODO support for stage.envs ?
+					// TODO support for stage.variables
 					// TODO support for stage.volumes ?
-					// TODO support for stage.pull_secrets ?
 				},
 			})
 		}
@@ -98,6 +110,37 @@ func FromFile(p string) ([]byte, error) {
 	}
 	defer f.Close()
 	return From(f)
+}
+
+func convertRegistry(src []*v1.Pipeline) *v2.Registry {
+	// note that registry credentials in Drone are stored
+	// at the stage level, but in Harness, we are proposing
+	// they are stored at the pipeline level (this could
+	// change in the future).
+	//
+	// this means we need to the combined, unique list
+	// of pull secrets across all stages.
+
+	set := map[string]struct{}{}
+	for _, v := range src {
+		if v == nil {
+			continue
+		}
+		if len(v.PullSecrets) == 0 {
+			continue
+		}
+		for _, s := range v.PullSecrets {
+			set[s] = struct{}{}
+		}
+	}
+	if len(set) == 0 {
+		return nil
+	}
+	dst := &v2.Registry{}
+	for k := range set {
+		dst.Credentials = append(dst.Credentials, k)
+	}
+	return dst
 }
 
 func convertSteps(src *v1.Pipeline) []*v2.Step {
@@ -162,12 +205,6 @@ func convertBackground(src *v1.Step) *v2.Step {
 }
 
 func convertRun(src *v1.Step) *v2.Step {
-	// TODO should harness support `dns`
-	// TODO should harness support `dns_search`
-	// TODO should harness support `extra_hosts`
-	// TODO should harness support `network`
-	// TODO should harness support `network_mode`
-	// TODO should harness support `working_dir`
 	return &v2.Step{
 		Name: src.Name,
 		Type: "script",
@@ -227,7 +264,7 @@ func convertVariables(src map[string]*v1.Variable) map[string]string {
 		case v.Value != "":
 			dst[k] = v.Value
 		case v.Secret != "":
-			dst[k] = fmt.Sprintf("${{ secrets.get(%q) }}", v.Secret) // TODO figure out secret syntax
+			dst[k] = fmt.Sprintf("${{ secrets.%s }}", v.Secret) // TODO figure out secret syntax
 		}
 	}
 	return dst

@@ -24,6 +24,7 @@ type StepPlugin struct {
 	Envs       map[string]string      `json:"envs,omitempty"`
 	Privileged bool                   `json:"privileged,omitempty"`
 	User       string                 `json:"user,omitempty"`
+	Group      string                 `json:"group,omitempty"`
 	Network    string                 `json:"network,omitempty"`
 	With       map[string]interface{} `json:"with,omitempty"`
 	Outputs    []string               `json:"outputs,omitempty"`

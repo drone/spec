@@ -26,3 +26,8 @@ steps:
 services:
 - name: redis
   image: redis
+
+trigger:
+  event:
+  - push
+  - pull_request

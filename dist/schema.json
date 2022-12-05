@@ -614,6 +614,14 @@
                 "trace": {
                     "description": "Trace enables trace logging.",
                     "type": "boolean"
+                },
+                "ref": {
+                    "$ref": "#/definitions/Reference",
+                    "description": "Reference defines the clone ref."
+                },
+                "sha": {
+                    "description": "Sha provides the clone sha.",
+                    "type": "string"
                 }
             },
             "x-file": "clone.yaml"
@@ -653,6 +661,27 @@
                 }
             },
             "x-file": "repository.yaml"
+        },
+        "Reference": {
+            "title": "Reference",
+            "description": "Reference defines a git clone reference.",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "Name provides ref name.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Type defines the ref type.",
+                    "type": "string",
+                    "enum": [
+                        "branch",
+                        "tag",
+                        "pr"
+                    ]
+                }
+            },
+            "x-file": "reference.yaml"
         },
         "Delegate": {
             "title": "Delegate",
@@ -864,8 +893,8 @@
                     }
                 },
                 "labels": {
-                    "type": "array",
-                    "items": {
+                    "type": "object",
+                    "additionalProperties": {
                         "type": "string"
                     }
                 },
@@ -896,6 +925,9 @@
                     "items": {
                         "type": "string"
                     }
+                },
+                "node": {
+                    "type": "string"
                 },
                 "node_selector": {
                     "type": "object",
@@ -1340,6 +1372,9 @@
                 "user": {
                     "type": "string"
                 },
+                "group": {
+                    "type": "string"
+                },
                 "pull": {
                     "type": "string",
                     "enum": [
@@ -1588,6 +1623,9 @@
                     "type": "boolean"
                 },
                 "user": {
+                    "type": "string"
+                },
+                "group": {
                     "type": "string"
                 },
                 "network": {

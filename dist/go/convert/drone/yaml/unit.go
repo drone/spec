@@ -32,3 +32,10 @@ func (b *BytesSize) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	}
 	return err
 }
+
+// String returns a human-readable size in bytes,
+// kibibytes, mebibytes, gibibytes, or tebibytes
+// (eg. "44kiB", "17MiB").
+func (b BytesSize) String() string {
+	return units.BytesSize(float64(b))
+}

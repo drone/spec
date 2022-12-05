@@ -23,6 +23,8 @@ properties:
     type: boolean
   user:
     type: string
+  group:
+    type: string
   network:
     type: string
   with:

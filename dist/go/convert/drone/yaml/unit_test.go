@@ -14,22 +14,22 @@ func TestBytesSize(t *testing.T) {
 	tests := []struct {
 		yaml string
 		size int64
-		text string
 	}{
 		{
 			yaml: "1KiB",
 			size: 1024,
-			text: "1KiB",
 		},
 		{
-			yaml: "100Mi",
+			yaml: "100MiB",
 			size: 104857600,
-			text: "100MiB",
+		},
+		{
+			yaml: "100mb",
+			size: 104857600,
 		},
 		{
 			yaml: "1024",
 			size: 1024,
-			text: "1KiB",
 		},
 	}
 	for _, test := range tests {
