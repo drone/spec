@@ -9,6 +9,9 @@ properties:
       - string
       - number
 
+  name:
+    description: Pipeline provides the pipeline name.
+
   stages:
     type: array
     description: Stages defines a list of pipeline stages.

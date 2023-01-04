@@ -14,6 +14,9 @@ properties:
   strategy:
     $ref: ./strategy.yaml
     description: The stage execution strategy.
+  # status:
+  #   $ref: ./status.yaml
+  #   description: The scm status settings.
   type:
     description: The stage type.
     enum:

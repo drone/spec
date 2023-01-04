@@ -1,0 +1,8 @@
+title: Status
+type: object
+
+properties:
+  name:
+    type: string
+  disabled:
+    type: boolean
