@@ -39,7 +39,6 @@ properties:
 
 required:
   - version
-  - name
   - stages
 
 # example pipelines

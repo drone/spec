@@ -76,3 +76,6 @@ oneOf:
   - properties:
       spec:
         $ref: ./stage_template.yaml
+
+required:
+  - name
