@@ -11,6 +11,7 @@ properties:
 
   name:
     description: Pipeline provides the pipeline name.
+    type: string
 
   stages:
     type: array
@@ -35,6 +36,10 @@ properties:
   registry:
     $ref: ./registry.yaml
     description: Registry provides container registry configuration.
+
+required:
+  - version
+  - stages
 
 # example pipelines
 examples:

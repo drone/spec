@@ -13,7 +13,8 @@
                     ]
                 },
                 "name": {
-                    "description": "Pipeline provides the pipeline name."
+                    "description": "Pipeline provides the pipeline name.",
+                    "type": "string"
                 },
                 "stages": {
                     "type": "array",
@@ -44,6 +45,10 @@
                     "description": "Registry provides container registry configuration."
                 }
             },
+            "required": [
+                "version",
+                "stages"
+            ],
             "examples": [
                 {
                     "version": 1,
@@ -218,6 +223,9 @@
                         }
                     ]
                 }
+            ],
+            "required": [
+                "name"
             ],
             "x-file": "stage.yaml"
         },
