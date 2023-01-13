@@ -17,6 +17,11 @@ properties:
   # status:
   #   $ref: ./status.yaml
   #   description: The scm status settings.
+  envs:
+    type: object
+    additionalProperties:
+      type: string
+    description: The stage environment variables.
   type:
     description: The stage type.
     enum:

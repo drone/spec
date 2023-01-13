@@ -13,7 +13,8 @@
                     ]
                 },
                 "name": {
-                    "description": "Pipeline provides the pipeline name."
+                    "description": "Pipeline provides the pipeline name.",
+                    "type": "string"
                 },
                 "stages": {
                     "type": "array",
@@ -26,17 +27,7 @@
                     "type": "object",
                     "description": "Inputs defines the pipeline input parameters.",
                     "additionalProperties": {
-                        "type": "object",
-                        "additionalProperties": {
-                            "$ref": "#/definitions/Input"
-                        }
-                    }
-                },
-                "overlays": {
-                    "type": "object",
-                    "description": "Inputs defines the pipeline overlay parameters.",
-                    "additionalProperties": {
-                        "type": "object"
+                        "$ref": "#/definitions/Input"
                     }
                 },
                 "registry": {
@@ -88,6 +79,13 @@
                 "strategy": {
                     "$ref": "#/definitions/Strategy",
                     "description": "The stage execution strategy."
+                },
+                "envs": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "The stage environment variables."
                 },
                 "type": {
                     "description": "The stage type.",
@@ -1392,7 +1390,8 @@
                         "sh",
                         "bash",
                         "powershell",
-                        "pwsh"
+                        "pwsh",
+                        "python"
                     ]
                 },
                 "envs": {
@@ -1877,7 +1876,7 @@
                         "boolean"
                     ]
                 },
-                "desc": {
+                "description": {
                     "type": "string",
                     "description": "Desc defines the input description."
                 },
@@ -1901,7 +1900,8 @@
                             "boolean"
                         ]
                     },
-                    "description": "Enum defines a list of accepted input values."
+                    "description": "Enum defines a list of accepted input values.",
+                    "x-go-type": "[]string"
                 }
             },
             "x-file": "input.yaml"

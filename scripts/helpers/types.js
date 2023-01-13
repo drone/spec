@@ -6,7 +6,7 @@ import deepequal from "deep-equal";
  */
 export default function getType(prop, defs) {
     if (!!prop["x-go-type"]) {
-        return "*" + prop["x-go-type"];
+        return prop["x-go-type"]; // should this prepend pointer "*"?
 
     } else  if (isStringArray(prop)) {
         return "[]string";
@@ -26,14 +26,14 @@ export default function getType(prop, defs) {
     } else if (isEnum(prop)) {
         return "string";
 
-    } else if (isInputSet(prop)) {
-        return "map[string]map[string]*Input"; // TODO needs improvement
+    } else if (isMapStruct(prop)) {
+        return "map[string]*" + prop.additionalProperties.$ref.slice(14);
 
     } else if (isMapArray(prop)) {
-        return "map[string][]string"; // TODO needs improvement
+        return "map[string][]string";
 
     } else if (isArrayMap(prop)) {
-        return "[]map[string]string";  // TODO needs improvement
+        return "[]map[string]string";
 
     } else if (isObject(prop)) {
         return "map[string]interface{}";
@@ -184,6 +184,16 @@ function isDuration(node) {
 
 /**
  * Returns true if the json schema property is a
+ * map of objects / structs.
+ */
+function isMapStruct(node) {
+    return node.type == "object" &&
+        node.additionalProperties &&
+        node.additionalProperties.hasOwnProperty("$ref")
+}
+
+/**
+ * Returns true if the json schema property is a
  * duration value, or an array of duration values.
  * 
  * TODO simplify this code.
@@ -209,12 +219,36 @@ function isRefSlice(node) {
     return isArray(node) && node.items.$ref;
 }
 
+/**
+ * Returns true if the json schema property is an array
+ * of map structures, where the value is type string.
+ */
+function isArrayMap(node) {
+    return node.type === "array" &&
+        node.items &&
+        node.items.type === "object" &&
+        node.items.additionalProperties &&
+        node.items.additionalProperties.type === "string"
+}
+
+/**
+ * Returns true if the json schema property is an map
+ * type where, the the value is type []string.
+ */
+function isMapArray(node) {
+    return node.type === "object" &&
+        node.additionalProperties &&
+        node.additionalProperties.type === "array" &&
+        node.additionalProperties.items &&
+        node.additionalProperties.items.type === "string"
+}
+
 //
 // below functions need improvement
 //
 
 // HACK
-const isStringOrSlice = (node) => {
+const isStringOrSlice = (node) => { // SIMPLIFY
     return deepequal(node.anyOf, [
         {
             "items": {
@@ -240,44 +274,4 @@ const isPrimativeSlice = (node) => { // SIMPLIFY
             ]
         }
     });
-}
-
-// HACK
-const isInputSet = (node) => {
-    return deepequal(node, {
-        "type": "object",
-        "description": "Inputs defines the pipeline input parameters.",
-        "additionalProperties": {
-            "type": "object",
-            "additionalProperties": {
-                "$ref": "#/definitions/Input"
-            }
-        }
-    })
-}
-
-// HACK
-const isArrayMap = (node) => {
-    return deepequal(node, {
-        "type": "array",
-        "items": {
-            "type": "object",
-            "additionalProperties": {
-                "type": "string"
-            }
-        }
-    })
-}
-
-// HACK
-const isMapArray = (node) => {
-    return deepequal(node, {
-        "type": "object",
-        "additionalProperties": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
-        }
-    })
 }

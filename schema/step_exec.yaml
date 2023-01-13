@@ -23,6 +23,7 @@ properties:
     - bash
     - powershell
     - pwsh
+    - python
   envs:
     type: object
     additionalProperties:

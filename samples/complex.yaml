@@ -1,19 +1,12 @@
 version: 1
 
 inputs:
-  default:
-    username:
-      type: string
-      description: user identifier
-    password:
-      type: string
-      description: user password
-
-overlays:
-  default:
-    foo:
-      stages:
-      - name: foo
+  username:
+    type: string
+    description: user identifier
+  password:
+    type: string
+    description: user password
 
 stages:
 - id: build

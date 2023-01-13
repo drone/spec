@@ -9,7 +9,7 @@ properties:
     - string
     - number
     - boolean
-  desc:
+  description:
     type: string
     description: Desc defines the input description.
   default:
@@ -28,3 +28,4 @@ properties:
       - number
       - boolean
     description: Enum defines a list of accepted input values.
+    x-go-type: "[]string"

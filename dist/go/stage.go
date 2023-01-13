@@ -22,14 +22,15 @@ import (
 )
 
 type Stage struct {
-	Desc     string      `json:"desc,omitempty"`
-	Id       string      `json:"id,omitempty"`
-	Name     string      `json:"name,omitempty"`
-	Strategy *Strategy   `json:"strategy,omitempty"`
-	Type     string      `json:"type,omitempty"`
-	When     *When       `json:"when,omitempty"`
-	On       *On         `json:"on,omitempty"`
-	Spec     interface{} `json:"spec,omitempty"`
+	Desc     string            `json:"desc,omitempty"`
+	Id       string            `json:"id,omitempty"`
+	Name     string            `json:"name,omitempty"`
+	Strategy *Strategy         `json:"strategy,omitempty"`
+	Envs     map[string]string `json:"envs,omitempty"`
+	Type     string            `json:"type,omitempty"`
+	When     *When             `json:"when,omitempty"`
+	On       *On               `json:"on,omitempty"`
+	Spec     interface{}       `json:"spec,omitempty"`
 }
 
 // UnmarshalJSON implement the json.Unmarshaler interface.
