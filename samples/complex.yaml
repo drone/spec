@@ -22,7 +22,6 @@ stages:
           run: |-
             go build
             go test
-        
       - type: plugin
         spec:
           image: plugins/docker

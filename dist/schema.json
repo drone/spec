@@ -84,13 +84,6 @@
                     "$ref": "#/definitions/Strategy",
                     "description": "The stage execution strategy."
                 },
-                "envs": {
-                    "type": "object",
-                    "additionalProperties": {
-                        "type": "string"
-                    },
-                    "description": "The stage environment variables."
-                },
                 "type": {
                     "description": "The stage type.",
                     "enum": [
