@@ -35,6 +35,10 @@ properties:
     $ref: ./registry.yaml
     description: Registry provides container registry configuration.
 
+required:
+  - version
+  - stages
+
 # example pipelines
 examples:
   # example CI pipeline

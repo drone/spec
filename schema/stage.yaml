@@ -81,3 +81,9 @@ oneOf:
   - properties:
       spec:
         $ref: ./stage_template.yaml
+
+anyOf:
+- required:
+  - name
+- required:
+  - id

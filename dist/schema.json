@@ -35,6 +35,10 @@
                     "description": "Registry provides container registry configuration."
                 }
             },
+            "required": [
+                "version",
+                "stages"
+            ],
             "examples": [
                 {
                     "version": 1,
@@ -214,6 +218,18 @@
                                 }
                             }
                         }
+                    ]
+                }
+            ],
+            "anyOf": [
+                {
+                    "required": [
+                        "name"
+                    ]
+                },
+                {
+                    "required": [
+                        "id"
                     ]
                 }
             ],
