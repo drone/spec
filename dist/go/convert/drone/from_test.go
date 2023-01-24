@@ -17,11 +17,11 @@ package drone
 import "testing"
 
 func TestFrom(t *testing.T) {
-	t.Skip()
-	// f, err := FromFile("testdata/test.yaml")
-	// if err != nil {
-	// 	t.Error(err)
-	// }
-	// println(string(f))
-	// t.Fail()
+	// t.Skip()
+	f, err := FromFile("testdata/foo.yaml")
+	if err != nil {
+		t.Error(err)
+	}
+	println(string(f))
+	t.Fail()
 }

@@ -82,7 +82,17 @@ func From(r io.Reader) ([]byte, error) {
 		}
 	}
 
-	return yaml.Marshal(pipeline)
+	out, err := yaml.Marshal(pipeline)
+	if err != nil {
+		return nil, err
+	}
+
+	// drone had a bug where it required double-escaping
+	// which can be eliminated going forward.
+	// TODO this will probably require some tweaking.
+	out = bytes.ReplaceAll(out, []byte(`\\\\`), []byte(`\\`))
+
+	return out, nil
 }
 
 // FromBytes converts the legacy drone yaml format to the
@@ -450,7 +460,7 @@ func convertExpr(src v1.Condition) *v2.Expr {
 	}
 	if len(src.Exclude) != 0 {
 		return &v2.Expr{
-			Not: &v2.Expr{In: src.Include},
+			Not: &v2.Expr{In: src.Exclude},
 		}
 	}
 	return nil
