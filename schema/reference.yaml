@@ -2,8 +2,8 @@ title: Reference
 description: Reference defines a git clone reference.
 type: object
 properties:
-  name:
-    description: Name provides ref name.
+  value:
+    description: Value provides ref name.
     type: string
   type:
     description: Type defines the ref type.

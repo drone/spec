@@ -18,11 +18,12 @@ package yaml
 
 // Repository defines a remote git repository.
 type Repository struct {
-	Branch    string `json:"branch,omitempty"`
-	Connector string `json:"connector,omitempty"`
-	Name      string `json:"name,omitempty"`
-	Pr        int64  `json:"pr,omitempty"`
-	Ref       string `json:"ref,omitempty"`
-	Sha       string `json:"sha,omitempty"`
-	Tag       string `json:"tag,omitempty"`
+	Connector string                `json:"connector,omitempty"`
+	Name      string                `json:"name,omitempty"`
+	Depth     int64                 `json:"depth,omitempty"`
+	Disabled  bool                  `json:"disabled,omitempty"`
+	Insecure  bool                  `json:"insecure,omitempty"`
+	Trace     bool                  `json:"trace,omitempty"`
+	Sha       string                `json:"sha,omitempty"`
+	Reference map[string]*Reference `json:"reference,omitempty"`
 }

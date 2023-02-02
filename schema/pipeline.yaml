@@ -25,6 +25,13 @@ properties:
     additionalProperties: 
       $ref: ./input.yaml
 
+  repository:
+    type: object
+    description: Repository defines the pipeline repo parameters.
+    additionalProperties: 
+      $ref: ./repository.yaml
+     
+
   # overlays:
   #   type: object
   #   description: Inputs defines the pipeline overlay parameters.

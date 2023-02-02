@@ -2,24 +2,6 @@ title: Clone
 type: object
 description: Clone defines the default clone behavior.
 properties:
-  depth:
-    description: Depth defines the clone depth.
-    type: number
   disabled:
     description: Disabled disables the default clone step.
     type: boolean
-  insecure:
-    description: Insecure disables ssl verification.
-    type: boolean
-  repository:
-    $ref: ./repository.yaml
-    description: Repostiory provides the remote repository url.
-  trace:
-    description: Trace enables trace logging.
-    type: boolean
-  ref:
-    $ref: ./reference.yaml
-    description: Reference defines the clone ref.
-  sha:
-    description: Sha provides the clone sha.
-    type: string
