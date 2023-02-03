@@ -22,8 +22,8 @@ import (
 	"strings"
 
 	"github.com/drone/drone-go/drone"
-	v2 "github.com/harness/yaml/dist/go"
-	v1 "github.com/harness/yaml/dist/go/convert/drone/yaml"
+	v2 "github.com/drone/spec/dist/go"
+	v1 "github.com/drone/spec/dist/go/convert/drone/yaml"
 
 	"github.com/ghodss/yaml"
 )
