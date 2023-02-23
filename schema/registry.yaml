@@ -2,19 +2,17 @@ title: Registry
 description: Registry provides container registry details.
 type: object
 properties:
-  credentials:
-    type: array
-    items:
-      oneOf:
-      - type: string
-      - type: object
-        properties:
-          name:
-            type: string
-            description: Name provides the connector name.
-          match:
-            type: string
-            description: Match matches the registry url to the connector.
+  connector:
+    oneOf:
+    - type: string
+    - type: array
+      items:
+        oneOf:
+        - type: object
+          $ref: "./registry_conn.yaml"
+        - type: string
+    - type: object
+      $ref: "./registry_conn.yaml"
 
 # skip and manually create go file
 x-go-skip: true
@@ -22,7 +20,7 @@ x-go-skip: true
 # example pipelines that demonstrate registry
 # credential usage.
 examples:
-  # example global registry credentials
+  # example global registry credential (one)
   - version: 1
     stages:
       - name: build
@@ -35,7 +33,22 @@ examples:
               spec:
                 run: go build
     registry:
-      credentials:
+      connector: connector.dockerhub
+
+  # example global registry credentials (multiple)
+  - version: 1
+    stages:
+      - name: build
+        type: ci
+        spec:
+          steps:
+            - name: compile
+              type: script
+              image: golang
+              spec:
+                run: go build
+    registry:
+      connector:
       - connector.dockerhub
       - connector.gcr
   
@@ -54,8 +67,7 @@ examples:
               spec:
                 run: go build
     registry:
-      credentials:
+      connector:
       - name: connector.dockerhub
-        match: docker.io
       - name: connector.gcr
         match: us.gcr.io

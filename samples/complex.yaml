@@ -35,7 +35,4 @@ stages:
 
 default:
   registry:
-    credentials:
-      - account.gcr
-      - name: account.docker
-        match: docker.io
+    connector: account.docker

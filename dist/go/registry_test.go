@@ -24,25 +24,50 @@ import (
 func TestCredentials(t *testing.T) {
 	tests := []struct {
 		yaml string
-		want Credentials
+		want Registry
 	}{
+		// single connector, string
 		{
-			yaml: `"account.docker"`,
-			want: Credentials{
-				Name: "account.docker",
+			yaml: `{ "connector": "account.docker" }`,
+			want: Registry{
+				Connector: []*RegistryConnector{
+					{Name: "account.docker"},
+				},
 			},
 		},
+		// single connector, struct
 		{
-			yaml: `{ "name": "account.docker", "match": "docker.io" }`,
-			want: Credentials{
-				Name:  "account.docker",
-				Match: "docker.io",
+			yaml: `{ "connector": { "name": "account.docker", "match": "docker.io" } }`,
+			want: Registry{
+				Connector: []*RegistryConnector{
+					{Name: "account.docker", Match: "docker.io"},
+				},
+			},
+		},
+		// multiple connectors, string slice
+		{
+			yaml: `{ "connector": [ "account.docker", "account.gcr" ] }`,
+			want: Registry{
+				Connector: []*RegistryConnector{
+					{Name: "account.docker"},
+					{Name: "account.gcr"},
+				},
+			},
+		},
+		// multiple connectors, mixed string slice and structs
+		{
+			yaml: `{ "connector": [ "account.docker", { "name": "account.gcr", "match": "us.gcr.io" } ] }`,
+			want: Registry{
+				Connector: []*RegistryConnector{
+					{Name: "account.docker"},
+					{Name: "account.gcr", Match: "us.gcr.io"},
+				},
 			},
 		},
 	}
 
 	for i, test := range tests {
-		got := new(Credentials)
+		got := new(Registry)
 		if err := yaml.Unmarshal([]byte(test.yaml), got); err != nil {
 			t.Error(err)
 			return

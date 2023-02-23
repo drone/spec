@@ -1906,28 +1906,30 @@
             "description": "Registry provides container registry details.",
             "type": "object",
             "properties": {
-                "credentials": {
-                    "type": "array",
-                    "items": {
-                        "oneOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "description": "Name provides the connector name."
+                "connector": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "oneOf": [
+                                    {
+                                        "type": "object",
+                                        "$ref": "#/definitions/RegistryConnector"
                                     },
-                                    "match": {
-                                        "type": "string",
-                                        "description": "Match matches the registry url to the connector."
+                                    {
+                                        "type": "string"
                                     }
-                                }
+                                ]
                             }
-                        ]
-                    }
+                        },
+                        {
+                            "type": "object",
+                            "$ref": "#/definitions/RegistryConnector"
+                        }
+                    ]
                 }
             },
             "x-go-skip": true,
@@ -1994,6 +1996,23 @@
                 }
             ],
             "x-file": "registry.yaml"
+        },
+        "RegistryConnector": {
+            "title": "RegistryConnector",
+            "description": "RegistryConnector provides a registry connector.",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "Name provides the registry connector name.",
+                    "type": "string"
+                },
+                "match": {
+                    "description": "Match provides the regitry connector endpoint.",
+                    "type": "string"
+                }
+            },
+            "x-go-skip": true,
+            "x-file": "registry_conn.yaml"
         }
     },
     "oneOf": [

@@ -21,17 +21,49 @@ import (
 
 // Registry provides container registry details.
 type Registry struct {
-	Credentials []*Credentials `json:"credentials,omitempty"`
+	Connector []*RegistryConnector `json:"connector,omitempty"`
 }
 
-// Credentials provides registry credentials.
-type Credentials struct {
+// UnmarshalJSON implement the json.Unmarshaler interface.
+func (v *Registry) UnmarshalJSON(data []byte) error {
+	var out1 = struct {
+		Connector json.RawMessage `json:"connector,omitempty"`
+	}{}
+	// unmarshal into a temporary struct
+	if err := json.Unmarshal(data, &out1); err != nil {
+		return err
+	}
+
+	var out2 string
+	var out3 *RegistryConnector
+	var out4 []*RegistryConnector
+
+	if err := json.Unmarshal(out1.Connector, &out2); err == nil {
+		v.Connector = append(v.Connector, &RegistryConnector{Name: out2})
+		return nil
+	}
+
+	if err := json.Unmarshal(out1.Connector, &out3); err == nil {
+		v.Connector = append(v.Connector, out3)
+		return nil
+	}
+
+	if err := json.Unmarshal(out1.Connector, &out4); err == nil {
+		v.Connector = append(v.Connector, out4...)
+		return nil
+	}
+
+	return errors.New("yaml: cannot unmarshal registry connector")
+}
+
+// RegistryConnector provides registry credentials.
+type RegistryConnector struct {
 	Name  string `json:"name,omitempty"`
 	Match string `json:"match,omitempty"`
 }
 
 // UnmarshalJSON implement the json.Unmarshaler interface.
-func (v *Credentials) UnmarshalJSON(data []byte) error {
+func (v *RegistryConnector) UnmarshalJSON(data []byte) error {
 	var out1 string
 	var out2 = struct {
 		Name  string `json:"name,omitempty"`
@@ -49,5 +81,5 @@ func (v *Credentials) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	return errors.New("yaml: cannot unmarshal registry credentials")
+	return errors.New("yaml: cannot unmarshal registry connector")
 }

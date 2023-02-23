@@ -150,7 +150,7 @@ func convertRegistry(src []*v1.Pipeline) *v2.Registry {
 	}
 	dst := &v2.Registry{}
 	for k := range set {
-		dst.Credentials = append(dst.Credentials, &v2.Credentials{
+		dst.Connector = append(dst.Connector, &v2.RegistryConnector{
 			Name: k,
 		})
 	}

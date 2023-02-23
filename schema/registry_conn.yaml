@@ -8,3 +8,6 @@ properties:
   match:
     description: Match provides the regitry connector endpoint.
     type: string
+
+# skip and manually create go file
+x-go-skip: true
