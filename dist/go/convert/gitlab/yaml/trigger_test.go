@@ -21,34 +21,52 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func TestCacheKey(t *testing.T) {
+// child1:
+//   trigger:
+//     include: .child-pipeline.yml
+
+// child2:
+//   trigger:
+//     include: .child-pipeline.yml
+//     forward:
+//       pipeline_variables: true
+
+// child3:
+//   trigger:
+//     include: .child-pipeline.yml
+//     forward:
+//       yaml_variables: false
+
+func TestTrigger(t *testing.T) {
 	tests := []struct {
 		yaml string
-		want CacheKey
+		want Trigger
 	}{
 		{
-			yaml: `"binaries-cache-$CI_COMMIT_REF_SLUG"`,
-			want: CacheKey{
-				Value: "binaries-cache-$CI_COMMIT_REF_SLUG",
+			yaml: `"my-group/my-project"`,
+			want: Trigger{
+				Project: "my-group/my-project",
 			},
 		},
 		{
-			yaml: `{ "files": [ "Gemfile.lock", "package.json" ] }`,
-			want: CacheKey{
-				Files: []string{"Gemfile.lock", "package.json"},
+			yaml: `{ "include": ".child-pipeline.yml" }`,
+			want: Trigger{
+				Include: ".child-pipeline.yml",
 			},
 		},
 		{
-			yaml: `{ "files": "Gemfile.lock", "prefix": "$CI_JOB_NAME" }`,
-			want: CacheKey{
-				Files:  []string{"Gemfile.lock"},
-				Prefix: "$CI_JOB_NAME",
+			yaml: `{ "include": ".child-pipeline.yml", "forward": { "pipeline_variables": true } }`,
+			want: Trigger{
+				Include: ".child-pipeline.yml",
+				Forward: &Forward{
+					PipelineVariables: true,
+				},
 			},
 		},
 	}
 
 	for i, test := range tests {
-		got := new(CacheKey)
+		got := new(Trigger)
 		if err := yaml.Unmarshal([]byte(test.yaml), got); err != nil {
 			t.Error(err)
 			return
@@ -60,9 +78,9 @@ func TestCacheKey(t *testing.T) {
 	}
 }
 
-func TestCacheKey_Error(t *testing.T) {
-	err := yaml.Unmarshal([]byte("[]"), new(CacheKey))
-	if err == nil || err.Error() != "failed to unmarshal cache key" {
+func TestTrigger_Error(t *testing.T) {
+	err := yaml.Unmarshal([]byte("[]"), new(Trigger))
+	if err == nil || err.Error() != "failed to unmarshal trigger" {
 		t.Errorf("Expect error, got %s", err)
 	}
 }

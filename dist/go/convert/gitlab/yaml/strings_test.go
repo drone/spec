@@ -29,10 +29,10 @@
 package yaml
 
 import (
-	"encoding/json"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"gopkg.in/yaml.v3"
 )
 
 func TestStrings(t *testing.T) {
@@ -56,7 +56,7 @@ func TestStrings(t *testing.T) {
 
 	for i, test := range tests {
 		got := new(Stringorslice)
-		if err := json.Unmarshal([]byte(test.yaml), got); err != nil {
+		if err := yaml.Unmarshal([]byte(test.yaml), got); err != nil {
 			t.Error(err)
 			return
 		}
@@ -68,11 +68,11 @@ func TestStrings(t *testing.T) {
 }
 
 func TestStrings_Error(t *testing.T) {
-	if err := json.Unmarshal([]byte("1"), new(Stringorslice)); err == nil {
+	if err := yaml.Unmarshal([]byte("{}"), new(Stringorslice)); err == nil {
 		t.Errorf("Expect error when unmarshaling a into a string slice")
 	}
 
-	if err := json.Unmarshal([]byte("[1]"), new(Stringorslice)); err == nil {
+	if err := yaml.Unmarshal([]byte("[1]"), new(Stringorslice)); err == nil {
 		t.Errorf("Expect error when unmarshaling a float slice into a string slice")
 	}
 }

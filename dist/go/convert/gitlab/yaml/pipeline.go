@@ -17,25 +17,26 @@ package yaml
 type (
 	// Pipeline defines a gitlab pipeline.
 	Pipeline struct {
-		Default   *Default             `json:"default,omitempty"`
-		Include   []*Include           `json:"include,omitempty"`
-		Jobs      map[string]*Job      `json:"jobs,omitempty"`
-		Stages    []string             `json:"stages,omitempty"`
-		Variables map[string]*Variable `json:"variables,omitempty"`
-		Workflow  *Workflow            `json:"workflow,omitempty"`
+		Default   *Default             `yaml:"default,omitempty"`
+		Include   []*Include           `yaml:"include,omitempty"`
+		Image     *Image               `yaml:"image,omitempty"`
+		Jobs      map[string]*Job      `yaml:",inline"`
+		Stages    []string             `yaml:"stages,omitempty"`
+		Variables map[string]*Variable `yaml:"variables,omitempty"`
+		Workflow  *Workflow            `yaml:"workflow,omitempty"`
 	}
 
 	// Default defines global pipeline defaults.
 	Default struct {
-		After         Stringorslice `json:"after_script,omitempty"`
-		Before        Stringorslice `json:"before_script,omitempty"`
-		Artifacts     *Artifacts    `json:"artifacts,omitempty"`
-		Cache         *Cache        `json:"cache,omitempty"`
-		Image         *Image        `json:"image,omitempty"`
-		Interruptible bool          `json:"interruptible,omitempty"`
-		Retry         *Retry        `json:"retry,omitempty"`
-		Services      []*Image      `json:"services,omitempty"`
-		Tags          Stringorslice `json:"tags,omitempty"`
-		Timeout       string        `json:"duration,omitempty"`
+		After         Stringorslice `yaml:"after_script,omitempty"`
+		Before        Stringorslice `yaml:"before_script,omitempty"`
+		Artifacts     *Artifacts    `yaml:"artifacts,omitempty"`
+		Cache         *Cache        `yaml:"cache,omitempty"`
+		Image         *Image        `yaml:"image,omitempty"`
+		Interruptible bool          `yaml:"interruptible,omitempty"`
+		Retry         *Retry        `yaml:"retry,omitempty"`
+		Services      []*Image      `yaml:"services,omitempty"`
+		Tags          Stringorslice `yaml:"tags,omitempty"`
+		Timeout       string        `yaml:"duration,omitempty"`
 	}
 )

@@ -16,12 +16,8 @@
 
 package yaml
 
-type StageCI struct {
-	Clone      *Clone            `json:"clone,omitempty"`
-	Repository *Repository       `json:"repository,omitempty"`
-	Delegate   *Delegate         `json:"delegate,omitempty"`
-	Platform   *Platform         `json:"platform,omitempty"`
-	Runtime    *Runtime          `json:"runtime,omitempty"`
-	Steps      []*Step           `json:"steps,omitempty"`
-	Envs       map[string]string `json:"envs,omitempty"`
+type Default struct {
+	Clone      *Clone      `json:"clone,omitempty"`
+	Repository *Repository `json:"repository,omitempty"`
+	Registry   *Registry   `json:"registry,omitempty"`
 }

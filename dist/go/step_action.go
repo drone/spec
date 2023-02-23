@@ -17,8 +17,7 @@
 package yaml
 
 type StepAction struct {
-	Uses    string                 `json:"uses,omitempty"`
-	With    map[string]interface{} `json:"with,omitempty"`
-	Envs    map[string]string      `json:"envs,omitempty"`
-	Outputs []string               `json:"outputs,omitempty"`
+	Uses string                 `json:"uses,omitempty"`
+	With map[string]interface{} `json:"with,omitempty"`
+	Envs map[string]string      `json:"envs,omitempty"`
 }

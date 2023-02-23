@@ -29,10 +29,10 @@
 package yaml
 
 import (
-	"encoding/json"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"gopkg.in/yaml.v3"
 )
 
 func TestImage(t *testing.T) {
@@ -77,7 +77,7 @@ func TestImage(t *testing.T) {
 
 	for i, test := range tests {
 		got := new(Image)
-		if err := json.Unmarshal([]byte(test.yaml), got); err != nil {
+		if err := yaml.Unmarshal([]byte(test.yaml), got); err != nil {
 			t.Error(err)
 			return
 		}
@@ -89,7 +89,7 @@ func TestImage(t *testing.T) {
 }
 
 func TestImage_Error(t *testing.T) {
-	err := json.Unmarshal([]byte("[]"), new(Image))
+	err := yaml.Unmarshal([]byte("[]"), new(Image))
 	if err == nil || err.Error() != "failed to unmarshal image" {
 		t.Errorf("Expect error, got %s", err)
 	}

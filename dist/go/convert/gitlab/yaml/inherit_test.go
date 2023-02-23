@@ -21,34 +21,27 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func TestCacheKey(t *testing.T) {
+func TestInheritKeys(t *testing.T) {
 	tests := []struct {
 		yaml string
-		want CacheKey
+		want InheritKeys
 	}{
 		{
-			yaml: `"binaries-cache-$CI_COMMIT_REF_SLUG"`,
-			want: CacheKey{
-				Value: "binaries-cache-$CI_COMMIT_REF_SLUG",
+			yaml: `false`,
+			want: InheritKeys{
+				None: true,
 			},
 		},
 		{
-			yaml: `{ "files": [ "Gemfile.lock", "package.json" ] }`,
-			want: CacheKey{
-				Files: []string{"Gemfile.lock", "package.json"},
-			},
-		},
-		{
-			yaml: `{ "files": "Gemfile.lock", "prefix": "$CI_JOB_NAME" }`,
-			want: CacheKey{
-				Files:  []string{"Gemfile.lock"},
-				Prefix: "$CI_JOB_NAME",
+			yaml: `[ "retry", "image" ]`,
+			want: InheritKeys{
+				Keys: []string{"retry", "image"},
 			},
 		},
 	}
 
 	for i, test := range tests {
-		got := new(CacheKey)
+		got := new(InheritKeys)
 		if err := yaml.Unmarshal([]byte(test.yaml), got); err != nil {
 			t.Error(err)
 			return
@@ -60,9 +53,9 @@ func TestCacheKey(t *testing.T) {
 	}
 }
 
-func TestCacheKey_Error(t *testing.T) {
-	err := yaml.Unmarshal([]byte("[]"), new(CacheKey))
-	if err == nil || err.Error() != "failed to unmarshal cache key" {
+func TestInheritKeys_Error(t *testing.T) {
+	err := yaml.Unmarshal([]byte("{}"), new(InheritKeys))
+	if err == nil || err.Error() != "failed to unmarshal inherit" {
 		t.Errorf("Expect error, got %s", err)
 	}
 }

@@ -21,34 +21,40 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func TestCacheKey(t *testing.T) {
+func TestChange(t *testing.T) {
 	tests := []struct {
 		yaml string
-		want CacheKey
+		want Change
 	}{
 		{
-			yaml: `"binaries-cache-$CI_COMMIT_REF_SLUG"`,
-			want: CacheKey{
-				Value: "binaries-cache-$CI_COMMIT_REF_SLUG",
+			yaml: `"Dockerfile"`,
+			want: Change{
+				Paths: []string{"Dockerfile"},
 			},
 		},
 		{
-			yaml: `{ "files": [ "Gemfile.lock", "package.json" ] }`,
-			want: CacheKey{
-				Files: []string{"Gemfile.lock", "package.json"},
+			yaml: `["Dockerfile"]`,
+			want: Change{
+				Paths: []string{"Dockerfile"},
 			},
 		},
 		{
-			yaml: `{ "files": "Gemfile.lock", "prefix": "$CI_JOB_NAME" }`,
-			want: CacheKey{
-				Files:  []string{"Gemfile.lock"},
-				Prefix: "$CI_JOB_NAME",
+			yaml: `{"paths": "Dockerfile" }`,
+			want: Change{
+				Paths: []string{"Dockerfile"},
+			},
+		},
+		{
+			yaml: `{"paths": ["Dockerfile"], "compare_to": "refs/heads/branch1" }`,
+			want: Change{
+				Paths:     []string{"Dockerfile"},
+				CompareTo: "refs/heads/branch1",
 			},
 		},
 	}
 
 	for i, test := range tests {
-		got := new(CacheKey)
+		got := new(Change)
 		if err := yaml.Unmarshal([]byte(test.yaml), got); err != nil {
 			t.Error(err)
 			return
@@ -60,9 +66,9 @@ func TestCacheKey(t *testing.T) {
 	}
 }
 
-func TestCacheKey_Error(t *testing.T) {
-	err := yaml.Unmarshal([]byte("[]"), new(CacheKey))
-	if err == nil || err.Error() != "failed to unmarshal cache key" {
+func TestChange_Error(t *testing.T) {
+	err := yaml.Unmarshal([]byte(`[ { "foo": "bar" } ]`), new(Change))
+	if err == nil || err.Error() != "failed to unmarshal rules:changes" {
 		t.Errorf("Expect error, got %s", err)
 	}
 }

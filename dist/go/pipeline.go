@@ -18,9 +18,9 @@ package yaml
 
 // Pipeline defines the pipeline execution.
 type Pipeline struct {
-	Version  StringorInt       `json:"version,omitempty"`
-	Name     string            `json:"name,omitempty"`
-	Stages   []*Stage          `json:"stages,omitempty"`
-	Inputs   map[string]*Input `json:"inputs,omitempty"`
-	Registry *Registry         `json:"registry,omitempty"`
+	Version StringorInt       `json:"version,omitempty"`
+	Name    string            `json:"name,omitempty"`
+	Stages  []*Stage          `json:"stages,omitempty"`
+	Inputs  map[string]*Input `json:"inputs,omitempty"`
+	Default *Default          `json:"default,omitempty"`
 }

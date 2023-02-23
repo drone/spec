@@ -22,7 +22,6 @@ type StepTest struct {
 	With      map[string]interface{} `json:"with,omitempty"`
 	Splitting *Splitting             `json:"splitting,omitempty"`
 	Reports   []*Report              `json:"reports,omitempty"`
-	Outputs   []string               `json:"outputs,omitempty"`
 	Image     string                 `json:"image,omitempty"`
 	Connector string                 `json:"connector,omitempty"`
 	User      string                 `json:"user,omitempty"`

@@ -11,9 +11,6 @@ properties:
   insecure:
     description: Insecure disables ssl verification.
     type: boolean
-  repository:
-    $ref: ./repository.yaml
-    description: Repostiory provides the remote repository url.
   trace:
     description: Trace enables trace logging.
     type: boolean

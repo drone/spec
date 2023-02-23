@@ -15,6 +15,6 @@
 package yaml
 
 type Workflow struct {
-	Name  string      `json:"name,omitempty"`
-	Rules interface{} `json:"rules,omitempty"` // TODO https://docs.gitlab.com/ee/ci/yaml/#rules
+	Name  string  `yaml:"name,omitempty"`
+	Rules []*Rule `yaml:"rules,omitempty"`
 }

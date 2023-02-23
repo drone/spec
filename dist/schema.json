@@ -30,9 +30,9 @@
                         "$ref": "#/definitions/Input"
                     }
                 },
-                "registry": {
-                    "$ref": "#/definitions/Registry",
-                    "description": "Registry provides container registry configuration."
+                "default": {
+                    "$ref": "#/definitions/Default",
+                    "description": "Default defines default configurations."
                 }
             },
             "required": [
@@ -569,6 +569,10 @@
                     "$ref": "#/definitions/Clone",
                     "description": "Configures the default clone behavior."
                 },
+                "repository": {
+                    "$ref": "#/definitions/Repository",
+                    "description": "Configures the remote repository."
+                },
                 "delegate": {
                     "$ref": "#/definitions/Delegate",
                     "description": "Configures the delegate matching logic."
@@ -617,10 +621,6 @@
                     "description": "Insecure disables ssl verification.",
                     "type": "boolean"
                 },
-                "repository": {
-                    "$ref": "#/definitions/Repository",
-                    "description": "Repostiory provides the remote repository url."
-                },
                 "trace": {
                     "description": "Trace enables trace logging.",
                     "type": "boolean"
@@ -635,6 +635,27 @@
                 }
             },
             "x-file": "clone.yaml"
+        },
+        "Reference": {
+            "title": "Reference",
+            "description": "Reference defines a git clone reference.",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "Name provides ref name.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Type defines the ref type.",
+                    "type": "string",
+                    "enum": [
+                        "branch",
+                        "tag",
+                        "pr"
+                    ]
+                }
+            },
+            "x-file": "reference.yaml"
         },
         "Repository": {
             "title": "Repository",
@@ -671,27 +692,6 @@
                 }
             },
             "x-file": "repository.yaml"
-        },
-        "Reference": {
-            "title": "Reference",
-            "description": "Reference defines a git clone reference.",
-            "type": "object",
-            "properties": {
-                "name": {
-                    "description": "Name provides ref name.",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "Type defines the ref type.",
-                    "type": "string",
-                    "enum": [
-                        "branch",
-                        "tag",
-                        "pr"
-                    ]
-                }
-            },
-            "x-file": "reference.yaml"
         },
         "Delegate": {
             "title": "Delegate",
@@ -1244,12 +1244,6 @@
                         "type": "string"
                     },
                     "description": "The stage environment variables."
-                },
-                "outputs": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
                 }
             },
             "x-file": "step_action.yaml"
@@ -1312,9 +1306,6 @@
                 "privileged": {
                     "type": "boolean"
                 },
-                "outputs": {
-                    "type": "string"
-                },
                 "resources": {
                     "$ref": "#/definitions/Resources"
                 },
@@ -1359,12 +1350,6 @@
                         "type": "string"
                     },
                     "description": "The stage environment variables."
-                },
-                "outputs": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
                 }
             },
             "x-file": "step_bitrise.yaml"
@@ -1432,12 +1417,6 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Report"
-                    }
-                },
-                "outputs": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
                     }
                 },
                 "resources": {
@@ -1511,12 +1490,6 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Report"
-                    }
-                },
-                "outputs": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
                     }
                 },
                 "image": {
@@ -1650,12 +1623,6 @@
                 },
                 "with": {
                     "type": "object"
-                },
-                "outputs": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
                 },
                 "resources": {
                     "$ref": "#/definitions/Resources"
@@ -1915,19 +1882,55 @@
             },
             "x-file": "input.yaml"
         },
+        "Default": {
+            "type": "object",
+            "title": "Default",
+            "properties": {
+                "clone": {
+                    "$ref": "#/definitions/Clone",
+                    "description": "Configures the default clone behavior."
+                },
+                "repository": {
+                    "$ref": "#/definitions/Repository",
+                    "description": "Configures the default repository."
+                },
+                "registry": {
+                    "$ref": "#/definitions/Registry",
+                    "description": "Registry provides default registry credentials."
+                }
+            },
+            "x-file": "default.yaml"
+        },
         "Registry": {
             "title": "Registry",
             "description": "Registry provides container registry details.",
             "type": "object",
             "properties": {
                 "credentials": {
-                    "description": "Credentials provides container registry pull credentials.",
+                    "type": "array",
                     "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name provides the connector name."
+                                    },
+                                    "match": {
+                                        "type": "string",
+                                        "description": "Match matches the registry url to the connector."
+                                    }
+                                }
+                            }
+                        ]
+                    }
                 }
             },
+            "x-go-skip": true,
             "examples": [
                 {
                     "version": 1,

@@ -15,7 +15,6 @@
 package yaml
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 )
@@ -23,16 +22,16 @@ import (
 // Stringorslice represents a string or an array of strings.
 type Stringorslice []string
 
-// UnmarshalJSON implements the unmarshal interface.
-func (s *Stringorslice) UnmarshalJSON(data []byte) error {
+// UnmarshalYAML implements the unmarshal interface.
+func (s *Stringorslice) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	var stringType string
-	if err := json.Unmarshal(data, &stringType); err == nil {
+	if err := unmarshal(&stringType); err == nil {
 		*s = []string{stringType}
 		return nil
 	}
 
 	var sliceType []interface{}
-	if err := json.Unmarshal(data, &sliceType); err == nil {
+	if err := unmarshal(&sliceType); err == nil {
 		parts, err := toStrings(sliceType)
 		if err != nil {
 			return err

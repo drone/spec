@@ -15,37 +15,36 @@
 package yaml
 
 import (
-	"encoding/json"
 	"errors"
 )
 
 // Image defines a container image.
 // https://docs.gitlab.com/ee/ci/yaml/#image
 type Image struct {
-	Name       string        `json:"name,omitempty"`
-	Alias      string        `json:"alias,omitempty"`
-	Entrypoint Stringorslice `json:"entrypoint,omitempty"`
-	Command    Stringorslice `json:"command,omitempty"`
-	PullPolicy string        `json:"pull_policy,omitempty"` // always, never, if-not-present
+	Name       string        `yaml:"name,omitempty"`
+	Alias      string        `yaml:"alias,omitempty"`
+	Entrypoint Stringorslice `yaml:"entrypoint,omitempty"`
+	Command    Stringorslice `yaml:"command,omitempty"`
+	PullPolicy string        `yaml:"pull_policy,omitempty"` // always, never, if-not-present
 }
 
-// UnmarshalJSON implements the unmarshal interface.
-func (v *Image) UnmarshalJSON(data []byte) error {
+// UnmarshalYAML implements the unmarshal interface.
+func (v *Image) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	var out1 string
 	var out2 = struct {
-		Name       string        `json:"name,omitempty"`
-		Alias      string        `json:"alias,omitempty"`
-		Entrypoint Stringorslice `json:"entrypoint,omitempty"`
-		Command    Stringorslice `json:"command,omitempty"`
-		PullPolicy string        `json:"pull_policy,omitempty"`
+		Name       string        `yaml:"name,omitempty"`
+		Alias      string        `yaml:"alias,omitempty"`
+		Entrypoint Stringorslice `yaml:"entrypoint,omitempty"`
+		Command    Stringorslice `yaml:"command,omitempty"`
+		PullPolicy string        `yaml:"pull_policy,omitempty"`
 	}{}
 
-	if err := json.Unmarshal(data, &out1); err == nil {
+	if err := unmarshal(&out1); err == nil {
 		v.Name = out1
 		return nil
 	}
 
-	if err := json.Unmarshal(data, &out2); err == nil {
+	if err := unmarshal(&out2); err == nil {
 		v.Name = out2.Name
 		v.Alias = out2.Alias
 		v.Entrypoint = out2.Entrypoint

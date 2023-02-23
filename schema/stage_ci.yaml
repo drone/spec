@@ -2,6 +2,9 @@ properties:
   clone:
     $ref: ./clone.yaml
     description: Configures the default clone behavior.
+  repository:
+    $ref: ./repository.yaml
+    description: Configures the remote repository.
   delegate:
     $ref: ./delegate.yaml
     description: Configures the delegate matching logic.

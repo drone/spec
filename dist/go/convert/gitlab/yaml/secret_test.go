@@ -14,6 +14,13 @@
 
 package yaml
 
+import (
+	"testing"
+
+	"github.com/google/go-cmp/cmp"
+	"gopkg.in/yaml.v3"
+)
+
 // job:
 //   secrets:
 //     DATABASE_PASSWORD:  # Store the path to the secret in this CI/CD variable
@@ -67,3 +74,56 @@ package yaml
 //     DB_PASSWORD:
 //       vault: gitlab/production/db
 //       token: $VAULT_TOKEN
+
+func TestSecret(t *testing.T) {
+	tests := []struct {
+		yaml string
+		want Vault
+	}{
+		{
+			yaml: `{ "engine": { "name": "kv-v2", "path": "ops" }, "path": "production/db", "field": "password" }`,
+			want: Vault{
+				Engine: &VaultEngine{
+					Name: "kv-v2",
+					Path: "ops",
+				},
+				Path:  "production/db",
+				Field: "password",
+			},
+		},
+		{
+			// TODO according to the gitlab documentation this should translate to:
+			// secret: `kv-v2/data/production/db`, field: `password`
+			yaml: `"production/db/password"`,
+			want: Vault{
+				Path: "production/db/password",
+			},
+		},
+		{
+			yaml: `"production/db/password@ops"`,
+			want: Vault{
+				Path:  "production/db/password",
+				Field: "ops",
+			},
+		},
+	}
+
+	for i, test := range tests {
+		got := new(Vault)
+		if err := yaml.Unmarshal([]byte(test.yaml), got); err != nil {
+			t.Error(err)
+			return
+		}
+		if diff := cmp.Diff(got, &test.want); diff != "" {
+			t.Errorf("Unexpected parsing results for test %v", i)
+			t.Log(diff)
+		}
+	}
+}
+
+func TestVault_Error(t *testing.T) {
+	err := yaml.Unmarshal([]byte("[]"), new(Vault))
+	if err == nil || err.Error() != "failed to unmarshal vault" {
+		t.Errorf("Expect error, got %s", err)
+	}
+}

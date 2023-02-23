@@ -51,7 +51,9 @@ func From(r io.Reader) ([]byte, error) {
 	//
 
 	pipeline := &v2.Pipeline{
-		Registry: convertRegistry(stages),
+		Default: &v2.Default{
+			Registry: convertRegistry(stages),
+		},
 	}
 
 	for _, from := range stages {
@@ -148,7 +150,9 @@ func convertRegistry(src []*v1.Pipeline) *v2.Registry {
 	}
 	dst := &v2.Registry{}
 	for k := range set {
-		dst.Credentials = append(dst.Credentials, k)
+		dst.Credentials = append(dst.Credentials, &v2.Credentials{
+			Name: k,
+		})
 	}
 	return dst
 }

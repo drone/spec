@@ -31,9 +31,9 @@ properties:
   #   additionalProperties: 
   #     type: object
 
-  registry:
-    $ref: ./registry.yaml
-    description: Registry provides container registry configuration.
+  default:
+    $ref: ./default.yaml
+    description: Default defines default configurations.
 
 required:
   - version

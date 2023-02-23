@@ -14,64 +14,50 @@
 
 package yaml
 
+import "errors"
+
 type Environment struct {
-	Name           string      `json:"name,omitempty"`
-	Url            string      `json:"url,omitempty"`
-	OnStop         string      `json:"on_stop,omitempty"`
-	Action         string      `json:"action,omitempty"` // start, prepare, stop, verify, access
-	AutoStopIn     string      `json:"auto_stop_in,omitempty"`
-	DeploymentTier string      `json:"deployment_tier"` // production, staging, testing, development, other
-	Kubernetes     *Kubernetes `json:"kubernetes,omitempty"`
+	Name           string      `yaml:"name,omitempty"`
+	Url            string      `yaml:"url,omitempty"`
+	OnStop         string      `yaml:"on_stop,omitempty"`
+	Action         string      `yaml:"action,omitempty"` // start, prepare, stop, verify, access
+	AutoStopIn     string      `yaml:"auto_stop_in,omitempty"`
+	DeploymentTier string      `yaml:"deployment_tier"` // production, staging, testing, development, other
+	Kubernetes     *Kubernetes `yaml:"kubernetes,omitempty"`
 }
 
 type Kubernetes struct {
-	Namespace string `json:"namespace,omitempty"`
+	Namespace string `yaml:"namespace,omitempty"`
 }
 
-// deploy to production:
-//   stage: deploy
-//   script: git push production HEAD:main
-//   environment: production
+// UnmarshalYAML implements the unmarshal interface.
+func (v *Environment) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	var out1 string
+	var out2 = struct {
+		Name           string      `yaml:"name,omitempty"`
+		Url            string      `yaml:"url,omitempty"`
+		OnStop         string      `yaml:"on_stop,omitempty"`
+		Action         string      `yaml:"action,omitempty"`
+		AutoStopIn     string      `yaml:"auto_stop_in,omitempty"`
+		DeploymentTier string      `yaml:"deployment_tier"`
+		Kubernetes     *Kubernetes `yaml:"kubernetes,omitempty"`
+	}{}
 
-// deploy to production:
-//   stage: deploy
-//   script: git push production HEAD:main
-//   environment:
-//     name: production
+	if err := unmarshal(&out1); err == nil {
+		v.Name = out1
+		return nil
+	}
 
-// deploy to production:
-//   stage: deploy
-//   script: git push production HEAD:main
-//   environment:
-//     name: production
-//     url: https://prod.example.com
+	if err := unmarshal(&out2); err == nil {
+		v.Name = out2.Name
+		v.Url = out2.Url
+		v.OnStop = out2.OnStop
+		v.Action = out2.Action
+		v.AutoStopIn = out2.AutoStopIn
+		v.DeploymentTier = out2.DeploymentTier
+		v.Kubernetes = out2.Kubernetes
+		return nil
+	}
 
-// stop_review_app:
-//   stage: deploy
-//   variables:
-//     GIT_STRATEGY: none
-//   script: make delete-app
-//   when: manual
-//   environment:
-//     name: review/$CI_COMMIT_REF_SLUG
-//     action: stop
-
-// review_app:
-//   script: deploy-review-app
-//   environment:
-//     name: review/$CI_COMMIT_REF_SLUG
-//     auto_stop_in: 1 day
-
-// deploy:
-//   stage: deploy
-//   script: make deploy-app
-//   environment:
-//     name: production
-//     kubernetes:
-//       namespace: production
-
-// deploy:
-//   script: echo
-//   environment:
-//     name: customer-portal
-//     deployment_tier: production
+	return errors.New("failed to unmarshal environment")
+}

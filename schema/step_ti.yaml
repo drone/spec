@@ -17,10 +17,10 @@ properties:
     type: array
     items:
       $ref: ./report.yaml
-  outputs:
-    type: array
-    items:
-      type: string
+  # outputs:
+  #   type: array
+  #   items:
+  #     type: string
 
   # these fields would be optional for
   # use with kubernetes.

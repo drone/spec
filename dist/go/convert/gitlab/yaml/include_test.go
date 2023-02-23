@@ -15,13 +15,13 @@
 package yaml
 
 import (
-	"encoding/json"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"gopkg.in/yaml.v3"
 )
 
-func TestIncludee(t *testing.T) {
+func TestInclude(t *testing.T) {
 	tests := []struct {
 		yaml string
 		want Include
@@ -86,7 +86,7 @@ func TestIncludee(t *testing.T) {
 
 	for i, test := range tests {
 		got := new(Include)
-		if err := json.Unmarshal([]byte(test.yaml), got); err != nil {
+		if err := yaml.Unmarshal([]byte(test.yaml), got); err != nil {
 			t.Error(err)
 			return
 		}
@@ -98,7 +98,7 @@ func TestIncludee(t *testing.T) {
 }
 
 func TestInclude_Error(t *testing.T) {
-	err := json.Unmarshal([]byte("[]"), new(Include))
+	err := yaml.Unmarshal([]byte("[]"), new(Include))
 	if err == nil || err.Error() != "failed to unmarshal include" {
 		t.Errorf("Expect error, got %s", err)
 	}

@@ -1,0 +1,13 @@
+type: object
+title: Default
+
+properties:
+  clone:
+    $ref: ./clone.yaml
+    description: Configures the default clone behavior.
+  repository:
+    $ref: ./repository.yaml
+    description: Configures the default repository.
+  registry:
+    $ref: ./registry.yaml
+    description: Registry provides default registry credentials.

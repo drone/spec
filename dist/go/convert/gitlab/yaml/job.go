@@ -17,31 +17,30 @@ package yaml
 // Job defines a gitlab job.
 // https://docs.gitlab.com/ee/ci/yaml/#job-keywords
 type Job struct {
-	After         Stringorslice        `json:"after_script,omitempty"`
-	Artifacts     *Artifacts           `json:"artifacts,omitempty"`
-	AllowFailure  *AllowFailure        `json:"allow_failure,omitempty"`
-	Before        Stringorslice        `json:"before_script,omitempty"`
-	Cache         *Cache               `json:"cache,omitempty"`
-	Environment   *Environment         `json:"environment,omitempty"`
-	Extends       Stringorslice        `json:"extends,omitempty"`
-	Image         *Image               `json:"image,omitempty"`
-	Inherit       interface{}          // TODO
-	Interruptible bool                 `json:"interruptible,omitempty"`
-	Needs         interface{}          // TODO
-	Only          interface{}          // TODO
-	Pages         interface{}          // TODO
-	Parallel      interface{}          // TODO
-	Release       interface{}          // TODO
-	ResourceGroup interface{}          // TODO
-	Retry         *Retry               `json:"retry,omitempty"`
-	Rules         interface{}          // TODO
-	Script        Stringorslice        `json:"script,omitempty"`
-	Secrets       map[string]*Secret   `json:"secrets,omitempty"`
-	Services      []*Image             `json:"services,omitempty"`
-	Stage         string               `json:"stage,omitempty"`
-	Tags          Stringorslice        `json:"tags,omitempty"`
-	Timeout       string               `json:"timeout,omitempty"`
-	Trigger       interface{}          // TODO
-	Variables     map[string]*Variable `json:"variables,omitempty"`
-	When          string               `json:"when,omitempty"` // on_success, manual, always, on_failure, delayed, never
+	After         Stringorslice        `yaml:"after_script,omitempty"`
+	Artifacts     *Artifacts           `yaml:"artifacts,omitempty"`
+	AllowFailure  *AllowFailure        `yaml:"allow_failure,omitempty"`
+	Before        Stringorslice        `yaml:"before_script,omitempty"`
+	Cache         *Cache               `yaml:"cache,omitempty"`
+	Environment   *Environment         `yaml:"environment,omitempty"`
+	Extends       Stringorslice        `yaml:"extends,omitempty"`
+	Image         *Image               `yaml:"image,omitempty"`
+	Inherit       *Inherit             `yaml:"inherit,omitempty"`
+	Interruptible bool                 `yaml:"interruptible,omitempty"`
+	Needs         []*Needs             `yaml:"needs,omitempty"`
+	Pages         *Job                 `yaml:"pages,omitempty"`
+	Parallel      *Parallel            `yaml:"parallel,omitempty"`
+	Release       *Release             `yaml:"release,omitempty"`
+	ResourceGroup string               `yaml:"resource_group,omitempty"`
+	Retry         *Retry               `yaml:"retry,omitempty"`
+	Rules         []*Rule              `yaml:"rules,omitempty"`
+	Script        Stringorslice        `yaml:"script,omitempty"`
+	Secrets       map[string]*Secret   `yaml:"secrets,omitempty"`
+	Services      []*Image             `yaml:"services,omitempty"`
+	Stage         string               `yaml:"stage,omitempty"`
+	Tags          Stringorslice        `yaml:"tags,omitempty"`
+	Timeout       string               `yaml:"timeout,omitempty"`
+	Trigger       *Trigger             `yaml:"trigger,omitempty"`
+	Variables     map[string]*Variable `yaml:"variables,omitempty"`
+	When          string               `yaml:"when,omitempty"` // on_success, manual, always, on_failure, delayed, never
 }

@@ -15,39 +15,38 @@
 package yaml
 
 import (
-	"encoding/json"
 	"errors"
 )
 
 // Include includes external yaml files.
 // https://docs.gitlab.com/ee/ci/yaml/#include
 type Include struct {
-	Local    string        `json:"local,omitempty"`
-	Project  string        `json:"project,omitempty"`
-	Ref      string        `json:"ref,omitempty"`
-	Remote   string        `json:"remote,omitempty"`
-	Template string        `json:"template,omitempty"`
-	File     Stringorslice `json:"file,omitempty"`
+	Local    string        `yaml:"local,omitempty"`
+	Project  string        `yaml:"project,omitempty"`
+	Ref      string        `yaml:"ref,omitempty"`
+	Remote   string        `yaml:"remote,omitempty"`
+	Template string        `yaml:"template,omitempty"`
+	File     Stringorslice `yaml:"file,omitempty"`
 }
 
-// UnmarshalJSON implements the unmarshal interface.
-func (v *Include) UnmarshalJSON(data []byte) error {
+// UnmarshalYAML implements the unmarshal interface.
+func (v *Include) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	var out1 string
 	var out2 = struct {
-		Local    string        `json:"local,omitempty"`
-		Project  string        `json:"project,omitempty"`
-		Ref      string        `json:"ref,omitempty"`
-		Remote   string        `json:"remote,omitempty"`
-		Template string        `json:"template,omitempty"`
-		File     Stringorslice `json:"file,omitempty"`
+		Local    string        `yaml:"local,omitempty"`
+		Project  string        `yaml:"project,omitempty"`
+		Ref      string        `yaml:"ref,omitempty"`
+		Remote   string        `yaml:"remote,omitempty"`
+		Template string        `yaml:"template,omitempty"`
+		File     Stringorslice `yaml:"file,omitempty"`
 	}{}
 
-	if err := json.Unmarshal(data, &out1); err == nil {
+	if err := unmarshal(&out1); err == nil {
 		v.Local = out1
 		return nil
 	}
 
-	if err := json.Unmarshal(data, &out2); err == nil {
+	if err := unmarshal(&out2); err == nil {
 		v.Local = out2.Local
 		v.Project = out2.Project
 		v.Ref = out2.Ref

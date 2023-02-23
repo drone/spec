@@ -67,14 +67,8 @@ func From(r io.Reader) ([]byte, error) {
 	// iterage through named stages
 	for _, stagename := range src.Stages {
 
-		// parallel step group
-		_ = harness.Step{
-			Name: stagename,
-			Type: "parallel",
-			Spec: harness.StepParallel{
-				// append steps here
-			},
-		}
+		// children steps converted from gitlab to harness.
+		var steps []*harness.Step
 
 		// iterate through jobs and find jobs assigned to
 		// the stage. skip other stages.
@@ -89,12 +83,15 @@ func From(r io.Reader) ([]byte, error) {
 			// gitlab only supports run steps.
 			spec := new(harness.StepExec)
 
-			if job.Image == nil {
+			if job.Image != nil {
 				spec.Image = job.Image.Name
 				spec.Pull = job.Image.PullPolicy
 			} else if src.Default != nil && src.Default.Image != nil {
 				spec.Image = src.Default.Image.Name
 				spec.Pull = src.Default.Image.PullPolicy
+			} else if src.Image != nil {
+				spec.Image = src.Image.Name
+				spec.Pull = src.Image.PullPolicy
 			}
 
 			// aggregate all scripts
@@ -112,12 +109,34 @@ func From(r io.Reader) ([]byte, error) {
 			// job.Tags
 			// job.Secrets
 
-			_ = harness.Step{
+			steps = append(steps, &harness.Step{
 				Name: jobname,
 				Type: "script",
 				Spec: spec,
-			}
+			})
 		}
+
+		// if not steps converted, move to next stage
+		if len(steps) == 0 {
+			continue
+		}
+
+		// if there is a single step, append to the stage.
+		if len(steps) == 1 {
+			dstStage.Spec.(*harness.StageCI).Steps = append(dstStage.Spec.(*harness.StageCI).Steps, steps[0]) // HACK
+			continue
+		}
+
+		// else if there are multiple steps, wrap with a parallel
+		// step to mirror gitlab behavior.
+		group := &harness.Step{
+			Name: stagename,
+			Type: "parallel",
+			Spec: &harness.StepParallel{
+				Steps: steps,
+			},
+		}
+		dstStage.Spec.(*harness.StageCI).Steps = append(dstStage.Spec.(*harness.StageCI).Steps, group) // HACK
 	}
 
 	out, err := yaml.Marshal(dst)

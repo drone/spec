@@ -32,3 +32,10 @@ stages:
           uses: foo/bar
           with:
             baz: qux
+
+default:
+  registry:
+    credentials:
+      - account.gcr
+      - name: account.docker
+        match: docker.io

@@ -15,39 +15,38 @@
 package yaml
 
 import (
-	"encoding/json"
 	"errors"
 )
 
 type Cache struct {
-	Paths     Stringorslice `json:"paths,omitempty"`
-	Key       string        `json:"key,omitempty"` // TODO complex item (files []string, prefix)
-	Untracked bool          `json:"untracked,omitempty"`
-	Unprotect bool          `json:"unprotect,omitempty"`
-	When      string        `json:"when,omitempty"`   // on_success, on_failure, always
-	Policy    string        `json:"policy,omitempty"` // pull, push, pull-push
+	Paths     Stringorslice `yaml:"paths,omitempty"`
+	Key       string        `yaml:"key,omitempty"` // TODO complex item (files []string, prefix)
+	Untracked bool          `yaml:"untracked,omitempty"`
+	Unprotect bool          `yaml:"unprotect,omitempty"`
+	When      string        `yaml:"when,omitempty"`   // on_success, on_failure, always
+	Policy    string        `yaml:"policy,omitempty"` // pull, push, pull-push
 }
 
 type CacheKey struct {
-	Value  string        `json:"-,omitempty"`
-	Files  Stringorslice `json:"files,omitempty"`
-	Prefix string        `json:"prefix,omitempty"`
+	Value  string        `yaml:"-"`
+	Files  Stringorslice `yaml:"files,omitempty"`
+	Prefix string        `yaml:"prefix,omitempty"`
 }
 
-// UnmarshalJSON implements the unmarshal interface.
-func (v *CacheKey) UnmarshalJSON(data []byte) error {
+// UnmarshalYAML implements the unmarshal interface.
+func (v *CacheKey) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	var out1 string
 	var out2 = struct {
-		Files  Stringorslice `json:"files"`
-		Prefix string        `json:"prefix"`
+		Files  Stringorslice `yaml:"files"`
+		Prefix string        `yaml:"prefix"`
 	}{}
 
-	if err := json.Unmarshal(data, &out1); err == nil {
+	if err := unmarshal(&out1); err == nil {
 		v.Value = out1
 		return nil
 	}
 
-	if err := json.Unmarshal(data, &out2); err == nil {
+	if err := unmarshal(&out2); err == nil {
 		v.Files = out2.Files
 		v.Prefix = out2.Prefix
 		return nil

@@ -29,10 +29,10 @@
 package yaml
 
 import (
-	"encoding/json"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"gopkg.in/yaml.v3"
 )
 
 func TestAllowFailure(t *testing.T) {
@@ -70,7 +70,7 @@ func TestAllowFailure(t *testing.T) {
 
 	for i, test := range tests {
 		got := new(AllowFailure)
-		if err := json.Unmarshal([]byte(test.yaml), got); err != nil {
+		if err := yaml.Unmarshal([]byte(test.yaml), got); err != nil {
 			t.Error(err)
 			return
 		}
@@ -82,7 +82,7 @@ func TestAllowFailure(t *testing.T) {
 }
 
 func TestAllowFailure_Error(t *testing.T) {
-	err := json.Unmarshal([]byte("[]"), new(AllowFailure))
+	err := yaml.Unmarshal([]byte("[]"), new(AllowFailure))
 	if err == nil || err.Error() != "failed to unmarshal allow_failure" {
 		t.Errorf("Expect error, got %s", err)
 	}

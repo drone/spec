@@ -3,20 +3,21 @@ description: Registry provides container registry details.
 type: object
 properties:
   credentials:
-    description: Credentials provides container registry pull credentials.
-    items:
-      type: string
     type: array
+    items:
+      oneOf:
+      - type: string
+      - type: object
+        properties:
+          name:
+            type: string
+            description: Name provides the connector name.
+          match:
+            type: string
+            description: Match matches the registry url to the connector.
 
-# oneOf:
-# - type: string
-# - $ref: "./when_cond.yaml"
-# - type: array
-#   items:
-#     $ref: "./when_cond.yaml"
-
-# # skip and manually create go file
-# x-go-skip: true
+# skip and manually create go file
+x-go-skip: true
 
 # example pipelines that demonstrate registry
 # credential usage.

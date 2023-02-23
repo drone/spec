@@ -14,31 +14,28 @@
 
 package yaml
 
-import (
-	"encoding/json"
-	"errors"
-)
+import "errors"
 
 // Retry defines retry logic.
 type Retry struct {
-	Max  int           `json:"max,omitempty"`
-	When Stringorslice `json:"when,omitempty"`
+	Max  int           `yaml:"max,omitempty"`
+	When Stringorslice `yaml:"when,omitempty"`
 }
 
-// UnmarshalJSON implements the unmarshal interface.
-func (v *Retry) UnmarshalJSON(data []byte) error {
+// UnmarshalYAML implements the unmarshal interface.
+func (v *Retry) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	var out1 int
 	var out2 = struct {
-		Max  int           `json:"max"`
-		When Stringorslice `json:"when"`
+		Max  int           `yaml:"max"`
+		When Stringorslice `yaml:"when"`
 	}{}
 
-	if err := json.Unmarshal(data, &out1); err == nil {
+	if err := unmarshal(&out1); err == nil {
 		v.Max = out1
 		return nil
 	}
 
-	if err := json.Unmarshal(data, &out2); err == nil {
+	if err := unmarshal(&out2); err == nil {
 		v.Max = out2.Max
 		v.When = out2.When
 		return nil

@@ -15,37 +15,36 @@
 package yaml
 
 import (
-	"encoding/json"
 	"errors"
 	"strings"
 )
 
 type Secret struct {
-	Vault *Vault `json:"vault,omitempty"`
-	File  string `json:"file,omitempty"`
+	Vault *Vault `yaml:"vault,omitempty"`
+	File  *bool  `yaml:"file,omitempty"`
 }
 
 type Vault struct {
-	Engine *VaultEngine `json:"engine,omitempty"`
-	Path   string       `json:"path,omitempty"`
-	Field  string       `json:"field,omitempty"`
+	Engine *VaultEngine `yaml:"engine,omitempty"`
+	Path   string       `yaml:"path,omitempty"`
+	Field  string       `yaml:"field,omitempty"`
 }
 
 type VaultEngine struct {
-	Name string `json:"name,omitempty"`
-	Path string `json:"path,omitempty"`
+	Name string `yaml:"name,omitempty"`
+	Path string `yaml:"path,omitempty"`
 }
 
-// UnmarshalJSON implements the unmarshal interface.
-func (v *Vault) UnmarshalJSON(data []byte) error {
+// UnmarshalYAML implements the unmarshal interface.
+func (v *Vault) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	var out1 string
 	var out2 = struct {
-		Engine *VaultEngine `json:"engine,omitempty"`
-		Path   string       `json:"path,omitempty"`
-		Field  string       `json:"field,omitempty"`
+		Engine *VaultEngine `yaml:"engine,omitempty"`
+		Path   string       `yaml:"path,omitempty"`
+		Field  string       `yaml:"field,omitempty"`
 	}{}
 
-	if err := json.Unmarshal(data, &out1); err == nil {
+	if err := unmarshal(&out1); err == nil {
 		parts := strings.SplitN(out1, "@", 2)
 		if len(parts) == 2 {
 			v.Path = parts[0]
@@ -56,7 +55,7 @@ func (v *Vault) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	if err := json.Unmarshal(data, &out2); err == nil {
+	if err := unmarshal(&out2); err == nil {
 		v.Path = out2.Path
 		v.Field = out2.Field
 		v.Engine = out2.Engine

@@ -40,8 +40,6 @@ properties:
     type: string
   privileged:
     type: boolean
-  outputs:
-    type: string
   resources:
     $ref: ./resources.yaml
   volumes:

@@ -17,38 +17,32 @@ package yaml
 import (
 	"testing"
 
+	"github.com/ghodss/yaml"
 	"github.com/google/go-cmp/cmp"
-	"gopkg.in/yaml.v3"
 )
 
-func TestCacheKey(t *testing.T) {
+func TestCredentials(t *testing.T) {
 	tests := []struct {
 		yaml string
-		want CacheKey
+		want Credentials
 	}{
 		{
-			yaml: `"binaries-cache-$CI_COMMIT_REF_SLUG"`,
-			want: CacheKey{
-				Value: "binaries-cache-$CI_COMMIT_REF_SLUG",
+			yaml: `"account.docker"`,
+			want: Credentials{
+				Name: "account.docker",
 			},
 		},
 		{
-			yaml: `{ "files": [ "Gemfile.lock", "package.json" ] }`,
-			want: CacheKey{
-				Files: []string{"Gemfile.lock", "package.json"},
-			},
-		},
-		{
-			yaml: `{ "files": "Gemfile.lock", "prefix": "$CI_JOB_NAME" }`,
-			want: CacheKey{
-				Files:  []string{"Gemfile.lock"},
-				Prefix: "$CI_JOB_NAME",
+			yaml: `{ "name": "account.docker", "match": "docker.io" }`,
+			want: Credentials{
+				Name:  "account.docker",
+				Match: "docker.io",
 			},
 		},
 	}
 
 	for i, test := range tests {
-		got := new(CacheKey)
+		got := new(Credentials)
 		if err := yaml.Unmarshal([]byte(test.yaml), got); err != nil {
 			t.Error(err)
 			return
@@ -57,12 +51,5 @@ func TestCacheKey(t *testing.T) {
 			t.Errorf("Unexpected parsing results for test %v", i)
 			t.Log(diff)
 		}
-	}
-}
-
-func TestCacheKey_Error(t *testing.T) {
-	err := yaml.Unmarshal([]byte("[]"), new(CacheKey))
-	if err == nil || err.Error() != "failed to unmarshal cache key" {
-		t.Errorf("Expect error, got %s", err)
 	}
 }

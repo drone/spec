@@ -15,34 +15,33 @@
 package yaml
 
 import (
-	"encoding/json"
 	"errors"
 )
 
 type Variable struct {
-	Value   string        `json:"value,omitempty"`
-	Desc    string        `json:"description,omitempty"`
-	Options Stringorslice `json:"options,omitempty"`
-	Expand  bool          `json:"expand,omitempty"`
+	Value   string        `yaml:"value,omitempty"`
+	Desc    string        `yaml:"description,omitempty"`
+	Options Stringorslice `yaml:"options,omitempty"`
+	Expand  bool          `yaml:"expand,omitempty"`
 }
 
-// UnmarshalJSON implements the unmarshal interface.
-func (v *Variable) UnmarshalJSON(data []byte) error {
+// UnmarshalYAML implements the unmarshal interface.
+func (v *Variable) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	var out1 string
 	var out2 = struct {
-		Value   string        `json:"value,omitempty"`
-		Desc    string        `json:"description,omitempty"`
-		Options Stringorslice `json:"options,omitempty"`
-		Expand  *bool         `json:"expand,omitempty"`
+		Value   string        `yaml:"value,omitempty"`
+		Desc    string        `yaml:"description,omitempty"`
+		Options Stringorslice `yaml:"options,omitempty"`
+		Expand  *bool         `yaml:"expand,omitempty"`
 	}{}
 
-	if err := json.Unmarshal(data, &out1); err == nil {
+	if err := unmarshal(&out1); err == nil {
 		v.Value = out1
 		v.Expand = true
 		return nil
 	}
 
-	if err := json.Unmarshal(data, &out2); err == nil {
+	if err := unmarshal(&out2); err == nil {
 		v.Value = out2.Value
 		v.Desc = out2.Desc
 		v.Options = out2.Options

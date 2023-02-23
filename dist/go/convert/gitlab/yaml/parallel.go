@@ -16,37 +16,28 @@ package yaml
 
 import "errors"
 
-type AllowFailure struct {
-	Value     bool  `yaml:"-"`
-	ExitCodes []int `yaml:"exit_codes"`
+type Parallel struct {
+	Count  int                 `yaml:"-,omitempty"`
+	Matrix map[string][]string `yaml:"matrix,omitempty"`
 }
 
 // UnmarshalYAML implements the unmarshal interface.
-func (v *AllowFailure) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	var out1 bool
-	var out2 = struct {
-		ExitCode int `yaml:"exit_codes"`
-	}{}
-	var out3 = struct {
-		ExitCodes []int `yaml:"exit_codes"`
-	}{}
+func (v *Parallel) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	var out1 int
+	var out2 = map[string]Stringorslice{}
 
-	if err := unmarshal(&out3); err == nil {
-		v.Value = true
-		v.ExitCodes = out3.ExitCodes
+	if err := unmarshal(&out1); err == nil {
+		v.Count = out1
 		return nil
 	}
 
 	if err := unmarshal(&out2); err == nil {
-		v.Value = true
-		v.ExitCodes = []int{out2.ExitCode}
+		v.Matrix = map[string][]string{}
+		for key, val := range out2 {
+			v.Matrix[key] = []string(val)
+		}
 		return nil
 	}
 
-	if err := unmarshal(&out1); err == nil {
-		v.Value = out1
-		return nil
-	}
-
-	return errors.New("failed to unmarshal allow_failure")
+	return errors.New("failed to unmarshal parallel")
 }

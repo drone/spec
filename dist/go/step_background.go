@@ -28,7 +28,6 @@ type StepBackground struct {
 	Ports      []string          `json:"ports,omitempty"`
 	Network    string            `json:"network,omitempty"`
 	Privileged bool              `json:"privileged,omitempty"`
-	Outputs    string            `json:"outputs,omitempty"`
 	Resources  *Resources        `json:"resources,omitempty"`
 	Volumes    []*Mount          `json:"volumes,omitempty"`
 }

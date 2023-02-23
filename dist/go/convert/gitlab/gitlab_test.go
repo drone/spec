@@ -13,3 +13,16 @@
 // limitations under the License.
 
 package gitlab
+
+import "testing"
+
+func TestConvert(t *testing.T) {
+	_, err := FromFile("yaml/testdata/go.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	// println(string(out))
+	// t.Fail()
+}
