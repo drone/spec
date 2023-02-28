@@ -16,6 +16,7 @@ package yaml
 
 import (
 	"io/ioutil"
+	"path/filepath"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -23,19 +24,16 @@ import (
 )
 
 func TestPipeline(t *testing.T) {
-	tests := []string{
-		"testdata/addons/browserstack",
-		"testdata/addons/sonar",
-		"testdata/golang",
-		"testdata/rust",
-		"testdata/scala",
-		"testdata/smalltalk",
+	tests, err := filepath.Glob("testdata/*/*.yaml")
+	if err != nil {
+		t.Error(err)
+		return
 	}
 
 	for _, test := range tests {
 		t.Run(test, func(t *testing.T) {
 			// parse the yaml file
-			tmp1, err := ParseFile(test + ".yaml")
+			tmp1, err := ParseFile(test)
 			if err != nil {
 				t.Error(err)
 				return
@@ -56,7 +54,7 @@ func TestPipeline(t *testing.T) {
 			}
 
 			// parse the golden json file and unmarshal
-			data, err := ioutil.ReadFile(test + ".json")
+			data, err := ioutil.ReadFile(test + ".golden")
 			if err != nil {
 				t.Error(err)
 				return
