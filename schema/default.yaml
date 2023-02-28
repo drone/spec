@@ -10,4 +10,12 @@ properties:
     description: Configures the default repository.
   registry:
     $ref: ./registry.yaml
-    description: Registry provides default registry credentials.
+    description: Provides default registry credentials.
+  resources:
+    $ref: ./resources.yaml
+    description: Configures the default stage and step resources.
+  envs:
+    type: object
+    additionalProperties:
+      type: string
+    description: Provides the default environment variables.
