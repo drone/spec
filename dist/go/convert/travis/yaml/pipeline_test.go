@@ -25,6 +25,8 @@ import (
 
 func TestPipeline(t *testing.T) {
 	tests := []string{
+		"testdata/addons/browserstack",
+		"testdata/addons/sonar",
 		"testdata/golang",
 		"testdata/rust",
 		"testdata/scala",
@@ -76,43 +78,3 @@ func TestPipeline(t *testing.T) {
 		})
 	}
 }
-
-// func TestPipeline(t *testing.T) {
-// 	tests := []string{
-// 		"testdata/golang",
-// 		"testdata/rust",
-// 		"testdata/scala",
-// 		"testdata/smalltalk",
-// 	}
-
-// 	for _, test := range tests {
-// 		t.Run(test, func(t *testing.T) {
-// 			// parse the yaml file
-// 			got, err := ParseFile(test + ".yaml")
-// 			if err != nil {
-// 				t.Error(err)
-// 				return
-// 			}
-
-// 			// parse the golden json file and unmarshal
-// 			data, err := ioutil.ReadFile(test + ".json")
-// 			if err != nil {
-// 				t.Error(err)
-// 				return
-// 			}
-
-// 			// unmarshal the json file
-// 			want := new(Pipeline)
-// 			if err := json.Unmarshal(data, want); err != nil {
-// 				t.Error(err)
-// 				return
-// 			}
-
-// 			// compare the parsed yaml to the golden file
-// 			if diff := cmp.Diff(got, want); diff != "" {
-// 				t.Errorf("Unexpected parsing result")
-// 				t.Log(diff)
-// 			}
-// 		})
-// 	}
-// }
