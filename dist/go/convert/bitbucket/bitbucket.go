@@ -35,6 +35,11 @@ func From(r io.Reader) ([]byte, error) {
 		return nil, err
 	}
 
+	// normalize the yaml and ensure
+	// all root-level steps are grouped
+	// by stage to simplify conversion.
+	bitbucket.Normalize(src)
+
 	// TODO Clone
 	// TODO Caches
 	// TODO Artifacts
@@ -45,29 +50,50 @@ func From(r io.Reader) ([]byte, error) {
 	// TODO Trigger
 
 	// create the harness stage spec
-	spec := &harness.StageCI{
-		// TODO Clone
-		// TODO Repository
-		// TODO Delegate
-		// TODO Platform
-		// TODO Runtime
-		// TODO Envs
-	}
+	// spec := &harness.StageCI{
+	// 	// TODO Clone
+	// 	// TODO Repository
+	// 	// TODO Delegate
+	// 	// TODO Platform
+	// 	// TODO Runtime
+	// 	// TODO Envs
+	// }
 
-	// create the harness stage.
-	stage := &harness.Stage{
-		Name: "build",
-		Type: "ci",
-		Spec: spec,
-		// TODO When
-		// TODO On
-	}
+	// // convert the global instance size
+	// if src.Options != nil && src.Options.Size != "" {
+	// 	var size string
+	// 	switch src.Options.Size {
+	// 	case "2x": // 8GB
+	// 		size = "large"
+	// 	case "4x": // 16GB
+	// 		size = "xlarge"
+	// 	case "8x": // 32GB
+	// 		size = "xxlarge"
+	// 	default: // 4GB
+	// 		size = "standard"
+	// 	}
+	// 	spec.Runtime = &harness.Runtime{
+	// 		Type: "cloud",
+	// 		Spec: &harness.RuntimeCloud{
+	// 			Size: size,
+	// 		},
+	// 	}
+	// }
+
+	// // create the harness stage.
+	// stage := &harness.Stage{
+	// 	Name: "build",
+	// 	Type: "ci",
+	// 	Spec: spec,
+	// 	// TODO When
+	// 	// TODO On
+	// }
 
 	// create the harness pipeline
 	pipeline := &harness.Pipeline{
 		Version: 1,
-		Stages:  []*harness.Stage{stage},
 		Default: convertDefault(src),
+		// Stages:  []*harness.Stage{stage},
 	}
 
 	// create the converter state
@@ -76,18 +102,21 @@ func From(r io.Reader) ([]byte, error) {
 	state.config = src // push the config to the state
 
 	for _, steps := range src.Pipelines.Default {
-		if steps.Parallel != nil {
-			// TODO parallel steps
-			// TODO fast fail
-		}
-		if steps.Step != nil {
-			state.step = steps.Step // push the step to the state
-			step := convertSteps(state)
-			spec.Steps = append(spec.Steps, step)
-		}
+		// if steps.Parallel != nil {
+		// 	// TODO parallel steps
+		// 	// TODO fast fail
+		// }
+		// if steps.Step != nil {
+		// 	state.step = steps.Step // push the step to the state
+		// 	step := convertSteps(state)
+		// 	spec.Steps = append(spec.Steps, step)
+		// }
 		if steps.Stage != nil {
 			// TODO stage
 			// TODO fast fail
+			state.stage = steps.Stage // push the stage to the state
+			stage := convertStage(state)
+			pipeline.Stages = append(pipeline.Stages, stage)
 		}
 	}
 

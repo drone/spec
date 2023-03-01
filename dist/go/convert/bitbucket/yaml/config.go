@@ -44,9 +44,9 @@ type (
 	}
 
 	Options struct {
-		Docker  bool   `yaml:"docker,omitempty"`
-		MaxTime int    `yaml:"max-time,omitempty"`
-		Size    string `yaml:"size,omitempty"` // 1x, 2x, 4x, 8x
+		Docker  bool `yaml:"docker,omitempty"`
+		MaxTime int  `yaml:"max-time,omitempty"`
+		Size    Size `yaml:"size,omitempty"`
 	}
 
 	Parallel struct {
@@ -98,7 +98,7 @@ type (
 		Script      []*Script     `yaml:"script"`
 		ScriptAfter []*Script     `yaml:"after-script,omitempty"`
 		Services    []string      `yaml:"services,omitempty"`
-		Size        string        `yaml:"size,omitempty"`    // 1x, 2x, 4x, 8x
+		Size        Size          `yaml:"size,omitempty"`
 		Trigger     string        `yaml:"trigger,omitempty"` // automatic, manual
 	}
 

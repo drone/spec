@@ -1,0 +1,26 @@
+stages:
+- name: build
+  spec:
+    steps:
+    - name: Build and test1
+      spec:
+        steps:
+        - name: Build and test
+          spec:
+            run: npm install
+          type: run
+        - name: Build and test0
+          spec:
+            run: npm run build
+          type: run
+      type: group
+    - name: lint code and store results
+      spec:
+        run: npm lint > results.txt
+      type: run
+    - name: Test code from build step stored in the dist/ directory
+      spec:
+        run: npm test
+      type: run
+  type: ci
+version: 1

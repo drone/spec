@@ -1,0 +1,16 @@
+title: Cache
+type: object
+description: Cache defines caching behavior.
+properties:
+  enabled:
+    description: Enabled enables cache intelligence.
+    type: boolean
+  paths:
+    description: Paths provides a list of paths to cache.
+    type: array
+    items:
+      type: string
+  key:
+    description: Key provides a caching key.
+    type: string
+

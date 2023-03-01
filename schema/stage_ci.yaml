@@ -1,4 +1,7 @@
 properties:
+  cache:
+    $ref: ./cache.yaml
+    description: Configures the cache behavior.
   clone:
     $ref: ./clone.yaml
     description: Configures the default clone behavior.

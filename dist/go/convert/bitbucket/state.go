@@ -23,10 +23,21 @@ import (
 type state struct {
 	config *bitbucket.Config
 	stage  *bitbucket.Stage
+	steps  *bitbucket.Steps
 	step   *bitbucket.Step
 	script *bitbucket.Script
 
 	names map[string]struct{}
+}
+
+// reset resets the converter.
+func (s *state) reset() {
+	s.config = nil
+	s.stage = nil
+	s.steps = nil
+	s.step = nil
+	s.script = nil
+	s.names = map[string]struct{}{}
 }
 
 func (s *state) generateName(name, kind string) string {

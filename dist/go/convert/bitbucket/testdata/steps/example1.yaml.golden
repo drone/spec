@@ -1,0 +1,10 @@
+stages:
+- name: build
+  spec:
+    steps:
+    - name: run
+      spec:
+        run: echo "Hello, World!"
+      type: run
+  type: ci
+version: 1

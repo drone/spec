@@ -1,0 +1,18 @@
+stages:
+- name: build
+  spec:
+    steps:
+    - name: Build and test
+      spec:
+        run: npm install
+      type: run
+    - name: Build and test0
+      spec:
+        run: npm test
+      type: run
+    - name: Build and test1
+      spec:
+        run: echo "after script has run!"
+      type: run
+  type: ci
+version: 1
