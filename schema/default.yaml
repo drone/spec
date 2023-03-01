@@ -19,3 +19,12 @@ properties:
     additionalProperties:
       type: string
     description: Provides the default environment variables.
+
+# 1. How do we know which default child is overridable at stage?
+# 2. How would trigger work in case repository is override at stage level? Last time we discussed this we decided to keep it only at pipeline level because of issues with trigger.
+# 3. UI look and feel for the clone and repository settings at stage level?
+# 3. Ref's - how we pass from the run modal and how are we going to override if we run via stage?
+# 4. InputSet's yaml example with default node ?
+# 5. Why repository have ref properties (branch, tag, pr etc) ? Shouldn't they be part of only clone field ?
+# 6. Does repository also have disabled option ? Or that will be controlled by the clone field ?
+# 7. Don't see strategy (source-branch/merge) and resources option under clone section. We support this currently.
