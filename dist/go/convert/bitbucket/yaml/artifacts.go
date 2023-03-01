@@ -14,9 +14,7 @@
 
 package yaml
 
-import (
-	"errors"
-)
+import "errors"
 
 type (
 	Artifacts struct {

@@ -565,6 +565,10 @@
         },
         "StageCI": {
             "properties": {
+                "cache": {
+                    "$ref": "#/definitions/Cache",
+                    "description": "Configures the cache behavior."
+                },
                 "clone": {
                     "$ref": "#/definitions/Clone",
                     "description": "Configures the default clone behavior."
@@ -603,6 +607,29 @@
             "type": "object",
             "title": "StageCI",
             "x-file": "stage_ci.yaml"
+        },
+        "Cache": {
+            "title": "Cache",
+            "type": "object",
+            "description": "Cache defines caching behavior.",
+            "properties": {
+                "enabled": {
+                    "description": "Enabled enables cache intelligence.",
+                    "type": "boolean"
+                },
+                "paths": {
+                    "description": "Paths provides a list of paths to cache.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "key": {
+                    "description": "Key provides a caching key.",
+                    "type": "string"
+                }
+            },
+            "x-file": "cache.yaml"
         },
         "Clone": {
             "title": "Clone",
@@ -1896,7 +1923,18 @@
                 },
                 "registry": {
                     "$ref": "#/definitions/Registry",
-                    "description": "Registry provides default registry credentials."
+                    "description": "Provides default registry credentials."
+                },
+                "resources": {
+                    "$ref": "#/definitions/Resources",
+                    "description": "Configures the default stage and step resources."
+                },
+                "envs": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Provides the default environment variables."
                 }
             },
             "x-file": "default.yaml"
@@ -1955,7 +1993,31 @@
                         }
                     ],
                     "registry": {
-                        "credentials": [
+                        "connector": "connector.dockerhub"
+                    }
+                },
+                {
+                    "version": 1,
+                    "stages": [
+                        {
+                            "name": "build",
+                            "type": "ci",
+                            "spec": {
+                                "steps": [
+                                    {
+                                        "name": "compile",
+                                        "type": "script",
+                                        "image": "golang",
+                                        "spec": {
+                                            "run": "go build"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "registry": {
+                        "connector": [
                             "connector.dockerhub",
                             "connector.gcr"
                         ]
@@ -1982,10 +2044,9 @@
                         }
                     ],
                     "registry": {
-                        "credentials": [
+                        "connector": [
                             {
-                                "name": "connector.dockerhub",
-                                "match": "docker.io"
+                                "name": "connector.dockerhub"
                             },
                             {
                                 "name": "connector.gcr",

@@ -1,23 +1,20 @@
-{
-    "definitions": {
-        "caches": {
-            "my-bundler-cache": "vendor/bundle"
-        }
-    },
-    "pipelines": {
-        "default": [
-            {
-                "step": {
-                    "caches": [
-                        "my-bundler-cache",
-                        "node"
-                    ],
-                    "script": [
-                        "bundle install --path vendor/bundle",
-                        "ruby -e 'print \"Hello, World\\n\"'"
-                    ]
-                }
-            }
-        ]
-    }
-}
+stages:
+- name: build
+  spec:
+    cache:
+      enabled: true
+      paths:
+      - vendor/bundle
+      - node
+      - node_modules
+    steps:
+    - name: run
+      spec:
+        run: bundle install --path vendor/bundle
+      type: run
+    - name: run0
+      spec:
+        run: ruby -e 'print "Hello, World\n"'
+      type: run
+  type: ci
+version: 1

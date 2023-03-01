@@ -17,7 +17,9 @@
 package yaml
 
 type Default struct {
-	Clone      *Clone      `json:"clone,omitempty"`
-	Repository *Repository `json:"repository,omitempty"`
-	Registry   *Registry   `json:"registry,omitempty"`
+	Clone      *Clone            `json:"clone,omitempty"`
+	Repository *Repository       `json:"repository,omitempty"`
+	Registry   *Registry         `json:"registry,omitempty"`
+	Resources  *Resources        `json:"resources,omitempty"`
+	Envs       map[string]string `json:"envs,omitempty"`
 }

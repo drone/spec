@@ -17,6 +17,7 @@
 package yaml
 
 type StageCI struct {
+	Cache      *Cache            `json:"cache,omitempty"`
 	Clone      *Clone            `json:"clone,omitempty"`
 	Repository *Repository       `json:"repository,omitempty"`
 	Delegate   *Delegate         `json:"delegate,omitempty"`

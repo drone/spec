@@ -31,6 +31,65 @@ func TestConvert(t *testing.T) {
 
 	// TODO use glob once we have more test cases complete
 	tests := []string{
+		"testdata/clone/example1.yaml",
+		"testdata/clone/example2.yaml",
+		"testdata/clone/example3.yaml", // TODO LFS
+		"testdata/clone/example4.yaml", // TODO convert BITBUCKET_ variables
+		"testdata/clone/example5.yaml",
+		"testdata/clone/example6.yaml",
+		"testdata/clone/example7.yaml",
+		"testdata/clone/example8.yaml", // TODO LFS
+		"testdata/clone/example9.yaml", // TODO LFS
+		"testdata/clone/example10.yaml",
+
+		// "testdata/definitions/example1.yaml", // TODO services
+		// "testdata/definitions/example2.yaml", // TODO handle non-default pipelines
+		"testdata/definitions/example3.yaml",
+		// "testdata/definitions/example4.yaml", // TODO services
+		// "testdata/definitions/example5.yaml", // TODO services
+		// "testdata/definitions/example6.yaml", // TODO services
+		// "testdata/definitions/example7.yaml", // TODO services
+		// "testdata/definitions/example8.yaml", // TODO services
+		"testdata/definitions/example9.yaml",
+
+		"testdata/global/example1.yaml", // TODO options.docker, options.max-time
+		"testdata/global/example2.yaml", // TODO options.docker
+		"testdata/global/example3.yaml",
+		// "testdata/global/example4.yaml", // TODO options.docker, options.max-time
+		"testdata/global/example5.yaml",
+
+		"testdata/image/example3.yaml",
+		// "testdata/image/example4.yaml", // username, password
+		"testdata/image/example5.yaml",
+		"testdata/image/example6.yaml",
+		// "testdata/image/example7.yaml", // services
+		// "testdata/image/example8.yaml", // username, password
+		// "testdata/image/example9.yaml", // username, password
+		// "testdata/image/example10.yaml", // username, password
+		// "testdata/image/example11.yaml", // username, password
+		// "testdata/image/example12.yaml", // services, username, password
+		"testdata/image/example13.yaml",
+		"testdata/image/example14.yaml",
+		// "testdata/image/example15.yaml", // services
+		// "testdata/image/example16.yaml", // aws
+		// "testdata/image/example17.yaml", // aws
+		// "testdata/image/example18.yaml", // aws
+		// "testdata/image/example19.yaml", // aws
+		// "testdata/image/example20.yaml", // aws, services
+
+		"testdata/parallel/example1.yaml",
+		"testdata/parallel/example2.yaml",
+		"testdata/parallel/example3.yaml", // TODO fail-fast
+		"testdata/parallel/example4.yaml", // TODO fail-fast
+
+		"testdata/stages/example1.yaml",
+		"testdata/stages/example2.yaml",
+		"testdata/stages/example3.yaml", // TODO changesets
+		"testdata/stages/example4.yaml", // TODO changesets
+		"testdata/stages/example5.yaml", // TODO deploy, trigger
+		"testdata/stages/example6.yaml",
+		"testdata/stages/example7.yaml", // TODO trigger
+
 		"testdata/steps/example1.yaml",
 		"testdata/steps/example2.yaml",
 		"testdata/steps/example3.yaml",
@@ -50,7 +109,7 @@ func TestConvert(t *testing.T) {
 		"testdata/steps/example17.yaml",
 		"testdata/steps/example18.yaml", // TODO artifacts
 		"testdata/steps/example19.yaml", // TODO artifacts
-		// "testdata/steps/example20.yaml", // TODO caches
+		"testdata/steps/example20.yaml",
 	}
 
 	for _, test := range tests {
@@ -93,7 +152,7 @@ func TestConvert(t *testing.T) {
 }
 
 // func TestDump(t *testing.T) {
-// 	out, err := FromFile("testdata/steps/example14.yaml")
+// 	out, err := FromFile("testdata/image/example14.yaml")
 // 	if err != nil {
 // 		t.Error(err)
 // 		return

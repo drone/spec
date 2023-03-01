@@ -114,6 +114,10 @@ func TestSize_Unmarshal(t *testing.T) {
 		},
 		{
 			want: SizeNone,
+			yaml: "99x\n", // ignore unknown values
+		},
+		{
+			want: SizeNone,
 			yaml: "\n",
 		},
 	}

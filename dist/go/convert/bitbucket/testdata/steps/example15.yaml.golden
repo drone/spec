@@ -3,8 +3,8 @@ stages:
   spec:
     delegate:
       selectors:
-      - self.hosted
       - my.custom.label
+      - self.hosted
     steps:
     - name: Step 1
       spec:

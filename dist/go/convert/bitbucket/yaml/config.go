@@ -39,7 +39,7 @@ type (
 	}
 
 	Definitions struct {
-		Caches   map[string]string   `yaml:"caches,omitempty"`
+		Caches   map[string]*Cache   `yaml:"caches,omitempty"`
 		Services map[string]*Service `yaml:"services,omitempty"`
 	}
 
