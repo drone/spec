@@ -17,12 +17,11 @@ package bitbucket
 import "testing"
 
 func TestConvert(t *testing.T) {
-	// out, err := FromFile("yaml/testdata/steps/example4.yaml")
-	// if err != nil {
-	// 	t.Error(err)
-	// 	return
-	// }
+	out, err := FromFile("yaml/testdata/steps/example4.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
 
-	// println(string(out))
-	// t.Fail()
+	t.Log(string(out))
 }

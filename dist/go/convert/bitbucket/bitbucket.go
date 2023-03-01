@@ -17,10 +17,8 @@ package bitbucket
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"os"
-	"strings"
 
 	harness "github.com/drone/spec/dist/go"
 	bitbucket "github.com/drone/spec/dist/go/convert/bitbucket/yaml"
@@ -31,125 +29,70 @@ import (
 // From converts the legacy drone yaml format to the
 // unified yaml format.
 func From(r io.Reader) ([]byte, error) {
+	// unmarshal the bitbucket yaml
 	src, err := bitbucket.Parse(r)
 	if err != nil {
 		return nil, err
 	}
 
-	// create the harness pipeline
-	dstPipeline := new(harness.Pipeline)
+	// TODO Clone
+	// TODO Caches
+	// TODO Artifacts
+	// TODO Services
+	// TODO Conditions
+	// TODO FastFail
+	// TODO Deployment
+	// TODO Trigger
 
-	dstStageSpec := &harness.StageCI{
-		// Delegate: convertNode(from.Node),
-		// Envs:     copyenv(from.Environment),
-		// Platform: convertPlatform(from.Platform),
-		// Runtime:  convertRuntime(from),
-		// Steps:    convertSteps(from),
+	// create the harness stage spec
+	spec := &harness.StageCI{
+		// TODO Clone
+		// TODO Repository
+		// TODO Delegate
+		// TODO Platform
+		// TODO Runtime
+		// TODO Envs
 	}
 
 	// create the harness stage.
-	dstStage := &harness.Stage{
+	stage := &harness.Stage{
 		Name: "build",
 		Type: "ci",
-		// When: convertCond(from.Trigger),
-		Spec: dstStageSpec,
+		Spec: spec,
+		// TODO When
+		// TODO On
 	}
 
-	// append the stage to the pipeline
-	dstPipeline.Stages = append(dstPipeline.Stages, dstStage)
+	// create the harness pipeline
+	pipeline := &harness.Pipeline{
+		Version: 1,
+		Stages:  []*harness.Stage{stage},
+		Default: convertDefault(src),
+	}
 
-	// unique map of names
-	names := map[string]struct{}{}
+	// create the converter state
+	state := new(state)
+	state.names = map[string]struct{}{}
+	state.config = src // push the config to the state
 
-	// iterage through named stages
-	for _, srcStep := range src.Pipelines.Default {
-
-		if srcStep.Step == nil {
-			continue // HACK skip non-script steps for now
+	for _, steps := range src.Pipelines.Default {
+		if steps.Parallel != nil {
+			// TODO parallel steps
+			// TODO fast fail
 		}
-
-		// iterate through jobs and find jobs assigned to
-		// the stage. skip other stages.
-		for _, scrScript := range srcStep.Step.Script {
-
-			if scrScript.Pipe != nil {
-				dstStepSpec := &harness.StepPlugin{
-					Image: strings.TrimPrefix("docker://", scrScript.Pipe.Image),
-				}
-
-				// append variables
-				dstStepSpec.With = map[string]interface{}{}
-				for key, val := range scrScript.Pipe.Variables {
-					dstStepSpec.With[key] = val
-				}
-
-				// create the step and cofigure its spec
-				dstStep := &harness.Step{
-					Type: "plugin",
-					Spec: dstStepSpec,
-				}
-
-				// create a temp name
-				name := srcStep.Step.Name
-				if name == "" {
-					if scrScript.Pipe.Name == "" {
-						name = "pipe"
-					}
-				}
-
-				// ensure the name is unique
-				for i := 0; ; i++ {
-					tmpname := name
-					if i > 0 {
-						tmpname = name + fmt.Sprint(i)
-					}
-					if _, ok := names[tmpname]; !ok {
-						names[tmpname] = struct{}{}
-						dstStep.Name = tmpname
-						break
-					}
-				}
-
-				// append the step to the stage.
-				dstStageSpec.Steps = append(dstStageSpec.Steps, dstStep)
-				continue
-			}
-
-			dstStepSpec := &harness.StepExec{
-				Run: scrScript.Text,
-			}
-
-			// create the step and cofigure its spec
-			dstStep := &harness.Step{
-				Type: "script",
-				Spec: dstStepSpec,
-			}
-
-			// create a temp name
-			name := srcStep.Step.Name
-			if name == "" {
-				name = "run"
-			}
-
-			// ensure the name is unique
-			for i := 0; ; i++ {
-				tmpname := name
-				if i > 0 {
-					tmpname = name + fmt.Sprint(i)
-				}
-				if _, ok := names[tmpname]; !ok {
-					names[tmpname] = struct{}{}
-					dstStep.Name = tmpname
-					break
-				}
-			}
-
-			// append the step to the stage.
-			dstStageSpec.Steps = append(dstStageSpec.Steps, dstStep)
+		if steps.Step != nil {
+			state.step = steps.Step // push the step to the state
+			step := convertSteps(state)
+			spec.Steps = append(spec.Steps, step)
+		}
+		if steps.Stage != nil {
+			// TODO stage
+			// TODO fast fail
 		}
 	}
 
-	out, err := yaml.Marshal(dstPipeline)
+	// marshal the harness yaml
+	out, err := yaml.Marshal(pipeline)
 	if err != nil {
 		return nil, err
 	}
