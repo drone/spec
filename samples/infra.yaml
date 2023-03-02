@@ -1,0 +1,60 @@
+version: 1
+name: example
+inputs:
+  type: boolean
+  description: a description
+  default: true
+  required: true
+  enum:
+    - true
+    - false
+
+clone:
+  depth: 50
+  disabled: false
+  insecure: false
+  trace: false
+  sha: <Ask Brad about this>
+  ref:
+    name: repo_name
+    type: branch <Ask Brad. Where would be here the branch name>
+
+repository:
+  branch: branch name
+  connector: connectorRef
+  name: repo name
+  pr/ref/sha/tag: i am guessing that this are values
+
+registry:
+  connector:
+    - connector.dockerhub
+    - connector.github
+
+resources:
+  cpu: 10m
+  memory: 1gb
+
+envs:
+  env1: value1
+  env2: value2
+
+stages:
+  - id: id
+    name: name
+    strategy: <I don't think that it makes sense to expand this one>
+    type: infra
+    spec:
+      clone:
+        <this expands, probably necessary to clone the repo>
+      delegate:
+        <this expands, probably not necessary as cloud>
+      platform:
+        <this expands, probably not necessary>
+      runtime:
+        <this expands, probably not necessary>
+      steps:
+        <steps>
+      envs:
+        <key-value envs>
+      workflow: provision/destroy <this is not currently I think that we need to propose this to be included>
+      stack: stackId123 <this is not currently i think that we need to propose this to be included>

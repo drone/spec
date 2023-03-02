@@ -4,18 +4,27 @@ properties:
     description: Configures the default clone behavior.
   delegate:
     $ref: ./delegate.yaml
-    description: Configures the delegate matching logic.
+    description: Configures the delegate matching logic. TODO: I don't think that we need this one
   platform:
     $ref: ./platform.yaml
-    description: Configures the target execution platform.
+    description: Configures the target execution platform. TODO: Do we need this one for the use of dlite?
   runtime:
     $ref: ./runtime.yaml
-    description: Configures the target runtime engine.
+    description: Configures the target runtime engine. TODO: Do we need this one for the use of dlite?
   steps:
-    description: Configures a series of steps to executes.
+    description: Configures a series of steps to executes. TODO: Do we need this one for the use of dlite?
     items:
-      $ref: ./step.yaml
+      $ref: ./step.yaml TODO: How this one works? It looks like it will import all the steps defined there. Should we have our own file with the steps that are specific for the infra module?
     type: array
+  stack:
+    description: Configures the stack id to be used in the pipeline execution.
+    type: string
+  workflow:
+    description: Configures the workflow to be used in the pipeline execution.
+    type: string
+    enum:
+      - provision
+      - teardown
   envs:
     type: object
     additionalProperties:
