@@ -42,27 +42,27 @@ func TestConvert(t *testing.T) {
 		"testdata/clone/example9.yaml", // TODO LFS
 		"testdata/clone/example10.yaml",
 
-		// "testdata/definitions/example1.yaml", // TODO services
+		"testdata/definitions/example1.yaml",
 		// "testdata/definitions/example2.yaml", // TODO handle non-default pipelines
 		"testdata/definitions/example3.yaml",
-		// "testdata/definitions/example4.yaml", // TODO services
-		// "testdata/definitions/example5.yaml", // TODO services
-		// "testdata/definitions/example6.yaml", // TODO services
-		// "testdata/definitions/example7.yaml", // TODO services
-		// "testdata/definitions/example8.yaml", // TODO services
+		"testdata/definitions/example4.yaml",
+		"testdata/definitions/example5.yaml",
+		"testdata/definitions/example6.yaml",
+		"testdata/definitions/example7.yaml",
+		"testdata/definitions/example8.yaml",
 		"testdata/definitions/example9.yaml",
 
-		"testdata/global/example1.yaml", // TODO options.docker, options.max-time
-		"testdata/global/example2.yaml", // TODO options.docker
+		"testdata/global/example1.yaml",
+		"testdata/global/example2.yaml",
 		"testdata/global/example3.yaml",
-		// "testdata/global/example4.yaml", // TODO options.docker, options.max-time
+		"testdata/global/example4.yaml",
 		"testdata/global/example5.yaml",
 
 		"testdata/image/example3.yaml",
 		// "testdata/image/example4.yaml", // username, password
 		"testdata/image/example5.yaml",
 		"testdata/image/example6.yaml",
-		// "testdata/image/example7.yaml", // services
+		"testdata/image/example7.yaml",
 		// "testdata/image/example8.yaml", // username, password
 		// "testdata/image/example9.yaml", // username, password
 		// "testdata/image/example10.yaml", // username, password
@@ -70,7 +70,7 @@ func TestConvert(t *testing.T) {
 		// "testdata/image/example12.yaml", // services, username, password
 		"testdata/image/example13.yaml",
 		"testdata/image/example14.yaml",
-		// "testdata/image/example15.yaml", // services
+		"testdata/image/example15.yaml",
 		// "testdata/image/example16.yaml", // aws
 		// "testdata/image/example17.yaml", // aws
 		// "testdata/image/example18.yaml", // aws
@@ -151,12 +151,12 @@ func TestConvert(t *testing.T) {
 	}
 }
 
-// func TestDump(t *testing.T) {
-// 	out, err := FromFile("testdata/image/example14.yaml")
-// 	if err != nil {
-// 		t.Error(err)
-// 		return
-// 	}
-// 	println(string(out))
-// 	t.Fail()
-// }
+func TestDump(t *testing.T) {
+	out, err := FromFile("testdata/image/example15.yaml")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	println(string(out))
+	t.Fail()
+}

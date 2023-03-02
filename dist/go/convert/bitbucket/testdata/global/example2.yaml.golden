@@ -9,6 +9,7 @@ stages:
         - "2375"
         - "2376"
         privileged: true
+        network: host
       type: background
     - name: Hello world example1
       spec:

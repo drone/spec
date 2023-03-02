@@ -16,9 +16,7 @@ package bitbucket
 
 import (
 	"fmt"
-	"sort"
 	"strings"
-	"time"
 
 	harness "github.com/drone/spec/dist/go"
 	bitbucket "github.com/drone/spec/dist/go/convert/bitbucket/yaml"
@@ -111,6 +109,12 @@ func convertStage(s *state) *harness.Stage {
 		spec.Delegate.Selectors = runson
 	}
 
+	// find the unique services used by this stage and
+	// setup the relevant background steps
+	if services := extractServices(s.stage); len(services) != 0 {
+		spec.Steps = append(spec.Steps, convertServices(s, services)...)
+	}
+
 	// create the harness stage.
 	stage := &harness.Stage{
 		Name: "build",
@@ -128,6 +132,7 @@ func convertStage(s *state) *harness.Stage {
 			Spec: &harness.StepBackground{
 				Image:      "docker:dind",
 				Ports:      []string{"2375", "2376"},
+				Network:    "host", // TODO host networking for cloud only
 				Privileged: true,
 			},
 		})
@@ -161,6 +166,69 @@ func convertStage(s *state) *harness.Stage {
 	}
 
 	return stage
+}
+
+func convertServices(s *state, services []string) []*harness.Step {
+	var steps []*harness.Step
+
+	// if no global services defined, exit
+	if s.config.Definitions == nil {
+		return nil
+	}
+
+	// iterate through services and create background steps
+	for _, name := range services {
+		// lookup the service and skip if not found,
+		// or if there is no image definition
+		service, ok := s.config.Definitions.Services[name]
+		if !ok {
+			continue
+		} else if service.Image == nil {
+			continue
+		}
+
+		spec := &harness.StepBackground{
+			Image:   service.Image.Name,
+			Envs:    service.Variables,
+			Network: "host", // TODO host netowrking for cloud only
+		}
+
+		// if the service is of type docker, we
+		// should open up the default docker ports
+		// and also run in privileged mode.
+		if service.Type == "docker" {
+			spec.Privileged = true
+			spec.Ports = []string{"2375", "2376"} // TODO can we remove this?
+			spec.Network = "host"                 // TODO host networking for Cloud only
+		}
+
+		// if the service specifies a uid then set the
+		// step user identifier.
+		if v := service.Image.RunAsUser; v != 0 {
+			spec.User = fmt.Sprint(v)
+		}
+
+		// if the service defines memory set the
+		// harness resource limit.
+		if v := service.Memory; v != 0 {
+			// memory in bitbucket is measured in megabytes
+			// so we need to convert to bytes.
+			spec.Resources = &harness.Resources{
+				Limits: &harness.Resource{
+					Memory: harness.MemStringorInt(v * 1000000),
+				},
+			}
+		}
+
+		step := &harness.Step{
+			Name: s.generateName(name, "service"),
+			Type: "background",
+			Spec: spec,
+		}
+
+		steps = append(steps, step)
+	}
+	return steps
 }
 
 // helper function converts a bitbucket parallel step
@@ -326,112 +394,6 @@ func convertPipeStep(s *state) *harness.Step {
 	}
 
 	return step
-}
-
-// helper function converts an integer of minutes
-// to a time duration string.
-func minuteToDurationString(v int64) string {
-	dur := time.Duration(v) * time.Minute
-	return fmt.Sprint(dur)
-}
-
-// helper function that returns a deep copy of all
-// stage steps, including parallel steps.
-func extractSteps(stage *bitbucket.Stage) []*bitbucket.Step {
-	var steps []*bitbucket.Step
-	// iterate through steps the he stage
-	for _, step := range stage.Steps {
-		if step.Step != nil {
-			steps = append(steps, step.Step)
-		}
-		// iterate through parallel steps
-		if step.Parallel != nil {
-			for _, step2 := range step.Parallel.Steps {
-				if step2.Step != nil {
-					steps = append(steps, step2.Step)
-				}
-			}
-		}
-	}
-	return steps
-}
-
-// helper function that returns a deep copy of all
-// stage steps, including parallel steps.
-func extractAllSteps(stages []*bitbucket.Steps) []*bitbucket.Step {
-	var steps []*bitbucket.Step
-	for _, stage := range stages {
-		if stage.Stage != nil {
-			steps = append(steps, extractSteps(stage.Stage)...)
-		}
-	}
-	return steps
-}
-
-func extractSize(opts *bitbucket.Options, stage *bitbucket.Stage) bitbucket.Size {
-	var size bitbucket.Size
-
-	// start with the global size, if set
-	if opts != nil {
-		size = opts.Size
-	}
-
-	// loop through the steps and if a step
-	// defines a size greater than the global
-	// size, us the step size instead.
-	for _, step := range extractSteps(stage) {
-		if step.Size > size {
-			size = step.Size
-		}
-	}
-	return size
-}
-
-func extractRunsOn(stage *bitbucket.Stage) []string {
-	set := map[string]struct{}{}
-
-	// loop through the steps and if a step
-	// defines a size greater than the global
-	// size, us the step size instead.
-	for _, step := range extractSteps(stage) {
-		for _, s := range step.RunsOn {
-			set[s] = struct{}{}
-		}
-	}
-
-	// convert the map to a slice.
-	var unique []string
-	for k := range set {
-		unique = append(unique, k)
-	}
-
-	// sort for deterministic unit testing
-	sort.Strings(unique)
-
-	return unique
-}
-
-func extractCache(stage *bitbucket.Stage) []string {
-	set := map[string]struct{}{}
-
-	// loop through the steps and if a step
-	// defines cache directories
-	for _, step := range extractSteps(stage) {
-		for _, s := range step.Caches {
-			set[s] = struct{}{}
-		}
-	}
-
-	// convert the map to a slice.
-	var unique []string
-	for k := range set {
-		unique = append(unique, k)
-	}
-
-	// sort for deterministic unit testing
-	sort.Strings(unique)
-
-	return unique
 }
 
 func convertClone(stage *bitbucket.Stage) *harness.Clone {

@@ -1,35 +1,23 @@
-{
-    "definitions": {
-        "caches": {
-            "bundler-packages": "vendor/bundle"
-        },
-        "services": {
-            "my-mariadb": {
-                "image": "mariadb:latest",
-                "variables": {
-                    "MARIADB_USER": "$MY_MARIADB_USER",
-                    "MARIADB_PASSWORD": "$MY_MARIADB_PASSWORD",
-                    "MARIADB_ROOT_PASSWORD": "$MARIADB_ADMIN_PASSWORD"
-                }
-            }
-        }
-    },
-    "pipelines": {
-        "default": [
-            {
-                "step": {
-                    "name": "Hello world example",
-                    "services": [
-                        "my-mariadb"
-                    ],
-                    "caches": [
-                        "bundler-packages"
-                    ],
-                    "script": [
-                        "ruby -e 'print \"Hello, World\\n\"'"
-                    ]
-                }
-            }
-        ]
-    }
-}
+stages:
+- name: build
+  spec:
+    cache:
+      enabled: true
+      paths:
+      - vendor/bundle
+    steps:
+    - name: my-mariadb
+      spec:
+        envs:
+          MARIADB_PASSWORD: $MY_MARIADB_PASSWORD
+          MARIADB_ROOT_PASSWORD: $MARIADB_ADMIN_PASSWORD
+          MARIADB_USER: $MY_MARIADB_USER
+        image: mariadb:latest
+        network: host
+      type: background
+    - name: Hello world example
+      spec:
+        run: ruby -e 'print "Hello, World\n"'
+      type: run
+  type: ci
+version: 1
