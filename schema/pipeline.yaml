@@ -33,7 +33,7 @@ properties:
 
   options:
     $ref: ./default.yaml
-    description: Default defines default configurations.
+    description: Options defines global configuration configurations.
 
 required:
   - version
