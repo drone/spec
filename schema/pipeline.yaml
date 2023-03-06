@@ -31,7 +31,7 @@ properties:
   #   additionalProperties: 
   #     type: object
 
-  default:
+  options:
     $ref: ./default.yaml
     description: Default defines default configurations.
 
