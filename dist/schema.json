@@ -30,9 +30,9 @@
                         "$ref": "#/definitions/Input"
                     }
                 },
-                "default": {
+                "options": {
                     "$ref": "#/definitions/Default",
-                    "description": "Default defines default configurations."
+                    "description": "Options defines global configuration options."
                 }
             },
             "required": [
@@ -570,12 +570,8 @@
                     "description": "Configures the cache behavior."
                 },
                 "clone": {
-                    "$ref": "#/definitions/Clone",
-                    "description": "Configures the default clone behavior."
-                },
-                "repository": {
-                    "$ref": "#/definitions/Repository",
-                    "description": "Configures the remote repository."
+                    "$ref": "#/definitions/CloneStage",
+                    "description": "Overrides the clone behavior."
                 },
                 "delegate": {
                     "$ref": "#/definitions/Delegate",
@@ -631,94 +627,17 @@
             },
             "x-file": "cache.yaml"
         },
-        "Clone": {
-            "title": "Clone",
+        "CloneStage": {
+            "title": "CloneStage",
             "type": "object",
-            "description": "Clone defines the default clone behavior.",
+            "description": "Clone defines the stage clone behavior.",
             "properties": {
-                "depth": {
-                    "description": "Depth defines the clone depth.",
-                    "type": "number"
-                },
                 "disabled": {
                     "description": "Disabled disables the default clone step.",
                     "type": "boolean"
-                },
-                "insecure": {
-                    "description": "Insecure disables ssl verification.",
-                    "type": "boolean"
-                },
-                "trace": {
-                    "description": "Trace enables trace logging.",
-                    "type": "boolean"
-                },
-                "ref": {
-                    "$ref": "#/definitions/Reference",
-                    "description": "Reference defines the clone ref."
-                },
-                "sha": {
-                    "description": "Sha provides the clone sha.",
-                    "type": "string"
                 }
             },
-            "x-file": "clone.yaml"
-        },
-        "Reference": {
-            "title": "Reference",
-            "description": "Reference defines a git clone reference.",
-            "type": "object",
-            "properties": {
-                "name": {
-                    "description": "Name provides ref name.",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "Type defines the ref type.",
-                    "type": "string",
-                    "enum": [
-                        "branch",
-                        "tag",
-                        "pr"
-                    ]
-                }
-            },
-            "x-file": "reference.yaml"
-        },
-        "Repository": {
-            "title": "Repository",
-            "description": "Repository defines a remote git repository.",
-            "type": "object",
-            "properties": {
-                "branch": {
-                    "description": "Branch provides repository branch.",
-                    "type": "string"
-                },
-                "connector": {
-                    "description": "Connector provides the repository connector.",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "Name provides the repository name.",
-                    "type": "string"
-                },
-                "pr": {
-                    "description": "PR provides the repository pull request.",
-                    "type": "number"
-                },
-                "ref": {
-                    "description": "Ref provides the repository reference.",
-                    "type": "string"
-                },
-                "sha": {
-                    "description": "Sha provides the repository commit sha.",
-                    "type": "string"
-                },
-                "tag": {
-                    "description": "Tag provides the repository tag.",
-                    "type": "string"
-                }
-            },
-            "x-file": "repository.yaml"
+            "x-file": "clone_stage.yaml"
         },
         "Delegate": {
             "title": "Delegate",
@@ -1812,6 +1731,67 @@
             "title": "StageInfra",
             "x-file": "stage_infra.yaml"
         },
+        "Clone": {
+            "title": "Clone",
+            "type": "object",
+            "description": "Clone defines the default clone behavior.",
+            "properties": {
+                "depth": {
+                    "description": "Depth defines the clone depth.",
+                    "type": "number"
+                },
+                "disabled": {
+                    "description": "Disabled disables the default clone step.",
+                    "type": "boolean"
+                },
+                "insecure": {
+                    "description": "Insecure disables ssl verification.",
+                    "type": "boolean"
+                },
+                "strategy": {
+                    "description": "Strategy configures the clone strategy.",
+                    "type": "string",
+                    "enum": [
+                        "source-branch",
+                        "merge"
+                    ]
+                },
+                "trace": {
+                    "description": "Trace enables trace logging.",
+                    "type": "boolean"
+                },
+                "ref": {
+                    "$ref": "#/definitions/Reference",
+                    "description": "Reference defines the clone ref."
+                }
+            },
+            "x-file": "clone.yaml"
+        },
+        "Reference": {
+            "title": "Reference",
+            "description": "Reference defines a git clone reference.",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "Name provides ref name.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Type defines the ref type.",
+                    "type": "string",
+                    "enum": [
+                        "branch",
+                        "tag",
+                        "pr"
+                    ]
+                },
+                "sha": {
+                    "description": "Sha provides the ref sha.",
+                    "type": "string"
+                }
+            },
+            "x-file": "reference.yaml"
+        },
         "StageFlag": {
             "properties": {
                 "delegate": {
@@ -1938,6 +1918,22 @@
                 }
             },
             "x-file": "default.yaml"
+        },
+        "Repository": {
+            "title": "Repository",
+            "description": "Repository defines a remote git repository.",
+            "type": "object",
+            "properties": {
+                "connector": {
+                    "description": "Connector provides the repository connector.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Name provides the repository name.",
+                    "type": "string"
+                }
+            },
+            "x-file": "repository.yaml"
         },
         "Registry": {
             "title": "Registry",
