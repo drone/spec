@@ -12,3 +12,6 @@ properties:
       - branch
       - tag
       - pr
+  sha:
+    description: Sha provides the ref sha.
+    type: string
