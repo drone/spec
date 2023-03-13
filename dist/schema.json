@@ -598,6 +598,13 @@
                         "type": "string"
                     },
                     "description": "The stage environment variables."
+                },
+                "volumes": {
+                    "description": "Configures a container volumes.",
+                    "items": {
+                        "$ref": "#/definitions/Volume"
+                    },
+                    "type": "array"
                 }
             },
             "type": "object",
@@ -1628,6 +1635,167 @@
             },
             "x-file": "step_jenkins.yaml"
         },
+        "Volume": {
+            "title": "Volume",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "claim",
+                        "config-map",
+                        "temp",
+                        "host"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ],
+            "oneOf": [
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "type": {
+                                    "const": "host"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/VolumeHost"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "type": {
+                                    "const": "claim"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/VolumeClaim"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "type": {
+                                    "const": "temp"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/VolumeTemp"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "type": {
+                                    "const": "config-map"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/VolumeConfigMap"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ],
+            "x-file": "volume.yaml"
+        },
+        "VolumeHost": {
+            "title": "VolumeHost",
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "path"
+            ],
+            "x-file": "volume_host.yaml"
+        },
+        "VolumeClaim": {
+            "title": "VolumeClaim",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "x-file": "volume_claim.yaml"
+        },
+        "VolumeTemp": {
+            "title": "VolumeTemp",
+            "type": "object",
+            "properties": {
+                "medium": {
+                    "type": "string",
+                    "enum": [
+                        "memory"
+                    ]
+                },
+                "limit": {
+                    "type": [
+                        "string",
+                        "number"
+                    ]
+                }
+            },
+            "x-file": "volume_temp.yaml"
+        },
+        "VolumeConfigMap": {
+            "title": "VolumeConfigMap",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "mode": {
+                    "type": "string"
+                },
+                "optional": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "x-file": "volume_config.yaml"
+        },
         "StageCD": {
             "properties": {
                 "delegate": {
@@ -1964,6 +2132,19 @@
                             "$ref": "#/definitions/RegistryConnector"
                         }
                     ]
+                },
+                "mirror": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ]
                 }
             },
             "x-go-skip": true,
@@ -1988,8 +2169,10 @@
                             }
                         }
                     ],
-                    "registry": {
-                        "connector": "connector.dockerhub"
+                    "options": {
+                        "registry": {
+                            "connector": "connector.dockerhub"
+                        }
                     }
                 },
                 {
@@ -2012,11 +2195,13 @@
                             }
                         }
                     ],
-                    "registry": {
-                        "connector": [
-                            "connector.dockerhub",
-                            "connector.gcr"
-                        ]
+                    "options": {
+                        "registry": {
+                            "connector": [
+                                "connector.dockerhub",
+                                "connector.gcr"
+                            ]
+                        }
                     }
                 },
                 {
@@ -2039,16 +2224,73 @@
                             }
                         }
                     ],
-                    "registry": {
-                        "connector": [
-                            {
-                                "name": "connector.dockerhub"
-                            },
-                            {
-                                "name": "connector.gcr",
-                                "match": "us.gcr.io"
+                    "options": {
+                        "registry": {
+                            "connector": [
+                                {
+                                    "name": "connector.dockerhub"
+                                },
+                                {
+                                    "name": "connector.gcr",
+                                    "match": "us.gcr.io"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "version": 1,
+                    "stages": [
+                        {
+                            "name": "build",
+                            "type": "ci",
+                            "spec": {
+                                "steps": [
+                                    {
+                                        "name": "compile",
+                                        "type": "script",
+                                        "image": "us.gcr.io/account/project/golang:latest",
+                                        "spec": {
+                                            "run": "go build"
+                                        }
+                                    }
+                                ]
                             }
-                        ]
+                        }
+                    ],
+                    "options": {
+                        "registry": {
+                            "mirror": "mirror.gcr.io"
+                        }
+                    }
+                },
+                {
+                    "version": 1,
+                    "stages": [
+                        {
+                            "name": "build",
+                            "type": "ci",
+                            "spec": {
+                                "steps": [
+                                    {
+                                        "name": "compile",
+                                        "type": "script",
+                                        "image": "us.gcr.io/account/project/golang:latest",
+                                        "spec": {
+                                            "run": "go build"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "options": {
+                        "registry": {
+                            "mirror": [
+                                "mirror.gcr.io",
+                                "mirror.harness.io"
+                            ]
+                        }
                     }
                 }
             ],

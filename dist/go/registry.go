@@ -22,6 +22,7 @@ import (
 // Registry provides container registry details.
 type Registry struct {
 	Connector []*RegistryConnector `json:"connector,omitempty"`
+	Mirror    Stringorslice        `json:"mirror,omitempty"`
 }
 
 // UnmarshalJSON implement the json.Unmarshaler interface.

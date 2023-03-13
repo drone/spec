@@ -30,6 +30,11 @@ properties:
     additionalProperties:
       type: string
     description: The stage environment variables.
+  volumes:
+    description: Configures a container volumes.
+    items:
+      $ref: ./volume.yaml
+    type: array
 
 type: object
 title: StageCI
