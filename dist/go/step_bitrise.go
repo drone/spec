@@ -17,7 +17,8 @@
 package yaml
 
 type StepBitrise struct {
-	Uses string                 `json:"uses,omitempty"`
-	With map[string]interface{} `json:"with,omitempty"`
-	Envs map[string]string      `json:"envs,omitempty"`
+	Uses    string                 `json:"uses,omitempty"`
+	With    map[string]interface{} `json:"with,omitempty"`
+	Envs    map[string]string      `json:"envs,omitempty"`
+	Volumes []*Mount               `json:"volumes,omitempty"`
 }
