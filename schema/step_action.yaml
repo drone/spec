@@ -21,7 +21,7 @@ properties:
   #   type: string
   # resources:
   #   $ref: ./resources.yaml
-  volumes:
+  mount:
     type: array
     items:
       $ref: ./mount.yaml

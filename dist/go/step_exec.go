@@ -31,5 +31,5 @@ type StepExec struct {
 	Network    string            `json:"network,omitempty"`
 	Reports    []*Report         `json:"reports,omitempty"`
 	Resources  *Resources        `json:"resources,omitempty"`
-	Volumes    []*Mount          `json:"volumes,omitempty"`
+	Mount      []*Mount          `json:"mount,omitempty"`
 }

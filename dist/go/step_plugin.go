@@ -29,5 +29,5 @@ type StepPlugin struct {
 	Network    string                 `json:"network,omitempty"`
 	With       map[string]interface{} `json:"with,omitempty"`
 	Resources  *Resources             `json:"resources,omitempty"`
-	Volumes    []*Mount               `json:"volumes,omitempty"`
+	Mount      []*Mount               `json:"mount,omitempty"`
 }

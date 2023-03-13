@@ -42,7 +42,7 @@ properties:
     type: boolean
   resources:
     $ref: ./resources.yaml
-  volumes:
+  mount:
     type: array
     items:
       $ref: ./mount.yaml

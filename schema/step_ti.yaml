@@ -17,6 +17,10 @@ properties:
     type: array
     items:
       $ref: ./report.yaml
+  mount:
+    type: array
+    items:
+      $ref: ./mount.yaml
   # outputs:
   #   type: array
   #   items:

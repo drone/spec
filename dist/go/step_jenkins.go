@@ -21,5 +21,5 @@ type StepJenkins struct {
 	Path    string            `json:"path,omitempty"`
 	Mirror  string            `json:"mirror,omitempty"`
 	Plugins []string          `json:"plugins,omitempty"`
-	Volumes []*Mount          `json:"volumes,omitempty"`
+	Mount   []*Mount          `json:"mount,omitempty"`
 }

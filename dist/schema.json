@@ -1198,7 +1198,7 @@
                     },
                     "description": "The stage environment variables."
                 },
-                "volumes": {
+                "mount": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Mount"
@@ -1284,7 +1284,7 @@
                 "resources": {
                     "$ref": "#/definitions/Resources"
                 },
-                "volumes": {
+                "mount": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Mount"
@@ -1310,7 +1310,7 @@
                     },
                     "description": "The stage environment variables."
                 },
-                "volumes": {
+                "mount": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Mount"
@@ -1387,7 +1387,7 @@
                 "resources": {
                     "$ref": "#/definitions/Resources"
                 },
-                "volumes": {
+                "mount": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Mount"
@@ -1455,6 +1455,12 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Report"
+                    }
+                },
+                "mount": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Mount"
                     }
                 },
                 "image": {
@@ -1592,7 +1598,7 @@
                 "resources": {
                     "$ref": "#/definitions/Resources"
                 },
-                "volumes": {
+                "mount": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Mount"
@@ -1644,7 +1650,7 @@
                         "type": "string"
                     }
                 },
-                "volumes": {
+                "mount": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Mount"
