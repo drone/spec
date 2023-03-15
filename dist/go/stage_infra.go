@@ -18,7 +18,6 @@ package yaml
 
 type StageInfra struct {
 	Clone    *Clone            `json:"clone,omitempty"`
-	Delegate *Delegate         `json:"delegate,omitempty"`
 	Platform *Platform         `json:"platform,omitempty"`
 	Runtime  *Runtime          `json:"runtime,omitempty"`
 	Steps    []*Step           `json:"steps,omitempty"`

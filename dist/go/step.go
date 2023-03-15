@@ -51,6 +51,8 @@ func (v *Step) UnmarshalJSON(data []byte) error {
 		v.Spec = new(StepAction)
 	case "background":
 		v.Spec = new(StepBackground)
+	case "barrier":
+		v.Spec = new(StepBarrier)
 	case "bitrise":
 		v.Spec = new(StepBitrise)
 	case "script":

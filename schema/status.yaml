@@ -2,7 +2,16 @@ title: Status
 type: object
 
 properties:
-  name:
+  level:
     type: string
+    enum:
+    - pipeline
+    - stage
+    - step
+  matrix:
+    type: string
+    enum:
+    - itemize
+    - summarize
   disabled:
     type: boolean

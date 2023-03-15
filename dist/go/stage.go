@@ -26,6 +26,7 @@ type Stage struct {
 	Id       string      `json:"id,omitempty"`
 	Name     string      `json:"name,omitempty"`
 	Strategy *Strategy   `json:"strategy,omitempty"`
+	Delegate *Delegate   `json:"delegate,omitempty"`
 	Type     string      `json:"type,omitempty"`
 	When     *When       `json:"when,omitempty"`
 	On       *On         `json:"on,omitempty"`

@@ -2,9 +2,6 @@ properties:
   clone:
     $ref: ./clone.yaml
     description: Configures the default clone behavior.
-  delegate:
-    $ref: ./delegate.yaml
-    description: Configures the delegate matching logic.
   platform:
     $ref: ./platform.yaml
     description: Configures the target execution platform.

@@ -33,6 +33,6 @@ stages:
           with:
             baz: qux
 
-default:
+options:
   registry:
     connector: account.docker

@@ -18,6 +18,7 @@ properties:
     enum:
       - action
       - background
+      - barrier
       - bitrise
       - script
       - group
@@ -56,6 +57,13 @@ oneOf:
   - properties:
       spec:
         $ref: ./step_background.yaml
+- allOf:
+  - properties:
+      type:
+        const: barrier
+  - properties:
+      spec:
+        $ref: ./step_barrier.yaml
 - allOf:
   - properties:
       type:

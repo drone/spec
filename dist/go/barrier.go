@@ -16,9 +16,8 @@
 
 package yaml
 
-type StageFlag struct {
-	Platform *Platform         `json:"platform,omitempty"`
-	Runtime  *Runtime          `json:"runtime,omitempty"`
-	Steps    []*Step           `json:"steps,omitempty"`
-	Envs     map[string]string `json:"envs,omitempty"`
+// Barrier defines a pipeline barrier.
+type Barrier struct {
+	Id   string `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
 }

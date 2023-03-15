@@ -21,5 +21,7 @@ type Default struct {
 	Repository *Repository       `json:"repository,omitempty"`
 	Registry   *Registry         `json:"registry,omitempty"`
 	Resources  *Resources        `json:"resources,omitempty"`
+	Delegate   *Delegate         `json:"delegate,omitempty"`
+	Barriers   []*Barrier        `json:"barriers,omitempty"`
 	Envs       map[string]string `json:"envs,omitempty"`
 }

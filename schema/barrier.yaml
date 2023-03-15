@@ -1,0 +1,9 @@
+title: Barrier
+type: object
+description: Barrier defines a pipeline barrier.
+properties:
+  id:
+    type: string
+  name:
+    type: string
+

@@ -84,6 +84,10 @@
                     "$ref": "#/definitions/Strategy",
                     "description": "The stage execution strategy."
                 },
+                "delegate": {
+                    "$ref": "#/definitions/Delegate",
+                    "description": "Configures the delegate matching logic."
+                },
                 "type": {
                     "description": "The stage type.",
                     "enum": [
@@ -371,6 +375,21 @@
             },
             "x-file": "strategy_while.yaml"
         },
+        "Delegate": {
+            "title": "Delegate",
+            "type": "object",
+            "description": "Delegate defines the delegate matching logic.",
+            "properties": {
+                "selectors": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "Selectors defines tags that are used to match the stage\nwith a delegate.\n"
+                }
+            },
+            "x-file": "delegate.yaml"
+        },
         "When": {
             "title": "When",
             "oneOf": [
@@ -573,10 +592,6 @@
                     "$ref": "#/definitions/CloneStage",
                     "description": "Overrides the clone behavior."
                 },
-                "delegate": {
-                    "$ref": "#/definitions/Delegate",
-                    "description": "Configures the delegate matching logic."
-                },
                 "platform": {
                     "$ref": "#/definitions/Platform",
                     "description": "Configures the target execution platform."
@@ -645,21 +660,6 @@
                 }
             },
             "x-file": "clone_stage.yaml"
-        },
-        "Delegate": {
-            "title": "Delegate",
-            "type": "object",
-            "description": "Delegate defines the delegate matching logic.",
-            "properties": {
-                "selectors": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array",
-                    "description": "Selectors defines tags that are used to match the stage\nwith a delegate.\n"
-                }
-            },
-            "x-file": "delegate.yaml"
         },
         "Platform": {
             "title": "Platform",
@@ -972,6 +972,7 @@
                     "enum": [
                         "action",
                         "background",
+                        "barrier",
                         "bitrise",
                         "script",
                         "group",
@@ -1029,6 +1030,24 @@
                             "properties": {
                                 "spec": {
                                     "$ref": "#/definitions/StepBackground"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "type": {
+                                    "const": "barrier"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/StepBarrier"
                                 }
                             }
                         }
@@ -1292,6 +1311,16 @@
                 }
             },
             "x-file": "step_background.yaml"
+        },
+        "StepBarrier": {
+            "title": "StepBarrier",
+            "type": "object",
+            "properties": {
+                "ref": {
+                    "type": "string"
+                }
+            },
+            "x-file": "step_barrier.yaml"
         },
         "StepBitrise": {
             "title": "StepBitrise",
@@ -1822,10 +1851,6 @@
         },
         "StageCD": {
             "properties": {
-                "delegate": {
-                    "$ref": "#/definitions/Delegate",
-                    "description": "Configures the delegate matching logic."
-                },
                 "platform": {
                     "$ref": "#/definitions/Platform",
                     "description": "Configures the target execution platform."
@@ -1855,10 +1880,6 @@
         },
         "StageCustom": {
             "properties": {
-                "delegate": {
-                    "$ref": "#/definitions/Delegate",
-                    "description": "Configures the delegate matching logic."
-                },
                 "platform": {
                     "$ref": "#/definitions/Platform",
                     "description": "Configures the target execution platform."
@@ -1891,10 +1912,6 @@
                 "clone": {
                     "$ref": "#/definitions/Clone",
                     "description": "Configures the default clone behavior."
-                },
-                "delegate": {
-                    "$ref": "#/definitions/Delegate",
-                    "description": "Configures the delegate matching logic."
                 },
                 "platform": {
                     "$ref": "#/definitions/Platform",
@@ -1986,10 +2003,6 @@
         },
         "StageFlag": {
             "properties": {
-                "delegate": {
-                    "$ref": "#/definitions/Delegate",
-                    "description": "Configures the delegate matching logic."
-                },
                 "platform": {
                     "$ref": "#/definitions/Platform",
                     "description": "Configures the target execution platform."
@@ -2100,6 +2113,16 @@
                 "resources": {
                     "$ref": "#/definitions/Resources",
                     "description": "Configures the default stage and step resources."
+                },
+                "delegate": {
+                    "$ref": "#/definitions/Delegate",
+                    "description": "Configures the default delegate matching logic."
+                },
+                "barriers": {
+                    "items": {
+                        "$ref": "#/definitions/Barrier"
+                    },
+                    "type": "array"
                 },
                 "envs": {
                     "type": "object",
@@ -2336,6 +2359,20 @@
             },
             "x-go-skip": true,
             "x-file": "registry_conn.yaml"
+        },
+        "Barrier": {
+            "title": "Barrier",
+            "type": "object",
+            "description": "Barrier defines a pipeline barrier.",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "x-file": "barrier.yaml"
         }
     },
     "oneOf": [

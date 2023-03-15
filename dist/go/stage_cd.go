@@ -17,7 +17,6 @@
 package yaml
 
 type StageCD struct {
-	Delegate *Delegate         `json:"delegate,omitempty"`
 	Platform *Platform         `json:"platform,omitempty"`
 	Runtime  *Runtime          `json:"runtime,omitempty"`
 	Steps    []*Step           `json:"steps,omitempty"`

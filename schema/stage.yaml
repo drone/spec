@@ -14,6 +14,9 @@ properties:
   strategy:
     $ref: ./strategy.yaml
     description: The stage execution strategy.
+  delegate:
+    $ref: ./delegate.yaml
+    description: Configures the delegate matching logic.
   # status:
   #   $ref: ./status.yaml
   #   description: The scm status settings.
