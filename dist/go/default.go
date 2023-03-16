@@ -23,5 +23,6 @@ type Default struct {
 	Resources  *Resources        `json:"resources,omitempty"`
 	Delegate   *Delegate         `json:"delegate,omitempty"`
 	Barriers   []*Barrier        `json:"barriers,omitempty"`
+	Timeout    string            `json:"timeout,omitempty"`
 	Envs       map[string]string `json:"envs,omitempty"`
 }
