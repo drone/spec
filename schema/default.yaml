@@ -21,6 +21,9 @@ properties:
     items:
       $ref: ./barrier.yaml
     type: array
+  timeout:
+    type: string
+    description: Configures the pipeline timeout.
   envs:
     type: object
     additionalProperties:
