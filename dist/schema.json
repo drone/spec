@@ -979,7 +979,8 @@
                         "parallel",
                         "plugin",
                         "jenkins",
-                        "template"
+                        "template",
+                        "test"
                     ]
                 },
                 "timeout": {
@@ -2123,6 +2124,10 @@
                         "$ref": "#/definitions/Barrier"
                     },
                     "type": "array"
+                },
+                "timeout": {
+                    "type": "string",
+                    "description": "Configures the pipeline timeout."
                 },
                 "envs": {
                     "type": "object",
