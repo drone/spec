@@ -1,0 +1,33 @@
+---
+title: {{name}}
+description: Harness yaml reference - {{desc}}
+---
+
+# {{name}}
+
+{{desc}}
+
+## Properties
+<!-- properties / start -->
+{{#each props}}
+__{{name}}__ _{{type}}_
+: {{desc}}
+
+{{#each enum}}
+{{this}}
+{{/each}}
+
+{{/each}}
+<!-- properties / end -->
+
+## Examples
+
+<!-- examples / start -->
+{{#each examples}}
+```yaml
+{{ this }}
+```
+
+{{/each}}
+<!-- examples / end -->
+

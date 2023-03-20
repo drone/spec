@@ -710,6 +710,19 @@
                     "type": "string"
                 }
             },
+            "examples": [
+                {
+                    "platform": {
+                        "os": "linux"
+                    }
+                },
+                {
+                    "platform": {
+                        "os": "linux",
+                        "arch": "amd64"
+                    }
+                }
+            ],
             "x-file": "platform.yaml"
         },
         "Arch": {

@@ -13,4 +13,14 @@ properties:
   key:
     description: Key provides a caching key.
     type: string
-
+  policy:
+    type: string
+    description: |
+      Policy configures the pull and push behavior of the cache.
+      By default, the stage pulls the cache when the stage starts
+      and pushes changes to the cache when the stage ends.
+    default: pull-push
+    enum:
+    - pull
+    - pull-push
+    - push

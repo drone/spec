@@ -36,3 +36,5 @@ stages:
 options:
   registry:
     connector: account.docker
+    mirror:
+    - https://mirror.gcr.io

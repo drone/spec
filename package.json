@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "bundle": "node scripts/bundle.js",
-    "generate": "node scripts/generate.js"
+    "generate": "node scripts/generate.js",
+    "document": "node scripts/document.js"
   },
   "author": "",
   "license": "ISC",

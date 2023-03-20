@@ -1,9 +1,0 @@
-image:
-  name: my/bash:latest
-  run-as-user: 1000
-
-pipelines:
-  default:
-    - step:
-        script:
-          - echo "Hello, World!"

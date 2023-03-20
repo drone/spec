@@ -139,7 +139,9 @@ function isString(node) {
  * string array.
  */
 function isStringArray(node) {
-    return node.type === "array" &&
+    return node &&
+        node.type === "array" &&
+        node.items &&
         node.items.type &&
         node.items.type === "string";
 }
@@ -216,7 +218,7 @@ function isRef(node) {
  * array of references to other types.
  */
 function isRefSlice(node) {
-    return isArray(node) && node.items.$ref;
+    return isArray(node) && node.items && node.items.$ref;
 }
 
 /**
