@@ -645,8 +645,42 @@
                 "key": {
                     "description": "Key provides a caching key.",
                     "type": "string"
+                },
+                "policy": {
+                    "type": "string",
+                    "description": "Policy configures the pull and push behavior of the cache.\nBy default, the stage pulls the cache when the stage starts\nand pushes changes to the cache when the stage ends.\n",
+                    "default": "pull-push",
+                    "enum": [
+                        "pull",
+                        "pull-push",
+                        "push"
+                    ]
                 }
             },
+            "examples": [
+                {
+                    "cache": {
+                        "enabled": true
+                    }
+                },
+                {
+                    "cache": {
+                        "enabled": true,
+                        "paths": [
+                            "node_modules"
+                        ]
+                    }
+                },
+                {
+                    "cache": {
+                        "enabled": true,
+                        "paths": [
+                            "node_modules"
+                        ],
+                        "policy": "pull"
+                    }
+                }
+            ],
             "x-file": "cache.yaml"
         },
         "CloneStage": {

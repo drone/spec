@@ -27,35 +27,11 @@ x-go-skip: true
 # credential usage.
 examples:
   # example global registry credential (one)
-  - version: 1
-    stages:
-      - name: build
-        type: ci
-        spec:
-          steps:
-            - name: compile
-              type: script
-              image: golang
-              spec:
-                run: go build
-    options:
-      registry:
-        connector: connector.dockerhub
+  - registry:
+      connector: connector.dockerhub
 
   # example global registry credentials (multiple)
-  - version: 1
-    stages:
-      - name: build
-        type: ci
-        spec:
-          steps:
-            - name: compile
-              type: script
-              image: golang
-              spec:
-                run: go build
-    options:
-      registry:
+  - registry:
         connector:
         - connector.dockerhub
         - connector.gcr
@@ -63,54 +39,18 @@ examples:
   # example global registry credentials when
   # we need to help the system match the connector
   # with the correct registry domain name.
-  - version: 1
-    stages:
-      - name: build
-        type: ci
-        spec:
-          steps:
-            - name: compile
-              type: script
-              image: us.gcr.io/account/project/golang:latest
-              spec:
-                run: go build
-    options:
-      registry:
-        connector:
-        - name: connector.dockerhub
-        - name: connector.gcr
-          match: us.gcr.io
+  - registry:
+      connector:
+      - name: connector.dockerhub
+      - name: connector.gcr
+        match: us.gcr.io
 
   # example global registry mirror
-  - version: 1
-    stages:
-      - name: build
-        type: ci
-        spec:
-          steps:
-            - name: compile
-              type: script
-              image: us.gcr.io/account/project/golang:latest
-              spec:
-                run: go build
-    options:
-      registry:
-        mirror: mirror.gcr.io
+  - registry:
+      mirror: mirror.gcr.io
 
   # example global registry mirrors
-  - version: 1
-    stages:
-      - name: build
-        type: ci
-        spec:
-          steps:
-            - name: compile
-              type: script
-              image: us.gcr.io/account/project/golang:latest
-              spec:
-                run: go build
-    options:
-      registry:
-        mirror:
-        - mirror.gcr.io
-        - mirror.harness.io
+  - registry:
+      mirror:
+      - mirror.gcr.io
+      - mirror.harness.io
