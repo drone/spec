@@ -463,9 +463,38 @@
                     "type": "string",
                     "enum": [
                         "abort",
+                        "ignore",
                         "manual-intervention",
                         "retry"
                     ]
+                },
+                "errors": {
+                    "description": "Errors specifies the types of errors.",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "all",
+                            "approval-rejection",
+                            "authentication",
+                            "authorization",
+                            "connectivity",
+                            "delegate-provioning",
+                            "delegate-restart",
+                            "input-timeout",
+                            "policy-evaluation",
+                            "timeout",
+                            "unknown",
+                            "verification"
+                        ]
+                    }
+                },
+                "exit_codes": {
+                    "description": "Exit Codes specifies the exit codes.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             },
             "oneOf": [
@@ -482,6 +511,24 @@
                             "properties": {
                                 "spec": {
                                     "$ref": "#/definitions/Abort"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "type": {
+                                    "const": "ignore"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/Ignore"
                                 }
                             }
                         }
@@ -531,6 +578,12 @@
             "type": "object",
             "properties": {},
             "x-file": "failure_abort.yaml"
+        },
+        "Ignore": {
+            "title": "Ignore",
+            "type": "object",
+            "properties": {},
+            "x-file": "failure_ignore.yaml"
         },
         "Retry": {
             "title": "Retry",
@@ -2269,147 +2322,42 @@
             "x-go-skip": true,
             "examples": [
                 {
-                    "version": 1,
-                    "stages": [
-                        {
-                            "name": "build",
-                            "type": "ci",
-                            "spec": {
-                                "steps": [
-                                    {
-                                        "name": "compile",
-                                        "type": "script",
-                                        "image": "golang",
-                                        "spec": {
-                                            "run": "go build"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    ],
-                    "options": {
-                        "registry": {
-                            "connector": "connector.dockerhub"
-                        }
+                    "registry": {
+                        "connector": "connector.dockerhub"
                     }
                 },
                 {
-                    "version": 1,
-                    "stages": [
-                        {
-                            "name": "build",
-                            "type": "ci",
-                            "spec": {
-                                "steps": [
-                                    {
-                                        "name": "compile",
-                                        "type": "script",
-                                        "image": "golang",
-                                        "spec": {
-                                            "run": "go build"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    ],
-                    "options": {
-                        "registry": {
-                            "connector": [
-                                "connector.dockerhub",
-                                "connector.gcr"
-                            ]
-                        }
+                    "registry": {
+                        "connector": [
+                            "connector.dockerhub",
+                            "connector.gcr"
+                        ]
                     }
                 },
                 {
-                    "version": 1,
-                    "stages": [
-                        {
-                            "name": "build",
-                            "type": "ci",
-                            "spec": {
-                                "steps": [
-                                    {
-                                        "name": "compile",
-                                        "type": "script",
-                                        "image": "us.gcr.io/account/project/golang:latest",
-                                        "spec": {
-                                            "run": "go build"
-                                        }
-                                    }
-                                ]
+                    "registry": {
+                        "connector": [
+                            {
+                                "name": "connector.dockerhub"
+                            },
+                            {
+                                "name": "connector.gcr",
+                                "match": "us.gcr.io"
                             }
-                        }
-                    ],
-                    "options": {
-                        "registry": {
-                            "connector": [
-                                {
-                                    "name": "connector.dockerhub"
-                                },
-                                {
-                                    "name": "connector.gcr",
-                                    "match": "us.gcr.io"
-                                }
-                            ]
-                        }
+                        ]
                     }
                 },
                 {
-                    "version": 1,
-                    "stages": [
-                        {
-                            "name": "build",
-                            "type": "ci",
-                            "spec": {
-                                "steps": [
-                                    {
-                                        "name": "compile",
-                                        "type": "script",
-                                        "image": "us.gcr.io/account/project/golang:latest",
-                                        "spec": {
-                                            "run": "go build"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    ],
-                    "options": {
-                        "registry": {
-                            "mirror": "mirror.gcr.io"
-                        }
+                    "registry": {
+                        "mirror": "mirror.gcr.io"
                     }
                 },
                 {
-                    "version": 1,
-                    "stages": [
-                        {
-                            "name": "build",
-                            "type": "ci",
-                            "spec": {
-                                "steps": [
-                                    {
-                                        "name": "compile",
-                                        "type": "script",
-                                        "image": "us.gcr.io/account/project/golang:latest",
-                                        "spec": {
-                                            "run": "go build"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    ],
-                    "options": {
-                        "registry": {
-                            "mirror": [
-                                "mirror.gcr.io",
-                                "mirror.harness.io"
-                            ]
-                        }
+                    "registry": {
+                        "mirror": [
+                            "mirror.gcr.io",
+                            "mirror.harness.io"
+                        ]
                     }
                 }
             ],
