@@ -1,4 +1,13 @@
 properties:
+  stack:
+    description: Configures the stack id to be used in the pipeline execution.
+    type: string
+  workflow:
+    description: Configures the workflow to be used in the pipeline execution.
+    type: string
+    enum:
+      - provision
+      - teardown
   clone:
     $ref: ./clone.yaml
     description: Configures the default clone behavior.

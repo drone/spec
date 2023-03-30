@@ -27,7 +27,7 @@ properties:
       - ci
       - custom
       - flag
-      - infra
+      - iacm
       - template
     type: string
   when:
