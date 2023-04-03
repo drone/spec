@@ -95,7 +95,7 @@
                         "ci",
                         "custom",
                         "flag",
-                        "infra",
+                        "iacm",
                         "template"
                     ],
                     "type": "string"
@@ -1338,6 +1338,12 @@
                     },
                     "description": "The stage environment variables."
                 },
+                "outputs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "mount": {
                     "type": "array",
                     "items": {
@@ -1460,6 +1466,12 @@
                     },
                     "description": "The stage environment variables."
                 },
+                "outputs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "mount": {
                     "type": "array",
                     "items": {
@@ -1532,6 +1544,12 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Report"
+                    }
+                },
+                "outputs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
                     }
                 },
                 "resources": {
@@ -1744,6 +1762,12 @@
                 },
                 "with": {
                     "type": "object"
+                },
+                "outputs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "resources": {
                     "$ref": "#/definitions/Resources"
@@ -2030,6 +2054,18 @@
         },
         "StageInfra": {
             "properties": {
+                "stack": {
+                    "description": "Configures the stack id to be used in the pipeline execution.",
+                    "type": "string"
+                },
+                "workflow": {
+                    "description": "Configures the workflow to be used in the pipeline execution.",
+                    "type": "string",
+                    "enum": [
+                        "provision",
+                        "teardown"
+                    ]
+                },
                 "clone": {
                     "$ref": "#/definitions/Clone",
                     "description": "Configures the default clone behavior."

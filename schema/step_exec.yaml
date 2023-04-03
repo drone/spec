@@ -45,10 +45,10 @@ properties:
     type: array
     items:
       $ref: ./report.yaml
-  # outputs:
-  #   type: array
-  #   items:
-  #     type: string
+  outputs:
+    type: array
+    items:
+      type: string
   resources:
     $ref: ./resources.yaml
   mount:

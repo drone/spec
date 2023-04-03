@@ -13,10 +13,10 @@ properties:
     additionalProperties:
       type: string
     description: The stage environment variables.
-  # outputs:
-  #   type: array
-  #   items:
-  #     type: string
+  outputs:
+    type: array
+    items:
+      type: string
   # network:
   #   type: string
   # resources:

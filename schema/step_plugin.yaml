@@ -33,10 +33,10 @@ properties:
     type: string
   with:
     type: object
-  # outputs:
-  #   type: array
-  #   items:
-  #     type: string
+  outputs:
+    type: array
+    items:
+      type: string
   resources:
     $ref: ./resources.yaml
   mount:

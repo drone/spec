@@ -30,6 +30,7 @@ type StepExec struct {
 	Privileged bool              `json:"privileged,omitempty"`
 	Network    string            `json:"network,omitempty"`
 	Reports    []*Report         `json:"reports,omitempty"`
+	Outputs    []string          `json:"outputs,omitempty"`
 	Resources  *Resources        `json:"resources,omitempty"`
 	Mount      []*Mount          `json:"mount,omitempty"`
 }
