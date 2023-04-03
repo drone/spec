@@ -95,7 +95,7 @@
                         "ci",
                         "custom",
                         "flag",
-                        "infra",
+                        "iacm",
                         "template"
                     ],
                     "type": "string"
@@ -2030,6 +2030,18 @@
         },
         "StageInfra": {
             "properties": {
+                "stack": {
+                    "description": "Configures the stack id to be used in the pipeline execution.",
+                    "type": "string"
+                },
+                "workflow": {
+                    "description": "Configures the workflow to be used in the pipeline execution.",
+                    "type": "string",
+                    "enum": [
+                        "provision",
+                        "teardown"
+                    ]
+                },
                 "clone": {
                     "$ref": "#/definitions/Clone",
                     "description": "Configures the default clone behavior."

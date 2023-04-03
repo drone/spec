@@ -16,11 +16,6 @@
 
 package yaml
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 type Step struct {
 	Id       string      `json:"id,omitempty"`
 	Name     string      `json:"name,omitempty"`

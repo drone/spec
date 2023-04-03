@@ -16,8 +16,6 @@
 
 package yaml
 
-import "time"
-
 type RuntimeKube struct {
 	Connector         string                 `json:"connector,omitempty"`
 	Namespace         string                 `json:"namespace,omitempty"`

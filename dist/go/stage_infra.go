@@ -17,6 +17,8 @@
 package yaml
 
 type StageInfra struct {
+	Stack    string            `json:"stack,omitempty"`
+	Workflow string            `json:"workflow,omitempty"`
 	Clone    *Clone            `json:"clone,omitempty"`
 	Platform *Platform         `json:"platform,omitempty"`
 	Runtime  *Runtime          `json:"runtime,omitempty"`

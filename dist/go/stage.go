@@ -16,11 +16,6 @@
 
 package yaml
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 type Stage struct {
 	Desc     string      `json:"desc,omitempty"`
 	Id       string      `json:"id,omitempty"`

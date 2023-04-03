@@ -16,11 +16,6 @@
 
 package yaml
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // Failure defines a failure strategy.
 type Failure struct {
 	Type      string      `json:"type,omitempty"`

@@ -16,11 +16,6 @@
 
 package yaml
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 // Strategy defines an optional execution strategy.
 type Strategy struct {
 	Type string      `json:"type,omitempty"`

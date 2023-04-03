@@ -16,8 +16,6 @@
 
 package yaml
 
-import "time"
-
 type ManualIntervention struct {
 	On      *On           `json:"on,omitempty"`
 	Timeout time.Duration `json:"timeout,omitempty"`
