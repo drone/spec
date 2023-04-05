@@ -53,7 +53,7 @@ func (v *Stage) UnmarshalJSON(data []byte) error {
 		v.Spec = new(StageCD)
 	case "custom":
 		v.Spec = new(StageCustom)
-	case "infra":
+	case "iacm":
 		v.Spec = new(StageInfra)
 	case "flag":
 		v.Spec = new(StageFlag)
