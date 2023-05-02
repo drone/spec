@@ -10,7 +10,7 @@ properties:
     description: Configures the default repository.
   registry:
     $ref: ./registry.yaml
-    description: Provides default registry credentials.
+    description: Provides the default registry credentials.
   resources:
     $ref: ./resources.yaml
     description: Configures the default stage and step resources.
@@ -21,6 +21,9 @@ properties:
     items:
       $ref: ./barrier.yaml
     type: array
+  status:
+    $ref: ./status.yaml
+    description: Configures the scm status checks.
   timeout:
     type: string
     description: Configures the pipeline timeout.

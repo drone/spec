@@ -32,9 +32,9 @@ examples:
 
   # example global registry credentials (multiple)
   - registry:
-        connector:
-        - connector.dockerhub
-        - connector.gcr
+      connector:
+      - connector.dockerhub
+      - connector.gcr
   
   # example global registry credentials when
   # we need to help the system match the connector

@@ -9,6 +9,8 @@ properties:
     - string
     - number
     - boolean
+    - array
+    - map
   description:
     type: string
     description: Desc defines the input description.
@@ -17,9 +19,14 @@ properties:
     - string
     - number
     - boolean
+    - array
+    - object
   required:
     type: boolean
     description: Required indicates the input is required.
+  items:
+    $ref: ./input_items.yaml
+    description: Items defines an arrat type.
   enum:
     type: array
     items:

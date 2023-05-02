@@ -2,7 +2,12 @@ title: StatusStep
 type: object
 
 properties:
-  name:
-    type: string
   disabled:
     type: boolean
+  matrix:
+    type: string
+    enum:
+    - itemize
+    - summarize
+  name:
+    type: string
