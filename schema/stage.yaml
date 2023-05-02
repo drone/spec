@@ -61,7 +61,7 @@ oneOf:
 - allOf:
   - properties:
       type:
-        const: infra
+        const: iacm
   - properties:
       spec:
         $ref: ./stage_infra.yaml
