@@ -88,6 +88,10 @@
                     "$ref": "#/definitions/Delegate",
                     "description": "Configures the delegate matching logic."
                 },
+                "status": {
+                    "$ref": "#/definitions/StatusStage",
+                    "description": "Configures the scm status settings."
+                },
                 "type": {
                     "description": "The stage type.",
                     "enum": [
@@ -389,6 +393,26 @@
                 }
             },
             "x-file": "delegate.yaml"
+        },
+        "StatusStage": {
+            "title": "StatusStage",
+            "type": "object",
+            "properties": {
+                "disabled": {
+                    "type": "boolean"
+                },
+                "matrix": {
+                    "type": "string",
+                    "enum": [
+                        "itemize",
+                        "summarize"
+                    ]
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "x-file": "status_stage.yaml"
         },
         "When": {
             "title": "When",
@@ -2218,7 +2242,9 @@
                     "enum": [
                         "string",
                         "number",
-                        "boolean"
+                        "boolean",
+                        "array",
+                        "map"
                     ]
                 },
                 "description": {
@@ -2229,12 +2255,18 @@
                     "type": [
                         "string",
                         "number",
-                        "boolean"
+                        "boolean",
+                        "array",
+                        "object"
                     ]
                 },
                 "required": {
                     "type": "boolean",
                     "description": "Required indicates the input is required."
+                },
+                "items": {
+                    "$ref": "#/definitions/InputItems",
+                    "description": "Items defines an arrat type."
                 },
                 "enum": {
                     "type": "array",
@@ -2251,6 +2283,23 @@
             },
             "x-file": "input.yaml"
         },
+        "InputItems": {
+            "title": "InputItems",
+            "type": "object",
+            "description": "InputItems defines an array input type",
+            "properties": {
+                "type": {
+                    "description": "Type defines the input type.",
+                    "type": "string",
+                    "enum": [
+                        "string",
+                        "number",
+                        "boolean"
+                    ]
+                }
+            },
+            "x-file": "input_items.yaml"
+        },
         "Default": {
             "type": "object",
             "title": "Default",
@@ -2265,7 +2314,7 @@
                 },
                 "registry": {
                     "$ref": "#/definitions/Registry",
-                    "description": "Provides default registry credentials."
+                    "description": "Provides the default registry credentials."
                 },
                 "resources": {
                     "$ref": "#/definitions/Resources",
@@ -2280,6 +2329,10 @@
                         "$ref": "#/definitions/Barrier"
                     },
                     "type": "array"
+                },
+                "status": {
+                    "$ref": "#/definitions/Status",
+                    "description": "Configures the scm status checks."
                 },
                 "timeout": {
                     "type": "string",
@@ -2429,6 +2482,33 @@
                 }
             },
             "x-file": "barrier.yaml"
+        },
+        "Status": {
+            "title": "Status",
+            "type": "object",
+            "properties": {
+                "disabled": {
+                    "type": "boolean"
+                },
+                "level": {
+                    "type": "string",
+                    "enum": [
+                        "pipeline",
+                        "stage"
+                    ]
+                },
+                "matrix": {
+                    "type": "string",
+                    "enum": [
+                        "itemize",
+                        "summarize"
+                    ]
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "x-file": "status.yaml"
         }
     },
     "oneOf": [

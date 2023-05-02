@@ -16,12 +16,7 @@
 
 package yaml
 
-// Input defines an input parameter.
-type Input struct {
-	Type        string      `json:"type,omitempty"`
-	Description string      `json:"description,omitempty"`
-	Default     string      `json:"default,omitempty"`
-	Required    bool        `json:"required,omitempty"`
-	Items       *InputItems `json:"items,omitempty"`
-	Enum        []string    `json:"enum,omitempty"`
+// InputItems defines an array input type
+type InputItems struct {
+	Type string `json:"type,omitempty"`
 }

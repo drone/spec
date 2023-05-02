@@ -18,7 +18,7 @@ properties:
     $ref: ./delegate.yaml
     description: Configures the delegate matching logic.
   status:
-    $ref: ./status.yaml
+    $ref: ./status_stage.yaml
     description: Configures the scm status settings.
   type:
     description: The stage type.
