@@ -82,6 +82,4 @@ oneOf:
 
 anyOf:
 - required:
-  - name
-- required:
-  - id
+  - type
