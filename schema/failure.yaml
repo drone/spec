@@ -10,6 +10,11 @@ properties:
     - ignore
     - manual-intervention
     - retry
+    - success
+    - stage-rollback
+    - pipeline-rollback
+    - retry-step-group
+    - fail
   errors:
     description: Errors specifies the types of errors.
     type: array
@@ -21,18 +26,14 @@ properties:
       - authentication
       - authorization
       - connectivity
-      - delegate-provioning
+      - delegate-provisioning
       - delegate-restart
       - input-timeout
       - policy-evaluation
       - timeout
       - unknown
       - verification
-  exit_codes:
-    description: Exit Codes specifies the exit codes.
-    type: array
-    items:
-      type: string
+      - user-mark-fail
 
 oneOf:
 - allOf:
