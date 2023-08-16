@@ -1,6 +1,6 @@
 title: ManualIntervention
 properties:
-  action:
+  timeout_action:
     $ref: ./timeout_action.yaml
   timeout:
     format: duration
