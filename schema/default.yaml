@@ -15,8 +15,12 @@ properties:
     $ref: ./resources.yaml
     description: Configures the default stage and step resources.
   delegate:
-    $ref: ./delegate.yaml
     description: Configures the default delegate matching logic.
+    anyOf:
+    - items:
+        type: string
+      type: array
+    - type: string
   barriers:
     items:
       $ref: ./barrier.yaml

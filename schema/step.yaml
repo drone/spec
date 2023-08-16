@@ -33,13 +33,9 @@ properties:
   strategy:
     $ref: ./strategy.yaml
     description: The stage execution strategy.
-  # status:
-  #   $ref: ./status.yaml
-  #   description: The scm status settings.
   when:
     description: The stage conditional logic.
     $ref: "./when.yaml"
-
   on:
     $ref: ./on.yaml
 

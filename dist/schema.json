@@ -85,8 +85,18 @@
                     "description": "The stage execution strategy."
                 },
                 "delegate": {
-                    "$ref": "#/definitions/Delegate",
-                    "description": "Configures the delegate matching logic."
+                    "description": "Configures the delegate matching logic.",
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
                 },
                 "status": {
                     "$ref": "#/definitions/StatusStage",
@@ -378,21 +388,6 @@
                 }
             },
             "x-file": "strategy_while.yaml"
-        },
-        "Delegate": {
-            "title": "Delegate",
-            "type": "object",
-            "description": "Delegate defines the delegate matching logic.",
-            "properties": {
-                "selectors": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array",
-                    "description": "Selectors defines tags that are used to match the stage\nwith a delegate.\n"
-                }
-            },
-            "x-file": "delegate.yaml"
         },
         "StatusStage": {
             "title": "StatusStage",
@@ -2321,8 +2316,18 @@
                     "description": "Configures the default stage and step resources."
                 },
                 "delegate": {
-                    "$ref": "#/definitions/Delegate",
-                    "description": "Configures the default delegate matching logic."
+                    "description": "Configures the default delegate matching logic.",
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
                 },
                 "barriers": {
                     "items": {

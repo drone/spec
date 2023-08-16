@@ -21,7 +21,7 @@ type Default struct {
 	Repository *Repository       `json:"repository,omitempty"`
 	Registry   *Registry         `json:"registry,omitempty"`
 	Resources  *Resources        `json:"resources,omitempty"`
-	Delegate   *Delegate         `json:"delegate,omitempty"`
+	Delegate   Stringorslice     `json:"delegate,omitempty"`
 	Barriers   []*Barrier        `json:"barriers,omitempty"`
 	Status     *Status           `json:"status,omitempty"`
 	Timeout    string            `json:"timeout,omitempty"`

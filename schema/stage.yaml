@@ -15,8 +15,12 @@ properties:
     $ref: ./strategy.yaml
     description: The stage execution strategy.
   delegate:
-    $ref: ./delegate.yaml
     description: Configures the delegate matching logic.
+    anyOf:
+    - items:
+        type: string
+      type: array
+    - type: string
   status:
     $ref: ./status_stage.yaml
     description: Configures the scm status settings.

@@ -1,0 +1,8 @@
+type: object
+title: Container
+
+properties:
+  image:
+    type: string
+    description: Container image.
+
