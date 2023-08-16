@@ -39,6 +39,20 @@ oneOf:
 - allOf:
   - properties:
       type:
+        const: abort
+  - properties:
+      spec:
+        $ref: ./failure_abort.yaml
+- allOf:
+  - properties:
+      type:
+        const: ignore
+  - properties:
+      spec:
+        $ref: ./failure_ignore.yaml
+- allOf:
+  - properties:
+      type:
         const: retry
   - properties:
       spec:
