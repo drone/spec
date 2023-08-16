@@ -235,12 +235,7 @@
             "anyOf": [
                 {
                     "required": [
-                        "name"
-                    ]
-                },
-                {
-                    "required": [
-                        "id"
+                        "type"
                     ]
                 }
             ],
@@ -467,9 +462,20 @@
             "type": "object",
             "properties": {
                 "failure": {
-                    "$ref": "#/definitions/Failure"
+                    "oneOf": [
+                        {
+                            "$ref": "#/definitions/Failure"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Failure"
+                            }
+                        }
+                    ]
                 }
             },
+            "x-go-skip": true,
             "x-file": "on.yaml"
         },
         "Failure": {
@@ -484,7 +490,12 @@
                         "abort",
                         "ignore",
                         "manual-intervention",
-                        "retry"
+                        "retry",
+                        "success",
+                        "stage-rollback",
+                        "pipeline-rollback",
+                        "retry-step-group",
+                        "fail"
                     ]
                 },
                 "errors": {
@@ -498,21 +509,15 @@
                             "authentication",
                             "authorization",
                             "connectivity",
-                            "delegate-provioning",
+                            "delegate-provisioning",
                             "delegate-restart",
                             "input-timeout",
                             "policy-evaluation",
                             "timeout",
                             "unknown",
-                            "verification"
+                            "verification",
+                            "user-mark-fail"
                         ]
-                    }
-                },
-                "exit_codes": {
-                    "description": "Exit Codes specifies the exit codes.",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
                     }
                 }
             },

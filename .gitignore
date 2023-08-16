@@ -1,4 +1,3 @@
 node_modules
-_NOTES*
-_testing
-docs
+docs/content
+_*

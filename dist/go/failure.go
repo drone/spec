@@ -23,10 +23,9 @@ import (
 
 // Failure defines a failure strategy.
 type Failure struct {
-	Type      string      `json:"type,omitempty"`
-	Errors    []string    `json:"errors,omitempty"`
-	ExitCodes []string    `json:"exit_codes,omitempty"`
-	Spec      interface{} `json:"spec,omitempty"`
+	Type   string      `json:"type,omitempty"`
+	Errors []string    `json:"errors,omitempty"`
+	Spec   interface{} `json:"spec,omitempty"`
 }
 
 // UnmarshalJSON implement the json.Unmarshaler interface.

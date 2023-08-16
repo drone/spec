@@ -7,3 +7,6 @@ properties:
     - type: array
       items:
         $ref: "./failure.yaml"
+
+# skip and manually create go file
+x-go-skip: true

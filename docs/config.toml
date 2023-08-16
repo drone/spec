@@ -1,0 +1,6 @@
+baseURL = "http://example.org/"
+languageCode = "en-us"
+title = "Gitness Specification"
+
+[markup.goldmark.renderer]
+unsafe= true

@@ -1,0 +1,27 @@
+<style>
+    .highlight > pre {
+        border-radius: 4px;
+    }
+    .highlight > pre {
+        padding: 8px;
+    }
+</style>
+
+<main style="display:grid;grid-template-columns: 300px auto;gap:20px;">
+<aside>
+    <ul>
+        {{ range .Site.Pages }}
+            {{ if ne .Title "" }}
+            <li>
+                <a href="{{.URL}}">{{.Title}}</a>
+            </li>
+            {{ end }}
+        {{ end }}
+    </ul>
+</aside>
+
+<article>
+<br/><a href="../">Back</a>
+{{ .Content }}
+</article>
+</main>
