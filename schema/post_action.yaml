@@ -1,0 +1,38 @@
+title: PostAction
+type: object
+description: Failure action on failure for all retries
+properties:
+  type:
+    description: Type defines the failure strategy type.
+    type: string
+    enum:
+    - abort
+    - ignore
+    - success
+    - stage-rollback
+    - pipeline-rollback
+    - fail
+    - manual-intervention
+
+oneOf:
+- allOf:
+  - properties:
+      type:
+        const: abort
+  - properties:
+      spec:
+        $ref: ./failure_abort.yaml
+- allOf:
+  - properties:
+      type:
+        const: ignore
+  - properties:
+      spec:
+        $ref: ./failure_ignore.yaml
+- allOf:
+  - properties:
+      type:
+        const: manual-intervention
+  - properties:
+      spec:
+        $ref: ./failure_manual.yaml        
