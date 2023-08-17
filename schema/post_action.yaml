@@ -15,8 +15,7 @@ properties:
     - manual-intervention
 
 oneOf:
-
-- allOf:
+  - allOf:
       - properties:
           type:
             const: success
