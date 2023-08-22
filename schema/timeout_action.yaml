@@ -14,32 +14,32 @@ properties:
     - fail
   
 oneOf:
-  - allOf:
-      - properties:
-          type:
-            const: success
-      - properties:
-          spec:
-            $ref: ./empty_spec.yaml
-  - allOf:
-      - properties:
-          type:
-            const: fail
-      - properties:
-          spec:
-            $ref: ./empty_spec.yaml
-  - allOf:
-      - properties:
-          type: stage-rollback
-      - properties:
-          spec:
-            $ref: ./empty_spec.yaml
-  - allOf:
-      - properties:
-          type: pipeline-rollback
-      - properties:
-          spec:
-            $ref: ./empty_spec.yaml
+- allOf:
+    - properties:
+        type:
+          const: success
+    - properties:
+        spec:
+          $ref: ./empty_spec.yaml
+- allOf:
+    - properties:
+        type:
+          const: fail
+    - properties:
+        spec:
+          $ref: ./empty_spec.yaml
+- allOf:
+    - properties:
+        type: stage-rollback
+    - properties:
+        spec:
+          $ref: ./empty_spec.yaml
+- allOf:
+    - properties:
+        type: pipeline-rollback
+    - properties:
+        spec:
+          $ref: ./empty_spec.yaml
 - allOf:
   - properties:
       type:
