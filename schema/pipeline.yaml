@@ -9,10 +9,6 @@ properties:
       - string
       - number
 
-  name:
-    description: Pipeline provides the pipeline name.
-    type: string
-
   stages:
     type: array
     description: Stages defines a list of pipeline stages.
@@ -24,12 +20,6 @@ properties:
     description: Inputs defines the pipeline input parameters.
     additionalProperties: 
       $ref: ./input.yaml
-
-  # overlays:
-  #   type: object
-  #   description: Inputs defines the pipeline overlay parameters.
-  #   additionalProperties: 
-  #     type: object
 
   options:
     $ref: ./default.yaml
