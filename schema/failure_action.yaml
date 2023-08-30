@@ -1,6 +1,6 @@
-title: RetryFailureAction
+title: FailureAction
 type: object
-description: Failure action on failure for all retries
+description: Failure defines a failure strategy.
 properties:
   type:
     description: Type defines the failure strategy type.
@@ -11,8 +11,29 @@ properties:
     - ignore
     - manual-intervention
     - pipeline-rollback
+    - retry
+    - retry-step-group
     - stage-rollback
     - success
+  errors:
+    description: Errors specifies the types of errors.
+    type: array
+    items:
+      type: string
+      enum:
+      - all
+      - approval-rejection
+      - authentication
+      - authorization
+      - connectivity
+      - delegate-provisioning
+      - delegate-restart
+      - input-timeout
+      - policy-evaluation
+      - timeout
+      - unknown
+      - verification
+      - user-mark-fail
 
 oneOf:
 - allOf:
@@ -26,6 +47,13 @@ oneOf:
   - properties:
       type:
         const: fail
+  - properties:
+      spec:
+        $ref: ./empty_spec.yaml
+- allOf:
+  - properties:
+      type:
+        const: retry-step-group
   - properties:
       spec:
         $ref: ./empty_spec.yaml
@@ -60,7 +88,14 @@ oneOf:
 - allOf:
   - properties:
       type:
+        const: retry
+  - properties:
+      spec:
+        $ref: ./failure_retry.yaml
+- allOf:
+  - properties:
+      type:
         const: manual-intervention
   - properties:
       spec:
-        $ref: ./failure_manual.yaml        
+        $ref: ./failure_manual.yaml
