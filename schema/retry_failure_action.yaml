@@ -31,13 +31,15 @@ oneOf:
         $ref: ./empty_spec.yaml
 - allOf:
   - properties:
-      type: stage-rollback
+      type:
+        const: stage-rollback
   - properties:
       spec:
         $ref: ./empty_spec.yaml
 - allOf:
   - properties:
-      type: pipeline-rollback
+      type:
+        const: pipeline-rollback
   - properties:
       spec:
         $ref: ./empty_spec.yaml
