@@ -15,25 +15,6 @@ properties:
     - retry-step-group
     - stage-rollback
     - success
-  errors:
-    description: Errors specifies the types of errors.
-    type: array
-    items:
-      type: string
-      enum:
-      - all
-      - approval-rejection
-      - authentication
-      - authorization
-      - connectivity
-      - delegate-provisioning
-      - delegate-restart
-      - input-timeout
-      - policy-evaluation
-      - timeout
-      - unknown
-      - verification
-      - user-mark-fail
 
 oneOf:
 - allOf:

@@ -59,14 +59,6 @@ stages:
         # - event:
         #     eq: pull_request
 
-        failure:
-          action:
-            type: retry
-            spec:
-              attempts: 3
-              failure:
-                type: ignore
-                spec: {}
         type: script
         spec:
           image: golang # optional
@@ -91,6 +83,16 @@ stages:
           group: ubuntu
           entrypoint: "" # change to array
           args: [] 
+        failure:
+          errors: [ all ]
+          action:
+            type: retry
+            spec:
+              attempts: 3
+              failure:
+                action:
+                  type: ignore
+                  spec: {}
       - type: plugin
         spec:
           image: plugins/docker # uses?
@@ -111,6 +113,14 @@ stages:
               type: junit
           user: ubuntu
           group: ubuntu
+        failure:
+          errors: [ all ]
+          action:
+            type: manual-intervention
+            spec:
+              timeout: 50s
+              timeout_action:
+                type: ignore
       - type: background
         spec:
           image: redis # uses?
