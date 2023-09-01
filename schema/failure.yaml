@@ -22,8 +22,4 @@ properties:
       - user-mark-fail
 
   action:
-    oneOf:
-    - $ref: "./failure_action.yaml"
-    - type: array
-      items:
-        $ref: "./failure_action.yaml"
+    $ref: "./failure_action.yaml"

@@ -121,6 +121,9 @@ stages:
               timeout: 50s
               timeout_action:
                 type: ignore
+        - errors: [ all ]
+          action:
+            type: ignore
       - type: background
         spec:
           image: redis # uses?

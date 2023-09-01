@@ -496,17 +496,7 @@
                     }
                 },
                 "action": {
-                    "oneOf": [
-                        {
-                            "$ref": "#/definitions/FailureAction"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/FailureAction"
-                            }
-                        }
-                    ]
+                    "$ref": "#/definitions/FailureAction"
                 }
             },
             "x-file": "failure.yaml"
