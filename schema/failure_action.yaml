@@ -1,6 +1,6 @@
 title: FailureAction
 type: object
-description: Failure defines a failure strategy.
+description: FailureAction defines what actions can be taken on a failure.
 properties:
   type:
     description: Type defines the failure strategy type.
