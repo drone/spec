@@ -115,7 +115,7 @@
                     "$ref": "#/definitions/When"
                 },
                 "failure": {
-                    "$ref": "#/definitions/Failure"
+                    "$ref": "#/definitions/FailureList"
                 }
             },
             "oneOf": [
@@ -453,6 +453,22 @@
             "x-go-skip": true,
             "x-file": "when_expr.yaml"
         },
+        "FailureList": {
+            "title": "FailureList",
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/Failure"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Failure"
+                    }
+                }
+            ],
+            "x-go-skip": true,
+            "x-file": "failure_list.yaml"
+        },
         "Failure": {
             "title": "Failure",
             "type": "object",
@@ -493,7 +509,6 @@
                     ]
                 }
             },
-            "x-go-skip": true,
             "x-file": "failure.yaml"
         },
         "FailureAction": {
@@ -1521,7 +1536,7 @@
                     "$ref": "#/definitions/When"
                 },
                 "failure": {
-                    "$ref": "#/definitions/Failure"
+                    "$ref": "#/definitions/FailureList"
                 }
             },
             "oneOf": [

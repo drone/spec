@@ -114,7 +114,7 @@ stages:
           user: ubuntu
           group: ubuntu
         failure:
-          errors: [ all ]
+        - errors: [ all ]
           action:
             type: manual-intervention
             spec:
