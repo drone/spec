@@ -36,8 +36,8 @@ properties:
   when:
     description: The stage conditional logic.
     $ref: "./when.yaml"
-  on:
-    $ref: ./on.yaml
+  on_failure:
+    $ref: ./failure.yaml
 
 oneOf:
 - allOf:
