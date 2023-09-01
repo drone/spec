@@ -58,7 +58,15 @@ stages:
         #     eq: push
         # - event:
         #     eq: pull_request
-            
+        on_failure:
+          errors: all
+          action:
+            type: retry
+            spec:
+              attempts: 3
+              failure_action:
+                type: ignore
+                spec: {}    
         type: script
         spec:
           image: golang # optional
