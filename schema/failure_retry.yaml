@@ -13,6 +13,6 @@ properties:
     - type: string
       example: 1m
       format: duration
-  on_failure:
+  failure_action:
     $ref: ./retry_failure_action.yaml
 type: object
