@@ -58,7 +58,7 @@ stages:
         #     eq: push
         # - event:
         #     eq: pull_request
-            
+
         type: script
         spec:
           image: golang # optional
@@ -82,7 +82,17 @@ stages:
           user: ubuntu
           group: ubuntu
           entrypoint: "" # change to array
-          args: []
+          args: [] 
+        failure:
+          errors: [ all ]
+          action:
+            type: retry
+            spec:
+              attempts: 3
+              failure:
+                action:
+                  type: ignore
+                  spec: {}
       - type: plugin
         spec:
           image: plugins/docker # uses?
@@ -103,6 +113,17 @@ stages:
               type: junit
           user: ubuntu
           group: ubuntu
+        failure:
+        - errors: [ all ]
+          action:
+            type: manual-intervention
+            spec:
+              timeout: 50s
+              timeout_action:
+                type: ignore
+        - errors: [ all ]
+          action:
+            type: ignore
       - type: background
         spec:
           image: redis # uses?
@@ -195,10 +216,7 @@ options:
     insecure: false
     strategy: merge
     trace: false
-  delegate: # can this be []string?
-    selectors:
-      - foo
-      - bar
+  delegate: foo
   envs:
     foo: bar
     baz: qux
