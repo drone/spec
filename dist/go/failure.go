@@ -16,43 +16,7 @@
 
 package yaml
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
-// Failure defines a failure strategy.
 type Failure struct {
-	Type   string      `json:"type,omitempty"`
-	Errors []string    `json:"errors,omitempty"`
-	Spec   interface{} `json:"spec,omitempty"`
-}
-
-// UnmarshalJSON implement the json.Unmarshaler interface.
-func (v *Failure) UnmarshalJSON(data []byte) error {
-	type S Failure
-	type T struct {
-		*S
-		Spec json.RawMessage `json:"spec"`
-	}
-
-	obj := &T{S: (*S)(v)}
-	if err := json.Unmarshal(data, obj); err != nil {
-		return err
-	}
-
-	switch v.Type {
-	case "abort":
-		v.Spec = new(Abort)
-	case "ignore":
-		v.Spec = new(Ignore)
-	case "retry":
-		v.Spec = new(Retry)
-	case "manual-intervention":
-		v.Spec = new(ManualIntervention)
-	default:
-		return fmt.Errorf("unknown type %s", v.Type)
-	}
-
-	return json.Unmarshal(obj.Spec, v.Spec)
+	Errors []string       `json:"errors,omitempty"`
+	Action *FailureAction `json:"action,omitempty"`
 }

@@ -21,22 +21,15 @@ import (
 	"fmt"
 )
 
-type Stage struct {
-	Desc     string        `json:"desc,omitempty"`
-	Id       string        `json:"id,omitempty"`
-	Name     string        `json:"name,omitempty"`
-	Strategy *Strategy     `json:"strategy,omitempty"`
-	Delegate Stringorslice `json:"delegate,omitempty"`
-	Status   *StatusStage  `json:"status,omitempty"`
-	Type     string        `json:"type,omitempty"`
-	When     *When         `json:"when,omitempty"`
-	Failure  *FailureList  `json:"failure,omitempty"`
-	Spec     interface{}   `json:"spec,omitempty"`
+// Failure defines a failure strategy.
+type FailureAction struct {
+	Type string      `json:"type,omitempty"`
+	Spec interface{} `json:"spec,omitempty"`
 }
 
 // UnmarshalJSON implement the json.Unmarshaler interface.
-func (v *Stage) UnmarshalJSON(data []byte) error {
-	type S Stage
+func (v *FailureAction) UnmarshalJSON(data []byte) error {
+	type S FailureAction
 	type T struct {
 		*S
 		Spec json.RawMessage `json:"spec"`
@@ -48,18 +41,24 @@ func (v *Stage) UnmarshalJSON(data []byte) error {
 	}
 
 	switch v.Type {
-	case "ci":
-		v.Spec = new(StageCI)
-	case "cd":
-		v.Spec = new(StageCD)
-	case "custom":
-		v.Spec = new(StageCustom)
-	case "iacm":
-		v.Spec = new(StageInfra)
-	case "flag":
-		v.Spec = new(StageFlag)
-	case "template":
-		v.Spec = new(StageTemplate)
+	case "success":
+		v.Spec = new(EmptySpec)
+	case "fail":
+		v.Spec = new(EmptySpec)
+	case "retry-step-group":
+		v.Spec = new(EmptySpec)
+	case "stage-rollback":
+		v.Spec = new(EmptySpec)
+	case "pipeline-rollback":
+		v.Spec = new(EmptySpec)
+	case "abort":
+		v.Spec = new(Abort)
+	case "ignore":
+		v.Spec = new(Ignore)
+	case "retry":
+		v.Spec = new(Retry)
+	case "manual-intervention":
+		v.Spec = new(ManualIntervention)
 	default:
 		return fmt.Errorf("unknown type %s", v.Type)
 	}

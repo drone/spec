@@ -16,8 +16,6 @@
 
 package yaml
 
-type Retry struct {
-	Attempts int64           `json:"attempts,omitempty"`
-	Interval Durationorslice `json:"interval,omitempty"`
-	Failure  *RetryFailure   `json:"failure,omitempty"`
+type RetryFailure struct {
+	Action *RetryFailureAction `json:"action,omitempty"`
 }

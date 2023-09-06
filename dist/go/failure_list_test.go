@@ -21,31 +21,35 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-func TestOn(t *testing.T) {
+func TestFailureList(t *testing.T) {
 	tests := []struct {
 		yaml string
-		want On
+		want FailureList
 	}{
 		{
-			yaml: `[ { type: abort, spec: {} } ]`,
-			want: On{
-				Failure: []*Failure{
-					{Type: "abort", Spec: &Abort{}},
+			yaml: `[ { action: { type: abort, spec: {} }} ]`,
+			want: FailureList{
+				Items: []*Failure{
+					{
+						Action: &FailureAction{Type: "abort", Spec: &Abort{}},
+					},
 				},
 			},
 		},
 		{
-			yaml: `{ type: abort, spec: {} }`,
-			want: On{
-				Failure: []*Failure{
-					{Type: "abort", Spec: &Abort{}},
+			yaml: `{ action: { type: abort, spec: {} }}`,
+			want: FailureList{
+				Items: []*Failure{
+					{
+						Action: &FailureAction{Type: "abort", Spec: &Abort{}},
+					},
 				},
 			},
 		},
 	}
 
 	for i, test := range tests {
-		got := new(On)
+		got := new(FailureList)
 		if err := yaml.Unmarshal([]byte(test.yaml), got); err != nil {
 			t.Error(err)
 			return
