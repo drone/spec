@@ -12,26 +12,23 @@
                         "number"
                     ]
                 },
-                "type": {
+                "kind": {
                     "type": "string",
                     "description": "Type defines the schema type.",
                     "enum": [
-                        "environment",
-                        "pipeline",
-                        "template",
-                        "service"
+                        "pipeline"
                     ]
                 }
             },
             "required": [
-                "type"
+                "kind"
             ],
             "oneOf": [
                 {
                     "allOf": [
                         {
                             "properties": {
-                                "type": {
+                                "kind": {
                                     "const": "pipeline"
                                 }
                             }

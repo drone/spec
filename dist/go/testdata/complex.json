@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "type": "pipeline",
+    "kind": "pipeline",
     "spec": {
         "stages": [
             {

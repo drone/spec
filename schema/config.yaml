@@ -8,23 +8,23 @@ properties:
     type:
       - string
       - number
-  type:
+  kind:
     type: string
     description: Type defines the schema type.
     enum:
-      - environment
       - pipeline
-      - template
-      - service
 
 required:
-- type
+- kind
 
 oneOf:
 - allOf:
   - properties:
-      type:
+      kind:
         const: pipeline
   - properties:
       spec:
         $ref: ./pipeline.yaml
+
+# manually generate the go file
+x-go-skip: true
