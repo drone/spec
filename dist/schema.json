@@ -16,7 +16,18 @@
                     "type": "string",
                     "description": "Type defines the schema type.",
                     "enum": [
-                        "pipeline"
+                        "pipeline",
+                        "plugin",
+                        "template"
+                    ]
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Type defines the schema type.",
+                    "enum": [
+                        "pipeline",
+                        "stage",
+                        "step"
                     ]
                 }
             },
@@ -43,6 +54,7 @@
                     ]
                 }
             ],
+            "x-go-skip": true,
             "x-file": "config.yaml"
         },
         "Pipeline": {
