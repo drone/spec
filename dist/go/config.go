@@ -23,6 +23,7 @@ import (
 type Config struct {
 	Version StringorInt `json:"version,omitempty"`
 	Kind    string      `json:"kind,omitempty"`
+	Type    string      `json:"type,omitempty"`
 	Spec    interface{} `json:"spec,omitempty"`
 }
 
@@ -42,8 +43,28 @@ func (v *Config) UnmarshalJSON(data []byte) error {
 	switch v.Kind {
 	case "pipeline":
 		v.Spec = new(Pipeline)
+	case "template":
+		switch v.Type {
+		case "pipeline":
+			v.Spec = new(Pipeline)
+		case "stage":
+			v.Spec = new(Stage)
+		case "step":
+			v.Spec = new(Step)
+		default:
+			return fmt.Errorf("unknown template type %s", v.Type)
+		}
+	case "plugin":
+		switch v.Type {
+		case "stage":
+			v.Spec = new(Stage)
+		case "step":
+			v.Spec = new(Step)
+		default:
+			return fmt.Errorf("unknown plugin type %s", v.Type)
+		}
 	default:
-		return fmt.Errorf("unknown type %s", v.Kind)
+		return fmt.Errorf("unknown kind %s", v.Kind)
 	}
 
 	return json.Unmarshal(obj.Spec, v.Spec)

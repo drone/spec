@@ -13,6 +13,15 @@ properties:
     description: Type defines the schema type.
     enum:
       - pipeline
+      - plugin
+      - template
+  type:
+    type: string
+    description: Type defines the schema type.
+    enum:
+      - pipeline
+      - stage
+      - step
 
 required:
 - kind
