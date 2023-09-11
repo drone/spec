@@ -1,57 +1,55 @@
 {
-    "stages": [
-        {
-            "name": "build",
-            "type": "ci",
-            "spec": {
-                "platform": {
-                    "arch": "arm64",
-                    "os": "linux"
-                },
-                "runtime": {
-                    "type": "cloud",
-                    "spec": {
-                        "size": "xlarge"
-                    }
-                },
-                "steps": [
-                    {
-                        "name": "build",
-                        "type": "script",
+    "version": 1,
+    "kind": "pipeline",
+    "spec": {
+        "stages": [
+            {
+                "name": "build",
+                "type": "ci",
+                "spec": {
+                    "platform": {
+                        "arch": "arm64",
+                        "os": "linux"
+                    },
+                    "runtime": {
+                        "type": "cloud",
                         "spec": {
-                            "image": "golang",
-                            "run": "go build"
+                            "size": "xlarge"
                         }
                     },
-                    {
-                        "type": "parallel",
-                        "spec": {
-                            "steps": [
-                                {
-                                    "name": "test-go",
-                                    "type": "script",
-                                    "spec": {
-                                        "run": "go test"
+                    "steps": [
+                        {
+                            "name": "build",
+                            "type": "script",
+                            "spec": {
+                                "image": "golang",
+                                "run": "go build"
+                            }
+                        },
+                        {
+                            "type": "parallel",
+                            "spec": {
+                                "steps": [
+                                    {
+                                        "name": "test-go",
+                                        "type": "script",
+                                        "spec": {
+                                            "run": "go test"
+                                        }
+                                    },
+                                    {
+                                        "name": "test-npm",
+                                        "type": "script",
+                                        "spec": {
+                                            "run": "npm install\nnpm run test"
+                                        }
                                     }
-                                },
-                                {
-                                    "name": "test-npm",
-                                    "type": "script",
-                                    "spec": {
-                                        "run": "npm install\nnpm run test"
-                                    }
-                                }
-                            ]
+                                ]
+                            }
                         }
-                    }
-                ]
+                    ]
+                }
             }
-        }
-    ],
-    "registry": {
-        "credentials": [
-            "account.docker",
-            "account.gcr"
         ]
     }
 }

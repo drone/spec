@@ -1,0 +1,39 @@
+title: Config
+description: Config defines the a resource configuration.
+type: object
+
+properties:
+  version:
+    description: Version defines the schema version.
+    type:
+      - string
+      - number
+  kind:
+    type: string
+    description: Type defines the schema type.
+    enum:
+      - pipeline
+      - plugin
+      - template
+  type:
+    type: string
+    description: Type defines the schema type.
+    enum:
+      - pipeline
+      - stage
+      - step
+
+required:
+- kind
+
+oneOf:
+- allOf:
+  - properties:
+      kind:
+        const: pipeline
+  - properties:
+      spec:
+        $ref: ./pipeline.yaml
+
+# manually generate the go file
+x-go-skip: true

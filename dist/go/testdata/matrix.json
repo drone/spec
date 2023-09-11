@@ -1,64 +1,67 @@
 {
     "version": 1,
-    "stages": [
-        {
-            "name": "build",
-            "type": "ci",
-            "strategy": {
-                "type": "matrix",
-                "spec": {
-                    "axis": {
-                        "golang": [
-                            "18",
-                            "19"
-                        ],
-                        "node": [
-                            "12",
-                            "14",
-                            "16",
-                            "18"
+    "kind": "pipeline",
+    "spec": {
+        "stages": [
+            {
+                "name": "build",
+                "type": "ci",
+                "strategy": {
+                    "type": "matrix",
+                    "spec": {
+                        "axis": {
+                            "golang": [
+                                "18",
+                                "19"
+                            ],
+                            "node": [
+                                "12",
+                                "14",
+                                "16",
+                                "18"
+                            ]
+                        },
+                        "exclude": [
+                            {
+                                "node": "12",
+                                "golang": "18"
+                            }
                         ]
-                    },
-                    "exclude": [
+                    }
+                },
+                "spec": {
+                    "steps": [
                         {
-                            "node": "12",
-                            "golang": "18"
+                            "name": "frontend",
+                            "type": "script",
+                            "spec": {
+                                "image": "node:${{ matrix.node }}",
+                                "run": "npm install\nnpm run test\nnpm run bundle\n"
+                            }
+                        },
+                        {
+                            "name": "backend",
+                            "type": "script",
+                            "spec": {
+                                "image": "golang:${{ matrix.golang }}",
+                                "run": "go test ./..."
+                            }
+                        },
+                        {
+                            "name": "publish",
+                            "type": "plugin",
+                            "spec": {
+                                "image": "plugins/docker",
+                                "with": {
+                                    "repo": "acme/server",
+                                    "username": "${{ secrets.username }}",
+                                    "password": "${{ secrets.password }}"
+                                }
+                            }
                         }
                     ]
                 }
-            },
-            "spec": {
-                "steps": [
-                    {
-                        "name": "frontend",
-                        "type": "script",
-                        "spec": {
-                            "image": "node:${{ matrix.node }}",
-                            "run": "npm install\nnpm run test\nnpm run bundle\n"
-                        }
-                    },
-                    {
-                        "name": "backend",
-                        "type": "script",
-                        "spec": {
-                            "image": "golang:${{ matrix.golang }}",
-                            "run": "go test ./..."
-                        }
-                    },
-                    {
-                        "name": "publish",
-                        "type": "plugin",
-                        "spec": {
-                            "image": "plugins/docker",
-                            "with": {
-                                "repo": "acme/server",
-                                "username": "${{ secrets.username }}",
-                                "password": "${{ secrets.password }}"
-                            }
-                        }
-                    }
-                ]
             }
-        }
-    ]
+        ]
+    }
 }
