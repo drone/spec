@@ -1,8 +1,8 @@
 {
     "definitions": {
-        "Pipeline": {
-            "title": "Pipeline",
-            "description": "Pipeline defines the pipeline execution.",
+        "Config": {
+            "title": "Config",
+            "description": "Config defines the a resource configuration.",
             "type": "object",
             "properties": {
                 "version": {
@@ -12,6 +12,47 @@
                         "number"
                     ]
                 },
+                "type": {
+                    "type": "string",
+                    "description": "Type defines the schema type.",
+                    "enum": [
+                        "environment",
+                        "pipeline",
+                        "template",
+                        "service"
+                    ]
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "oneOf": [
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "type": {
+                                    "const": "pipeline"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/Pipeline"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ],
+            "x-file": "config.yaml"
+        },
+        "Pipeline": {
+            "title": "Pipeline",
+            "description": "Pipeline defines the pipeline execution.",
+            "type": "object",
+            "properties": {
                 "stages": {
                     "type": "array",
                     "description": "Stages defines a list of pipeline stages.",
@@ -32,7 +73,6 @@
                 }
             },
             "required": [
-                "version",
                 "stages"
             ],
             "examples": [
@@ -2909,7 +2949,7 @@
     },
     "oneOf": [
         {
-            "$ref": "#/definitions/Pipeline"
+            "$ref": "#/definitions/Config"
         }
     ]
 }

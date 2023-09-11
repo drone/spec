@@ -1,40 +1,42 @@
 version: 1
+type: pipeline
+spec:
 
-inputs:
-  username:
-    type: string
-    description: user identifier
-  password:
-    type: string
-    description: user password
+  inputs:
+    username:
+      type: string
+      description: user identifier
+    password:
+      type: string
+      description: user password
 
-stages:
-- id: build
-  type: ci
-  spec:
-    platform:
-      os: linux
-      arch: arm64
-      variant: v7
-    steps:
-      - type: script
-        spec:
-          run: |-
-            go build
-            go test
-      - type: plugin
-        spec:
-          image: plugins/docker
-          with:
-            repo: foo/bar
-      - type: action
-        spec:
-          uses: foo/bar
-          with:
-            baz: qux
+  stages:
+  - id: build
+    type: ci
+    spec:
+      platform:
+        os: linux
+        arch: arm64
+        variant: v7
+      steps:
+        - type: script
+          spec:
+            run: |-
+              go build
+              go test
+        - type: plugin
+          spec:
+            image: plugins/docker
+            with:
+              repo: foo/bar
+        - type: action
+          spec:
+            uses: foo/bar
+            with:
+              baz: qux
 
-options:
-  registry:
-    connector: account.docker
-    mirror:
-    - https://mirror.gcr.io
+  options:
+    registry:
+      connector: account.docker
+      mirror:
+      - https://mirror.gcr.io

@@ -1,47 +1,48 @@
 version: 1
+type: pipeline
+spec:
+  stages:
+  - name: build
+    type: ci
+    strategy:
+      type: matrix
+      spec:
+        axis:
+          golang:
+          - "18"
+          - "19"
+          node:
+          - "12"
+          - "14"
+          - "16"
+          - "18"
+        exclude:
+        - node: "12"
+          golang: "18"
 
-stages:
-- name: build
-  type: ci
-  strategy:
-    type: matrix
     spec:
-      axis:
-        golang:
-        - "18"
-        - "19"
-        node:
-        - "12"
-        - "14"
-        - "16"
-        - "18"
-      exclude:
-      - node: "12"
-        golang: "18"
+      steps:
+      - name: frontend
+        type: script
+        spec:
+          image: node:${{ matrix.node }}
+          run: |
+            npm install
+            npm run test
+            npm run bundle
 
-  spec:
-    steps:
-    - name: frontend
-      type: script
-      spec:
-        image: node:${{ matrix.node }}
-        run: |
-          npm install
-          npm run test
-          npm run bundle
+      - name: backend
+        type: script
+        spec:
+          image: golang:${{ matrix.golang }}
+          run: go test ./...
 
-    - name: backend
-      type: script
-      spec:
-        image: golang:${{ matrix.golang }}
-        run: go test ./...
-
-    - name: publish
-      type: plugin
-      spec:
-        image: plugins/docker
-        with:
-          repo: acme/server
-          username: ${{ secrets.username }}
-          password: ${{ secrets.password }}
+      - name: publish
+        type: plugin
+        spec:
+          image: plugins/docker
+          with:
+            repo: acme/server
+            username: ${{ secrets.username }}
+            password: ${{ secrets.password }}
 

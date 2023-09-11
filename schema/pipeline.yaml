@@ -3,12 +3,6 @@ description: Pipeline defines the pipeline execution.
 type: object
 
 properties:
-  version:
-    description: Version defines the schema version.
-    type:
-      - string
-      - number
-
   stages:
     type: array
     description: Stages defines a list of pipeline stages.
@@ -26,7 +20,6 @@ properties:
     description: Options defines global configuration options.
 
 required:
-  - version
   - stages
 
 # example pipelines

@@ -1,229 +1,230 @@
-version: 1 # not displayed in visual view
+version: 1
+type: pipeline
+spec:
+  inputs:
+    username:
+      type: string
+      description: user identifier # description vs desc. need consistency
+    password:
+      type: string
+      description: user password
+    abool:
+      type: boolean
+      description: some boolean
+    anumber:
+      type: number
+      description: some number
 
-inputs:
-  username:
-    type: string
-    description: user identifier # description vs desc. need consistency
-  password:
-    type: string
-    description: user password
-  abool:
-    type: boolean
-    description: some boolean
-  anumber:
-    type: number
-    description: some number
+  stages:
+  - id: build
+    type: ci
+    spec:
+      clone:
+        disabled: false
+      cache:
+        enabled: true # need to support multiple cache keys per path
+        key: foo
+        paths:
+          - path/foo
+          - path/bar
+      envs:
+        foo: bar
+        baz: qux
+      platform:
+        os: linux
+        arch: arm64
+        variant: v7
+      runtime:
+        type: cloud
+        spec:
+          size: standard # need to finalize sizes, add as enum
+      volumes:
+        - name: foo
+          type: host
+          spec:
+            path: /path/on/host
+      steps:
+        - id: go-build # optional
+          name: go build # optional
+          # when: <+ pipeline.branch == "main" >
+          # when:
+          #   branch:
+          #     eq: main
+          #   event:
+          #     in: [ push, pull_request ]
+          # when:
+          # - branch:
+          #     eq: main
+          #   event:
+          #     eq: push
+          # - event:
+          #     eq: pull_request
 
-stages:
-- id: build
-  type: ci
-  spec:
+          type: script
+          spec:
+            image: golang # optional
+            connector: connecer.dockerhub # combine under image?
+            run: |-
+              go build
+              go test
+            mount: # should this be stage level?
+              - name: foo
+                path: /tmp
+            shell: bash
+            envs:
+              foo: bar
+              baz: qux
+            network: host
+            pull: if-not-exists
+            privileged: false
+            reports:
+              - path: /path/to/report.xml
+                type: junit
+            user: ubuntu
+            group: ubuntu
+            entrypoint: "" # change to array
+            args: [] 
+          failure:
+            errors: [ all ]
+            action:
+              type: retry
+              spec:
+                attempts: 3
+                failure:
+                  action:
+                    type: ignore
+                    spec: {}
+        - type: plugin
+          spec:
+            image: plugins/docker # uses?
+            connector: connecer.dockerhub
+            with:
+              repo: foo/bar
+            envs:
+              foo: bar
+              baz: qux
+            mount:
+              - name: foo
+                path: /tmp
+            network: host
+            pull: if-not-exists
+            privileged: false
+            reports:
+              - path: /path/to/report.xml
+                type: junit
+            user: ubuntu
+            group: ubuntu
+          failure:
+          - errors: [ all ]
+            action:
+              type: manual-intervention
+              spec:
+                timeout: 50s
+                timeout_action:
+                  type: ignore
+          - errors: [ all ]
+            action:
+              type: ignore
+        - type: background
+          spec:
+            image: redis # uses?
+            connector: connecer.dockerhub
+            mount: # should this be stage level?
+              - name: foo
+                path: /tmp
+            envs:
+              foo: bar
+              baz: qux
+            network: host
+            pull: if-not-exists
+            privileged: false
+            user: ubuntu
+            group: ubuntu
+            entrypoint: "/bin/redis" # change to array
+            args: [ "--foo", "--bar" ]
+        - type: action 
+          spec: # add report? pull? privileged? resources? other step properties
+            mount:
+              - name: foo
+                path: /tmp
+            uses: foo/bar
+            envs:
+              foo: bar
+              baz: qux
+            with:
+              baz: qux
+        - type: bitrise
+          spec: # add report? pull? privileged? resources? other step properties
+            mount:
+              - name: foo
+                path: /tmp
+            uses: foo/bar
+            envs:
+              foo: bar
+              baz: qux
+            with:
+              foo: bar
+              baz: qux
+        - type: barrier
+          spec:
+            ref: foo
+        - type: test
+          spec:
+            uses: maven # need more input from TI team
+            with:
+              arg1: val1
+              arg2: val2
+            splitting:
+              concurrency: 5
+              enabled: true
+              strategy: todo # is this implementation specific? should this go under spec?
+        - type: template
+          spec:
+            name: template1
+            inputs:
+              foo: bar
+              baz: qux
+        - type: parallel
+          timeout: 10m
+          spec:
+            steps:
+              - type: script
+                spec:
+                  run: go build
+              - type: script
+                spec:
+                  run: npm test
+        - type: group
+          timeout: 10m
+          spec:
+            steps:
+              - type: script
+                spec:
+                  run: go build
+              - type: script
+                spec:
+                  run: npm test
+
+                  
+
+  options:
+    barriers: # can this be map[string]string? or maybe even just a []string?
+      - foo: bar
+      - baz: qux
     clone:
+      depth: 50
       disabled: false
-    cache:
-      enabled: true # need to support multiple cache keys per path
-      key: foo
-      paths:
-        - path/foo
-        - path/bar
+      insecure: false
+      strategy: merge
+      trace: false
+    delegate: foo
     envs:
       foo: bar
       baz: qux
-    platform:
-      os: linux
-      arch: arm64
-      variant: v7
-    runtime:
-      type: cloud
-      spec:
-        size: standard # need to finalize sizes, add as enum
-    volumes:
-      - name: foo
-        type: host
-        spec:
-          path: /path/on/host
-    steps:
-      - id: go-build # optional
-        name: go build # optional
-        # when: <+ pipeline.branch == "main" >
-        # when:
-        #   branch:
-        #     eq: main
-        #   event:
-        #     in: [ push, pull_request ]
-        # when:
-        # - branch:
-        #     eq: main
-        #   event:
-        #     eq: push
-        # - event:
-        #     eq: pull_request
-
-        type: script
-        spec:
-          image: golang # optional
-          connector: connecer.dockerhub # combine under image?
-          run: |-
-            go build
-            go test
-          mount: # should this be stage level?
-            - name: foo
-              path: /tmp
-          shell: bash
-          envs:
-            foo: bar
-            baz: qux
-          network: host
-          pull: if-not-exists
-          privileged: false
-          reports:
-            - path: /path/to/report.xml
-              type: junit
-          user: ubuntu
-          group: ubuntu
-          entrypoint: "" # change to array
-          args: [] 
-        failure:
-          errors: [ all ]
-          action:
-            type: retry
-            spec:
-              attempts: 3
-              failure:
-                action:
-                  type: ignore
-                  spec: {}
-      - type: plugin
-        spec:
-          image: plugins/docker # uses?
-          connector: connecer.dockerhub
-          with:
-            repo: foo/bar
-          envs:
-            foo: bar
-            baz: qux
-          mount:
-            - name: foo
-              path: /tmp
-          network: host
-          pull: if-not-exists
-          privileged: false
-          reports:
-            - path: /path/to/report.xml
-              type: junit
-          user: ubuntu
-          group: ubuntu
-        failure:
-        - errors: [ all ]
-          action:
-            type: manual-intervention
-            spec:
-              timeout: 50s
-              timeout_action:
-                type: ignore
-        - errors: [ all ]
-          action:
-            type: ignore
-      - type: background
-        spec:
-          image: redis # uses?
-          connector: connecer.dockerhub
-          mount: # should this be stage level?
-            - name: foo
-              path: /tmp
-          envs:
-            foo: bar
-            baz: qux
-          network: host
-          pull: if-not-exists
-          privileged: false
-          user: ubuntu
-          group: ubuntu
-          entrypoint: "/bin/redis" # change to array
-          args: [ "--foo", "--bar" ]
-      - type: action 
-        spec: # add report? pull? privileged? resources? other step properties
-          mount:
-            - name: foo
-              path: /tmp
-          uses: foo/bar
-          envs:
-            foo: bar
-            baz: qux
-          with:
-            baz: qux
-      - type: bitrise
-        spec: # add report? pull? privileged? resources? other step properties
-          mount:
-            - name: foo
-              path: /tmp
-          uses: foo/bar
-          envs:
-            foo: bar
-            baz: qux
-          with:
-            foo: bar
-            baz: qux
-      - type: barrier
-        spec:
-          ref: foo
-      - type: test
-        spec:
-          uses: maven # need more input from TI team
-          with:
-            arg1: val1
-            arg2: val2
-          splitting:
-            concurrency: 5
-            enabled: true
-            strategy: todo # is this implementation specific? should this go under spec?
-      - type: template
-        spec:
-          name: template1
-          inputs:
-            foo: bar
-            baz: qux
-      - type: parallel
-        timeout: 10m
-        spec:
-          steps:
-            - type: script
-              spec:
-                run: go build
-            - type: script
-              spec:
-                run: npm test
-      - type: group
-        timeout: 10m
-        spec:
-          steps:
-            - type: script
-              spec:
-                run: go build
-            - type: script
-              spec:
-                run: npm test
-
-                
-
-options:
-  barriers: # can this be map[string]string? or maybe even just a []string?
-    - foo: bar
-    - baz: qux
-  clone:
-    depth: 50
-    disabled: false
-    insecure: false
-    strategy: merge
-    trace: false
-  delegate: foo
-  envs:
-    foo: bar
-    baz: qux
-  registry:
-    connector: account.docker
-    mirror:
-    - https://mirror.gcr.io
-  repository:
-    connector: connector.repo
-    name: harness
+    registry:
+      connector: account.docker
+      mirror:
+      - https://mirror.gcr.io
+    repository:
+      connector: connector.repo
+      name: harness

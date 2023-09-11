@@ -1,36 +1,33 @@
-
-stages:
-- name: build
-  type: ci
-  spec:
-    runtime:
-      type: cloud
-      spec:
-        size: xlarge
-    platform:
-      os: linux
-      arch: arm64
-    steps:
-    - name: build
-      type: script
-      spec:
-        image: golang
-        run: go build
-    - type: parallel
-      spec:
-        steps:
-        - name: test-go
-          type: script
-          spec:
-            run: go test
-        - name: test-npm
-          type: script
-          spec:
-            run: |-
-              npm install
-              npm run test
-
-registry:
-  credentials:
-  - account.docker
-  - account.gcr
+version: "1"
+type: pipeline
+spec:
+  stages:
+  - name: build
+    type: ci
+    spec:
+      runtime:
+        type: cloud
+        spec:
+          size: xlarge
+      platform:
+        os: linux
+        arch: arm64
+      steps:
+      - name: build
+        type: script
+        spec:
+          image: golang
+          run: go build
+      - type: parallel
+        spec:
+          steps:
+          - name: test-go
+            type: script
+            spec:
+              run: go test
+          - name: test-npm
+            type: script
+            spec:
+              run: |-
+                npm install
+                npm run test

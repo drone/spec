@@ -8,21 +8,21 @@ import fs from "fs";
 import yaml from "js-yaml";
 
 // parse the root document
-let root = yaml.load(fs.readFileSync("schema/pipeline.yaml", "utf8"));
+let root = yaml.load(fs.readFileSync("schema/config.yaml", "utf8"));
 
 // create the root schema object. we assume the pipeline
 // is the base definition.
 let schema = {
     definitions: {
-        "Pipeline": root,
+        "Config": root,
     },
     oneOf: [{
-        $ref: "#/definitions/Pipeline"
+        $ref: "#/definitions/Config"
     }]
 }
 
 // store the pipeline file name
-root["x-file"] = "pipeline.yaml"
+root["x-file"] = "config.yaml"
 
 // walk the object tree.
 let walk = (node) => {
