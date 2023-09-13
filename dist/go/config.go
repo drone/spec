@@ -24,6 +24,7 @@ type Config struct {
 	Version StringorInt `json:"version,omitempty"`
 	Kind    string      `json:"kind,omitempty"`
 	Type    string      `json:"type,omitempty"`
+	Name    string      `json:"name,omitempty"`
 	Spec    interface{} `json:"spec,omitempty"`
 }
 
