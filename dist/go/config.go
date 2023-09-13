@@ -45,21 +45,19 @@ func (v *Config) UnmarshalJSON(data []byte) error {
 		v.Spec = new(Pipeline)
 	case "template":
 		switch v.Type {
-		case "pipeline":
-			v.Spec = new(Pipeline)
 		case "stage":
-			v.Spec = new(Stage)
+			v.Spec = new(TemplateStage)
 		case "step":
-			v.Spec = new(Step)
+			v.Spec = new(TemplateStep)
 		default:
 			return fmt.Errorf("unknown template type %s", v.Type)
 		}
 	case "plugin":
 		switch v.Type {
 		case "stage":
-			v.Spec = new(Stage)
+			v.Spec = new(PluginStage)
 		case "step":
-			v.Spec = new(Step)
+			v.Spec = new(PluginStep)
 		default:
 			return fmt.Errorf("unknown plugin type %s", v.Type)
 		}

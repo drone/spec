@@ -22,6 +22,9 @@ properties:
       - pipeline
       - stage
       - step
+  name:
+    type: string
+    description: Name defines an optional resource name.
 
 required:
 - kind
@@ -43,7 +46,7 @@ oneOf:
         const: stage
   - properties:
       spec:
-        $ref: ./stage.yaml
+        $ref: ./template_stage.yaml
 
 - allOf:
   - properties:
@@ -53,15 +56,27 @@ oneOf:
         const: step
   - properties:
       spec:
-        $ref: ./step.yaml
+        $ref: ./template_step.yaml
 
 - allOf:
   - properties:
       kind:
         const: plugin
+      type:
+        const: step
   - properties:
       spec:
-        $ref: ./step.yaml
+        $ref: ./plugin_step.yaml
+
+- allOf:
+  - properties:
+      kind:
+        const: plugin
+      type:
+        const: stage
+  - properties:
+      spec:
+        $ref: ./plugin_stage.yaml
 
 # manually generate the go file
 x-go-skip: true

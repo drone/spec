@@ -29,6 +29,10 @@
                         "stage",
                         "step"
                     ]
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name defines an optional resource name."
                 }
             },
             "required": [
@@ -68,7 +72,7 @@
                         {
                             "properties": {
                                 "spec": {
-                                    "$ref": "#/definitions/Stage"
+                                    "$ref": "#/definitions/TemplateStage"
                                 }
                             }
                         }
@@ -89,7 +93,7 @@
                         {
                             "properties": {
                                 "spec": {
-                                    "$ref": "#/definitions/Step"
+                                    "$ref": "#/definitions/TemplateStep"
                                 }
                             }
                         }
@@ -101,13 +105,37 @@
                             "properties": {
                                 "kind": {
                                     "const": "plugin"
+                                },
+                                "type": {
+                                    "const": "step"
                                 }
                             }
                         },
                         {
                             "properties": {
                                 "spec": {
-                                    "$ref": "#/definitions/Step"
+                                    "$ref": "#/definitions/PluginStep"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "kind": {
+                                    "const": "plugin"
+                                },
+                                "type": {
+                                    "const": "stage"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/PluginStage"
                                 }
                             }
                         }
@@ -2774,6 +2802,10 @@
                     },
                     "description": "Enum defines a list of accepted input values.",
                     "x-go-type": "[]string"
+                },
+                "mask": {
+                    "type": "boolean",
+                    "description": "Mask indicates the input should be masked."
                 }
             },
             "x-file": "input.yaml"
@@ -3014,6 +3046,110 @@
                 }
             },
             "x-file": "status.yaml"
+        },
+        "TemplateStage": {
+            "title": "TemplateStage",
+            "description": "TemplateStage defines a stage-level template",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The template name."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The template description."
+                },
+                "stage": {
+                    "$ref": "#/definitions/Stage"
+                },
+                "inputs": {
+                    "type": "object",
+                    "description": "Inputs defines the template input parameters.",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Input"
+                    }
+                }
+            },
+            "x-file": "template_stage.yaml"
+        },
+        "TemplateStep": {
+            "title": "TemplateStep",
+            "description": "TemplateStep defines a step-level template",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The template name."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The template description."
+                },
+                "step": {
+                    "$ref": "#/definitions/Step"
+                },
+                "inputs": {
+                    "type": "object",
+                    "description": "Inputs defines the template input parameters.",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Input"
+                    }
+                }
+            },
+            "x-file": "template_step.yaml"
+        },
+        "PluginStep": {
+            "title": "PluginStep",
+            "description": "PluginStep defines a step-level plugin",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The plugin name."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The plugin description."
+                },
+                "step": {
+                    "$ref": "#/definitions/Step"
+                },
+                "inputs": {
+                    "type": "object",
+                    "description": "Inputs defines the plugin input parameters.",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Input"
+                    }
+                }
+            },
+            "x-file": "plugin_step.yaml"
+        },
+        "PluginStage": {
+            "title": "PluginStage",
+            "description": "PluginStage defines a stage-level plugin",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The plugin name."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The plugin description."
+                },
+                "stage": {
+                    "$ref": "#/definitions/Stage"
+                },
+                "inputs": {
+                    "type": "object",
+                    "description": "Inputs defines the plugin input parameters.",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Input"
+                    }
+                }
+            },
+            "x-file": "plugin_stage.yaml"
         }
     },
     "oneOf": [

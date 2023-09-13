@@ -1,0 +1,18 @@
+title: PluginStage
+description: PluginStage defines a stage-level plugin
+type: object
+
+properties:
+  name:
+    type: string
+    description: The plugin name.
+  description:
+    type: string
+    description: The plugin description.
+  stage:
+    $ref: ./stage.yaml
+  inputs:
+    type: object
+    description: Inputs defines the plugin input parameters.
+    additionalProperties: 
+      $ref: ./input.yaml

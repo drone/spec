@@ -36,3 +36,6 @@ properties:
       - boolean
     description: Enum defines a list of accepted input values.
     x-go-type: "[]string"
+  mask:
+    type: boolean
+    description: Mask indicates the input should be masked.

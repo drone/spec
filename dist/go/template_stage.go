@@ -16,13 +16,10 @@
 
 package yaml
 
-// Input defines an input parameter.
-type Input struct {
-	Type        string      `json:"type,omitempty"`
-	Description string      `json:"description,omitempty"`
-	Default     string      `json:"default,omitempty"`
-	Required    bool        `json:"required,omitempty"`
-	Items       *InputItems `json:"items,omitempty"`
-	Enum        []string    `json:"enum,omitempty"`
-	Mask        bool        `json:"mask,omitempty"`
+// TemplateStage defines a stage-level template
+type TemplateStage struct {
+	Name        string            `json:"name,omitempty"`
+	Description string            `json:"description,omitempty"`
+	Stage       *Stage            `json:"stage,omitempty"`
+	Inputs      map[string]*Input `json:"inputs,omitempty"`
 }

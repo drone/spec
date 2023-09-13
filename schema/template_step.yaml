@@ -1,0 +1,18 @@
+title: TemplateStep
+description: TemplateStep defines a step-level template
+type: object
+
+properties:
+  name:
+    type: string
+    description: The template name.
+  description:
+    type: string
+    description: The template description.
+  step:
+    $ref: ./step.yaml
+  inputs:
+    type: object
+    description: Inputs defines the template input parameters.
+    additionalProperties: 
+      $ref: ./input.yaml
