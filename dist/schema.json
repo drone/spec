@@ -52,6 +52,66 @@
                             }
                         }
                     ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "kind": {
+                                    "const": "template"
+                                },
+                                "type": {
+                                    "const": "stage"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/Stage"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "kind": {
+                                    "const": "template"
+                                },
+                                "type": {
+                                    "const": "step"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/Step"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "kind": {
+                                    "const": "plugin"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/Step"
+                                }
+                            }
+                        }
+                    ]
                 }
             ],
             "x-go-skip": true,

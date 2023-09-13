@@ -35,5 +35,33 @@ oneOf:
       spec:
         $ref: ./pipeline.yaml
 
+- allOf:
+  - properties:
+      kind:
+        const: template
+      type:
+        const: stage
+  - properties:
+      spec:
+        $ref: ./stage.yaml
+
+- allOf:
+  - properties:
+      kind:
+        const: template
+      type:
+        const: step
+  - properties:
+      spec:
+        $ref: ./step.yaml
+
+- allOf:
+  - properties:
+      kind:
+        const: plugin
+  - properties:
+      spec:
+        $ref: ./step.yaml
+
 # manually generate the go file
 x-go-skip: true

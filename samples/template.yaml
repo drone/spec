@@ -1,0 +1,10 @@
+kind: template
+type: stage
+spec:
+  type: ci
+  spec:
+    steps:
+    - name: build
+      type: script
+      spec:
+        run: go build
