@@ -12,21 +12,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package parse
-
-// import (
-// 	"encoding/json"
-// 	"os"
-// 	"testing"
-// )
-
-// func TestExpand(t *testing.T) {
-// 	config, err := ParseFile("../../../samples/matrix.yaml")
-// 	if err != nil {
-// 		t.Error(err)
-// 	}
-// 	Expand(config)
-// 	Normalize(config)
-// 	json.NewEncoder(os.Stdout).Encode(config)
-// 	t.Fail()
-// }
+package normalize

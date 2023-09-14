@@ -1,0 +1,23 @@
+version: 1
+kind: pipeline
+spec:
+  stages:
+  - name: build
+    type: ci
+    spec:
+      steps:
+      - name: frontend
+        type: script
+        strategy:
+          type: matrix
+          spec:
+            axis:
+              node:
+              - "16"
+              - "18"
+        spec:
+          image: node:${{ matrix.node }}
+          run: |
+            npm install
+            npm run test
+            npm run bundle

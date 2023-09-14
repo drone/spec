@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package parse
+package matrix
 
 import (
 	"encoding/json"
 
 	schema "github.com/drone/spec/dist/go"
-	"github.com/drone/spec/dist/go/parse/matrix"
+	"github.com/drone/spec/dist/go/expand/matrix"
 )
 
 // Expand expands the matrix strategies.
@@ -55,11 +55,11 @@ func expandStageMatrix(v *schema.Stage) {
 					Id:       v.Id,
 					Name:     v.Name,
 					Delegate: v.Delegate,
-					Status:   v.Status, // ptr, may need to deep copy
+					Status:   v.Status,
 					Type:     v.Type,
-					When:     v.When,    // ptr, may need to deep copy
-					Failure:  v.Failure, // ptr, may need to deep copy
-					Spec:     v.Spec,    // ptr, may need to deep copy
+					When:     v.When,
+					Failure:  v.Failure,
+					Spec:     v.Spec,
 					Strategy: &schema.Strategy{
 						Type: "matrix",
 						Spec: &schema.Matrix{
@@ -68,12 +68,13 @@ func expandStageMatrix(v *schema.Stage) {
 					},
 				}
 
-				deepcopy := new(schema.Stage)
-				out, _ := json.Marshal(stage)
-				json.Unmarshal(out, deepcopy)
+				// we need to make a deep copy to prevent
+				// multiple stages from sharing the same
+				// child objects
+				stage = deepCopyStage(stage)
 
-				expandStage(deepcopy)
-				stages = append(stages, deepcopy)
+				expandStage(stage)
+				stages = append(stages, stage)
 			}
 
 			// change the stage to a parallel stage,
@@ -130,9 +131,9 @@ func expandStepMatrix(v *schema.Step) {
 					Name:    v.Name,
 					Type:    v.Type,
 					Timeout: v.Timeout,
-					When:    v.When,    // ptr, may need to deep copy
-					Failure: v.Failure, // ptr, may need to deep copy
-					Spec:    v.Spec,    // ptr, may need to deep copy
+					When:    v.When,
+					Failure: v.Failure,
+					Spec:    v.Spec,
 					Strategy: &schema.Strategy{
 						Type: "matrix",
 						Spec: &schema.Matrix{
@@ -144,12 +145,10 @@ func expandStepMatrix(v *schema.Step) {
 				// we need to make a deep copy to prevent
 				// multiple steps from sharing the same
 				// child objects
-				deepcopy := new(schema.Step)
-				out, _ := json.Marshal(step)
-				json.Unmarshal(out, deepcopy)
+				step = deepCopyStep(step)
 
-				expandStep(deepcopy)
-				steps = append(steps, deepcopy)
+				expandStep(step)
+				steps = append(steps, step)
 			}
 
 			// change the stage to a parallel stage,
@@ -181,4 +180,20 @@ func expandStep(v *schema.Step) {
 			expandStepMatrix(vv)
 		}
 	}
+}
+
+// helper function creates a deep copy of a stage
+func deepCopyStage(in *schema.Stage) *schema.Stage {
+	out := new(schema.Stage)
+	raw, _ := json.Marshal(in)   // assumes no errors
+	_ = json.Unmarshal(raw, out) // assumes no errors
+	return out
+}
+
+// helper function creates a deep copy of a stage
+func deepCopyStep(in *schema.Step) *schema.Step {
+	out := new(schema.Step)
+	raw, _ := json.Marshal(in)   // assumes no errors
+	_ = json.Unmarshal(raw, out) // assumes no errors
+	return out
 }

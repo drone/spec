@@ -45,4 +45,3 @@ spec:
             repo: acme/server
             username: ${{ secrets.username }}
             password: ${{ secrets.password }}
-
