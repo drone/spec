@@ -12,4 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package parse
+package matrix
+
+// import (
+// 	"encoding/json"
+// 	"os"
+// 	"testing"
+
+// 	"github.com/drone/spec/dist/go/parse"
+// 	"github.com/drone/spec/dist/go/parse/normalize"
+// )
+
+// func TestExpand(t *testing.T) {
+// 	config, err := parse.ParseFile("../../../../samples/matrix.yaml")
+// 	if err != nil {
+// 		t.Error(err)
+// 	}
+// 	Expand(config)
+// 	normalize.Normalize(config)
+// 	json.NewEncoder(os.Stdout).Encode(config)
+// 	t.Fail()
+// }

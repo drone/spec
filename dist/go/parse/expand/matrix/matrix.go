@@ -14,7 +14,10 @@
 
 package matrix
 
-import "strings"
+import (
+	"sort"
+	"strings"
+)
 
 const (
 	limitTags = 10
@@ -34,6 +37,11 @@ func (a Axis) String() string {
 	for k, v := range a {
 		envs = append(envs, k+"="+v)
 	}
+	// sort the slice to ensure the ordering
+	// is deterministic.
+	sort.SliceStable(envs, func(i, j int) bool {
+		return envs[i] < envs[j]
+	})
 	return strings.Join(envs, " ")
 }
 
@@ -78,6 +86,12 @@ func Calc(matrix Matrix) []Axis {
 			break
 		}
 	}
+
+	// sort the slice to ensure the ordering
+	// is deterministic.
+	sort.SliceStable(axisList, func(i, j int) bool {
+		return axisList[i].String() < axisList[j].String()
+	})
 
 	return axisList
 }

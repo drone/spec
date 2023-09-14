@@ -18,7 +18,7 @@ import (
 	"encoding/json"
 
 	schema "github.com/drone/spec/dist/go"
-	"github.com/drone/spec/dist/go/expand/matrix"
+	"github.com/drone/spec/dist/go/parse/expand/matrix"
 )
 
 // Expand expands the matrix strategies.
@@ -51,6 +51,7 @@ func expandStageMatrix(v *schema.Stage) {
 			// ony the relevant matrix includes for this
 			// specific permutation.
 			for _, perm := range perms {
+				println(perm.String())
 				stage := &schema.Stage{
 					Id:       v.Id,
 					Name:     v.Name,
