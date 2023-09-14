@@ -243,7 +243,9 @@
                         "custom",
                         "flag",
                         "iacm",
-                        "template"
+                        "template",
+                        "group",
+                        "parallel"
                     ],
                     "type": "string"
                 },
@@ -359,6 +361,42 @@
                             "properties": {
                                 "spec": {
                                     "$ref": "#/definitions/StageTemplate"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "type": {
+                                    "const": "group"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/StageGroup"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "type": {
+                                    "const": "parallel"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/StageParallel"
                                 }
                             }
                         }
@@ -1977,6 +2015,9 @@
                 "resources": {
                     "$ref": "#/definitions/Resources"
                 },
+                "workdir": {
+                    "type": "string"
+                },
                 "mount": {
                     "type": "array",
                     "items": {
@@ -2753,6 +2794,34 @@
             "type": "object",
             "title": "StageTemplate",
             "x-file": "stage_template.yaml"
+        },
+        "StageGroup": {
+            "properties": {
+                "stages": {
+                    "description": "Configures a series of stages to execute.",
+                    "items": {
+                        "$ref": "#/definitions/Stage"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object",
+            "title": "StageGroup",
+            "x-file": "stage_group.yaml"
+        },
+        "StageParallel": {
+            "properties": {
+                "stages": {
+                    "description": "Configures a series of stages to execute in parallel.",
+                    "items": {
+                        "$ref": "#/definitions/Stage"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object",
+            "title": "StageParallel",
+            "x-file": "stage_parallel.yaml"
         },
         "Input": {
             "title": "Input",

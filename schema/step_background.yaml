@@ -42,6 +42,8 @@ properties:
     type: boolean
   resources:
     $ref: ./resources.yaml
+  workdir:
+    type: string
   mount:
     type: array
     items:

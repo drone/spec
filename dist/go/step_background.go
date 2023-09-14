@@ -29,5 +29,6 @@ type StepBackground struct {
 	Network    string            `json:"network,omitempty"`
 	Privileged bool              `json:"privileged,omitempty"`
 	Resources  *Resources        `json:"resources,omitempty"`
+	Workdir    string            `json:"workdir,omitempty"`
 	Mount      []*Mount          `json:"mount,omitempty"`
 }

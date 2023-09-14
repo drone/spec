@@ -33,6 +33,8 @@ properties:
       - flag
       - iacm
       - template
+      - group
+      - parallel
     type: string
   when:
     description: The stage conditional logic.
@@ -83,6 +85,21 @@ oneOf:
   - properties:
       spec:
         $ref: ./stage_template.yaml
+- allOf:
+  - properties:
+      type:
+        const: group
+  - properties:
+      spec:
+        $ref: ./stage_group.yaml
+- allOf:
+  - properties:
+      type:
+        const: parallel
+  - properties:
+      spec:
+        $ref: ./stage_parallel.yaml
+
 
 anyOf:
 - required:

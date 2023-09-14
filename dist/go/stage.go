@@ -60,6 +60,10 @@ func (v *Stage) UnmarshalJSON(data []byte) error {
 		v.Spec = new(StageFlag)
 	case "template":
 		v.Spec = new(StageTemplate)
+	case "group":
+		v.Spec = new(StageGroup)
+	case "parallel":
+		v.Spec = new(StageParallel)
 	default:
 		return fmt.Errorf("unknown type %s", v.Type)
 	}

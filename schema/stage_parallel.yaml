@@ -1,0 +1,8 @@
+properties:
+  stages:
+    description: Configures a series of stages to execute in parallel.
+    items:
+      $ref: ./stage.yaml
+    type: array
+type: object
+title: StageParallel

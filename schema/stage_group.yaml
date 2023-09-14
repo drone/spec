@@ -1,0 +1,8 @@
+properties:
+  stages:
+    description: Configures a series of stages to execute.
+    items:
+      $ref: ./stage.yaml
+    type: array
+type: object
+title: StageGroup
