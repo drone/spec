@@ -1680,6 +1680,7 @@
                         "barrier",
                         "bitrise",
                         "script",
+                        "run",
                         "group",
                         "parallel",
                         "plugin",
@@ -1790,6 +1791,24 @@
                             "properties": {
                                 "spec": {
                                     "$ref": "#/definitions/StepExec"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "type": {
+                                    "const": "run"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/StepRun"
                                 }
                             }
                         }
@@ -2186,6 +2205,102 @@
                 "type"
             ],
             "x-file": "report.yaml"
+        },
+        "StepRun": {
+            "title": "StepRun",
+            "type": "object",
+            "properties": {
+                "image": {
+                    "type": "string"
+                },
+                "connector": {
+                    "type": "string"
+                },
+                "user": {
+                    "type": "string"
+                },
+                "group": {
+                    "type": "string"
+                },
+                "pull": {
+                    "type": "string",
+                    "enum": [
+                        "always",
+                        "never",
+                        "if-not-exists"
+                    ]
+                },
+                "shell": {
+                    "type": "string",
+                    "enum": [
+                        "sh",
+                        "bash",
+                        "powershell",
+                        "pwsh",
+                        "python"
+                    ]
+                },
+                "script": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "envs": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "The step environment variables."
+                },
+                "entrypoint": {
+                    "type": "string"
+                },
+                "args": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "privileged": {
+                    "type": "boolean"
+                },
+                "network": {
+                    "type": "string"
+                },
+                "workdir": {
+                    "type": "string"
+                },
+                "reports": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Report"
+                    }
+                },
+                "outputs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "resources": {
+                    "$ref": "#/definitions/Resources"
+                },
+                "mount": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Mount"
+                    }
+                }
+            },
+            "x-file": "step_run.yaml"
         },
         "StepTest": {
             "title": "StepTest",

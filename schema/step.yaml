@@ -21,6 +21,7 @@ properties:
       - barrier
       - bitrise
       - script
+      - run
       - group
       - parallel
       - plugin
@@ -75,6 +76,13 @@ oneOf:
   - properties:
       spec:
         $ref: ./step_exec.yaml
+- allOf:
+  - properties:
+      type:
+        const: run
+  - properties:
+      spec:
+        $ref: ./step_run.yaml
 - allOf:
   - properties:
       type:

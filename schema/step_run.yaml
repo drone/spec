@@ -1,7 +1,5 @@
-title: StepExec
+title: StepRun
 type: object
-
-# DEPRECATE
 
 properties:
   image:
@@ -26,13 +24,17 @@ properties:
     - powershell
     - pwsh
     - python
+  script:
+    anyOf:
+    - items:
+        type: string
+      type: array
+    - type: string
   envs:
     type: object
     additionalProperties:
       type: string
     description: The step environment variables.
-  run:
-    type: string
   entrypoint:
     type: string
   args:
@@ -42,6 +44,8 @@ properties:
   privileged:
     type: boolean
   network:
+    type: string
+  workdir:
     type: string
   reports:
     type: array
