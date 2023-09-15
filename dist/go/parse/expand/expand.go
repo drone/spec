@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package matrix
+package expand
 
 import (
 	"encoding/json"
@@ -51,7 +51,6 @@ func expandStageMatrix(v *schema.Stage) {
 			// ony the relevant matrix includes for this
 			// specific permutation.
 			for _, perm := range perms {
-				println(perm.String())
 				stage := &schema.Stage{
 					Id:       v.Id,
 					Name:     v.Name,
