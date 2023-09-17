@@ -20,8 +20,8 @@ import (
 	schema "github.com/drone/spec/dist/go"
 )
 
-// Lookup returns a resource by name.
-type LookupFunc func(string) (*schema.Config, error)
+// Lookup returns a resource by name, kind and type.
+type LookupFunc func(name, kind, typ, version string) (*schema.Config, error)
 
 // Resolve injects named resources in the pipeline. This
 // function is recursive and inject stage and step resources.
@@ -59,17 +59,17 @@ func ResolveStage(stage *schema.Stage, fn LookupFunc) error {
 			}
 		}
 	case *schema.StageTemplate:
-		config, err := fn(v.Name)
+		config, err := fn(v.Name, "template", "stage", "")
 		if err != nil {
 			return err
 		}
 		switch vv := config.Spec.(type) {
-		case *schema.TemplateStep:
-			if stage.Spec == nil {
-				return errors.New("invalid template step")
+		case *schema.TemplateStage:
+			if vv.Stage == nil {
+				return errors.New("invalid template stage")
 			}
-			stage.Spec = vv.Step.Spec
-			stage.Type = vv.Step.Type
+			stage.Spec = vv.Stage.Spec
+			stage.Type = vv.Stage.Type
 		default:
 			return errors.New("invalid resource type")
 		}
@@ -99,7 +99,7 @@ func resolveStage(stage *schema.Stage, fn LookupFunc) error {
 			}
 		}
 	case *schema.StageTemplate:
-		config, err := fn(v.Name)
+		config, err := fn(v.Name, "template", "stage", "")
 		if err != nil {
 			return err
 		}
@@ -133,7 +133,7 @@ func resolveStep(step *schema.Step, fn LookupFunc) error {
 			}
 		}
 	case *schema.StepTemplate:
-		config, err := fn(v.Name)
+		config, err := fn(v.Name, "template", "step", "")
 		if err != nil {
 			return err
 		}
@@ -152,7 +152,7 @@ func resolveStep(step *schema.Step, fn LookupFunc) error {
 		if s := v.Uses; s != "" {
 			name = s
 		}
-		config, err := fn(name)
+		config, err := fn(name, "plugin", "step", "")
 		if err != nil {
 			return err
 		}

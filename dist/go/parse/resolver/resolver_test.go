@@ -25,7 +25,7 @@ import (
 )
 
 func TestResolver(t *testing.T) {
-	lookup := func(name string) (*schema.Config, error) {
+	lookup := func(name, kind, typ, version string) (*schema.Config, error) {
 		return parse.ParseFile(
 			filepath.Join("testdata/resources", name+".yaml"),
 		)
