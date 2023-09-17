@@ -21,9 +21,13 @@ import (
 	schema "github.com/drone/spec/dist/go"
 )
 
+var pattern = regexp.MustCompile(`\${{(.*)}}`)
+
 // Expand expands the script inside the text snippet.
 func Expand(code string, inputs map[string]interface{}) string {
-	pattern := regexp.MustCompile(`\${{(.*)}}`)
+	if !strings.Contains(code, "${{") {
+		return code
+	}
 	return pattern.ReplaceAllStringFunc(code, func(s string) string {
 		s = strings.TrimSpace(s)
 		s = strings.TrimPrefix(s, "${{")
@@ -35,11 +39,35 @@ func Expand(code string, inputs map[string]interface{}) string {
 
 // ExpandStep expands scripts in the step.
 func ExpandStep(step *schema.Step, inputs map[string]interface{}) {
-	switch step.Spec.(type) {
+	step.Id = Expand(step.Name, inputs)
+	step.Name = Expand(step.Name, inputs)
+
+	switch spec := step.Spec.(type) {
 	case *schema.StepAction:
 	case *schema.StepBackground:
+		spec.Run = Expand(spec.Run, inputs)
+		spec.Image = Expand(spec.Image, inputs)
+		spec.Entrypoint = Expand(spec.Entrypoint, inputs)
+		for i, s := range spec.Args {
+			spec.Args[i] = Expand(s, inputs)
+		}
 	case *schema.StepBitrise:
 	case *schema.StepExec:
+		spec.Run = Expand(spec.Run, inputs)
+		spec.Image = Expand(spec.Image, inputs)
+		spec.Connector = Expand(spec.Connector, inputs)
+		spec.Entrypoint = Expand(spec.Entrypoint, inputs)
+		for i, s := range spec.Args {
+			spec.Args[i] = Expand(s, inputs)
+		}
+		if spec.Reports != nil {
+			for _, report := range spec.Reports {
+				for i, s := range report.Path {
+					report.Path[i] = Expand(s, inputs)
+				}
+			}
+		}
+
 	case *schema.StepGroup:
 	case *schema.StepParallel:
 	case *schema.StepRun:
