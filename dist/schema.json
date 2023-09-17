@@ -257,6 +257,15 @@
                     "$ref": "#/definitions/FailureList"
                 }
             },
+            "x-properties": {
+                "inputs": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object"
+                    },
+                    "x-go-type": "map[string]interface{}"
+                }
+            },
             "oneOf": [
                 {
                     "allOf": [
@@ -1703,6 +1712,18 @@
                 },
                 "failure": {
                     "$ref": "#/definitions/FailureList"
+                }
+            },
+            "x-properties": {
+                "number": {
+                    "type": "number"
+                },
+                "inputs": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object"
+                    },
+                    "x-go-type": "map[string]interface{}"
                 }
             },
             "oneOf": [

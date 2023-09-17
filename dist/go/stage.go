@@ -22,16 +22,17 @@ import (
 )
 
 type Stage struct {
-	Desc     string        `json:"desc,omitempty"`
-	Id       string        `json:"id,omitempty"`
-	Name     string        `json:"name,omitempty"`
-	Strategy *Strategy     `json:"strategy,omitempty"`
-	Delegate Stringorslice `json:"delegate,omitempty"`
-	Status   *StatusStage  `json:"status,omitempty"`
-	Type     string        `json:"type,omitempty"`
-	When     *When         `json:"when,omitempty"`
-	Failure  *FailureList  `json:"failure,omitempty"`
-	Spec     interface{}   `json:"spec,omitempty"`
+	Desc     string                 `json:"desc,omitempty"`
+	Id       string                 `json:"id,omitempty"`
+	Name     string                 `json:"name,omitempty"`
+	Strategy *Strategy              `json:"strategy,omitempty"`
+	Delegate Stringorslice          `json:"delegate,omitempty"`
+	Status   *StatusStage           `json:"status,omitempty"`
+	Type     string                 `json:"type,omitempty"`
+	When     *When                  `json:"when,omitempty"`
+	Failure  *FailureList           `json:"failure,omitempty"`
+	Inputs   map[string]interface{} `json:"inputs,omitempty"`
+	Spec     interface{}            `json:"spec,omitempty"`
 }
 
 // UnmarshalJSON implement the json.Unmarshaler interface.

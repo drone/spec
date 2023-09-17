@@ -52,5 +52,6 @@ func TestResolver(t *testing.T) {
 
 	if diff := cmp.Diff(got, want); diff != "" {
 		t.Log(diff)
+		t.Fail()
 	}
 }

@@ -110,6 +110,15 @@ func resolveStage(stage *schema.Stage, fn LookupFunc) error {
 			}
 			stage.Spec = vv.Stage.Spec
 			stage.Type = vv.Stage.Type
+			stage.Inputs = map[string]interface{}{}
+			for k, v := range vv.Inputs {
+				if v != nil {
+					stage.Inputs[k] = v.Default
+				}
+			}
+			for k, v := range v.Inputs {
+				stage.Inputs[k] = v
+			}
 		default:
 			return errors.New("invalid resource type")
 		}
@@ -144,6 +153,15 @@ func resolveStep(step *schema.Step, fn LookupFunc) error {
 			}
 			step.Spec = vv.Step.Spec
 			step.Type = vv.Step.Type
+			step.Inputs = map[string]interface{}{}
+			for k, v := range vv.Inputs {
+				if v != nil {
+					step.Inputs[k] = v.Default
+				}
+			}
+			for k, v := range v.Inputs {
+				step.Inputs[k] = v
+			}
 		default:
 			return errors.New("invalid resource type")
 		}
@@ -163,6 +181,16 @@ func resolveStep(step *schema.Step, fn LookupFunc) error {
 			}
 			step.Spec = vv.Step.Spec
 			step.Type = vv.Step.Type
+			step.Inputs = map[string]interface{}{}
+			for k, v := range vv.Inputs {
+				if v != nil {
+					step.Inputs[k] = v.Default
+				}
+			}
+			for k, v := range v.Inputs {
+				step.Inputs[k] = v
+			}
+
 		default:
 			return errors.New("invalid resource type")
 		}

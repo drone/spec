@@ -47,6 +47,18 @@ Object.entries(schema.definitions).forEach(([k, v]) => {
         });
     });
 
+    Object.entries(v["x-properties"] || {}).forEach(([propkey, propval]) => {
+        const json = propkey;
+        const name = Case.pascal(propkey);
+
+        // append the field to the go struct
+        struct.props.push({
+            name: name,
+            json: json,
+            type: getType(propval, schema.definitions),
+        });
+    });
+
     // for each enum value
     v.enum && v.enum.forEach(text => {
         struct.enum.push({name: struct.name + Case.pascal(text), text: text});

@@ -37,9 +37,54 @@ func Expand(code string, inputs map[string]interface{}) string {
 	})
 }
 
-// ExpandStep expands scripts in the step.
+// ExpandConfig expands scripts in the stage.
+func ExpandConfig(in *schema.Config, inputs map[string]interface{}) {
+	switch v := in.Spec.(type) {
+	case *schema.Pipeline:
+		for _, vv := range v.Stages {
+			ExpandStage(vv, inputs)
+		}
+	case *schema.PluginStep:
+	case *schema.PluginStage:
+	case *schema.TemplateStage:
+	case *schema.TemplateStep:
+	}
+}
+
+// ExpandStage expands scripts in the stage.
+func ExpandStage(stage *schema.Stage, inputs map[string]interface{}) {
+	stage.Id = Expand(stage.Id, inputs)
+	stage.Name = Expand(stage.Name, inputs)
+	for i, s := range stage.Delegate {
+		stage.Delegate[i] = Expand(s, inputs)
+	}
+	switch spec := stage.Spec.(type) {
+	case *schema.StageCI:
+		// Cache
+		// Clone
+		// Platform
+		// Runtime
+
+		for k, v := range spec.Envs {
+			spec.Envs[k] = Expand(v, inputs)
+		}
+		for _, vv := range spec.Steps {
+			ExpandStep(vv, inputs)
+		}
+	case *schema.StageGroup:
+		for _, vv := range spec.Stages {
+			ExpandStage(vv, inputs)
+		}
+	case *schema.StageParallel:
+		for _, vv := range spec.Stages {
+			ExpandStage(vv, inputs)
+		}
+	}
+}
+
+// EexpandStep expands scripts in the step.
 func ExpandStep(step *schema.Step, inputs map[string]interface{}) {
-	step.Id = Expand(step.Name, inputs)
+	step.Id = Expand(step.Id, inputs)
 	step.Name = Expand(step.Name, inputs)
 
 	switch spec := step.Spec.(type) {
@@ -59,6 +104,9 @@ func ExpandStep(step *schema.Step, inputs map[string]interface{}) {
 		spec.Entrypoint = Expand(spec.Entrypoint, inputs)
 		for i, s := range spec.Args {
 			spec.Args[i] = Expand(s, inputs)
+		}
+		for k, v := range spec.Envs {
+			spec.Envs[k] = Expand(v, inputs)
 		}
 		if spec.Reports != nil {
 			for _, report := range spec.Reports {

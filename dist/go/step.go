@@ -22,15 +22,16 @@ import (
 )
 
 type Step struct {
-	Id       string       `json:"id,omitempty"`
-	Name     string       `json:"name,omitempty"`
-	Desc     string       `json:"desc,omitempty"`
-	Type     string       `json:"type,omitempty"`
-	Timeout  string       `json:"timeout,omitempty"`
-	Strategy *Strategy    `json:"strategy,omitempty"`
-	When     *When        `json:"when,omitempty"`
-	Failure  *FailureList `json:"failure,omitempty"`
-	Spec     interface{}  `json:"spec,omitempty"`
+	Id       string                 `json:"id,omitempty"`
+	Name     string                 `json:"name,omitempty"`
+	Desc     string                 `json:"desc,omitempty"`
+	Type     string                 `json:"type,omitempty"`
+	Timeout  string                 `json:"timeout,omitempty"`
+	Strategy *Strategy              `json:"strategy,omitempty"`
+	When     *When                  `json:"when,omitempty"`
+	Failure  *FailureList           `json:"failure,omitempty"`
+	Inputs   map[string]interface{} `json:"inputs,omitempty"`
+	Spec     interface{}            `json:"spec,omitempty"`
 }
 
 // UnmarshalJSON implement the json.Unmarshaler interface.

@@ -10,9 +10,13 @@ spec:
           run: |-
             go build
             go test
+        inputs:
+          version: 1.19
       - type: script
         spec:
           image: plugins/slack  
+        inputs:
+          channel: engineering
   - type: ci
     spec:
       steps:
@@ -22,5 +26,8 @@ spec:
           run: |-
             npm install
             npm run test
+    inputs:
+      version: 16
+      package_manager: npm
                 
             
