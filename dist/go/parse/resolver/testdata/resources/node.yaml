@@ -1,0 +1,14 @@
+kind: template
+type: stage
+name: node
+spec:
+  stage:
+    type: ci
+    spec:
+      steps:
+      - type: script
+        spec:
+          image: node
+          run: |-
+            npm install
+            npm run test

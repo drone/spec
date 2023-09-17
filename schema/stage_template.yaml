@@ -5,7 +5,8 @@ properties:
   inputs:
     type: object
     additionalProperties:
-      type: string
+      type: object
+    x-go-type: map[string]interface{}
   overlays:
     type: object
 type: object

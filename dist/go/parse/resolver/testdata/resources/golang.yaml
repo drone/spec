@@ -1,0 +1,11 @@
+kind: template
+type: step
+name: golang
+spec:
+  step:
+    type: script
+    spec:
+      image: golang
+      run: |-
+        go build
+        go test

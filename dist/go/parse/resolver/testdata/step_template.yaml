@@ -1,0 +1,21 @@
+kind: pipeline
+spec:
+  stages:
+  - type: ci
+    spec:
+      steps:
+      - type: template
+        spec:
+          name: golang
+          inputs:
+            version: 1.19
+      - type: plugin
+        spec:
+          name: slack
+          inputs:
+            channel: engineering
+  - type: template
+    spec:
+      name: node
+      inputs:
+        version: 16

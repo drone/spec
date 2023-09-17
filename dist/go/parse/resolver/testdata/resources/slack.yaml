@@ -1,0 +1,9 @@
+kind: plugin
+type: step
+name: slack
+spec:
+  step:
+    type: script
+    spec:
+      image: plugins/slack
+

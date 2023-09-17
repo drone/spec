@@ -2424,6 +2424,9 @@
                 "image": {
                     "type": "string"
                 },
+                "name": {
+                    "type": "string"
+                },
                 "uses": {
                     "type": "string"
                 },
@@ -2466,6 +2469,13 @@
                 "with": {
                     "type": "object"
                 },
+                "inputs": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object"
+                    },
+                    "x-go-type": "map[string]interface{}"
+                },
                 "outputs": {
                     "type": "array",
                     "items": {
@@ -2495,8 +2505,9 @@
                 "inputs": {
                     "type": "object",
                     "additionalProperties": {
-                        "type": "string"
-                    }
+                        "type": "object"
+                    },
+                    "x-go-type": "map[string]interface{}"
                 },
                 "overlays": {
                     "type": "object"
@@ -2899,8 +2910,9 @@
                 "inputs": {
                     "type": "object",
                     "additionalProperties": {
-                        "type": "string"
-                    }
+                        "type": "object"
+                    },
+                    "x-go-type": "map[string]interface{}"
                 },
                 "overlays": {
                     "type": "object"
