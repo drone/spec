@@ -10,6 +10,7 @@ require (
 )
 
 require (
+	github.com/antonmedv/expr v1.15.2 // indirect
 	github.com/bmatcuk/doublestar v1.3.4 // indirect
 	github.com/buildkite/yaml v2.1.0+incompatible // indirect
 	github.com/coreos/go-semver v0.3.0 // indirect
