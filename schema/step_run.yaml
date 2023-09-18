@@ -2,20 +2,6 @@ title: StepRun
 type: object
 
 properties:
-  image:
-    type: string
-  connector:
-    type: string
-  user:
-    type: string
-  group:
-    type: string
-  pull:
-    type: string
-    enum:
-    - always
-    - never
-    - if-not-exists
   shell:
     type: string
     enum:
@@ -30,23 +16,13 @@ properties:
         type: string
       type: array
     - type: string
+  container:
+    $ref: ./container.yaml
   envs:
     type: object
     additionalProperties:
       type: string
     description: The step environment variables.
-  entrypoint:
-    type: string
-  args:
-    type: array
-    items:
-      type: string
-  privileged:
-    type: boolean
-  network:
-    type: string
-  workdir:
-    type: string
   reports:
     type: array
     items:
@@ -55,8 +31,6 @@ properties:
     type: array
     items:
       type: string
-  resources:
-    $ref: ./resources.yaml
   mount:
     type: array
     items:

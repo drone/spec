@@ -18,9 +18,9 @@ package yaml
 
 // Platform defines the target execution environment.
 type Platform struct {
-	Arch     Arch     `json:"arch,omitempty"`
+	Arch     string   `json:"arch,omitempty"`
 	Features []string `json:"features,omitempty"`
-	Os       OS       `json:"os,omitempty"`
+	Os       string   `json:"os,omitempty"`
 	Variant  string   `json:"variant,omitempty"`
 	Version  string   `json:"version,omitempty"`
 }

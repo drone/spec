@@ -47,10 +47,6 @@ x-properties:
     additionalProperties:
       type: object
     x-go-type: "map[string]interface{}"
-  secerts:
-    type: object
-    additionalProperties:
-      type: string
 
 oneOf:
 - allOf:

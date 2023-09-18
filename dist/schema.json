@@ -1368,19 +1368,46 @@
             "type": "object",
             "properties": {
                 "arch": {
-                    "$ref": "#/definitions/Arch",
-                    "description": "Arch defines the target cpu architecture."
+                    "description": "Arch defines the target cpu architecture.",
+                    "type": "string",
+                    "enum": [
+                        "amd64",
+                        "arm",
+                        "arm64",
+                        "386",
+                        "ppc",
+                        "ppc64",
+                        "ppc64le",
+                        "riscv",
+                        "riscv64",
+                        "s390",
+                        "s390x",
+                        "sparc",
+                        "sparc64"
+                    ]
                 },
                 "features": {
                     "description": "Features defines the target platform features.",
+                    "type": "array",
                     "items": {
                         "type": "string"
-                    },
-                    "type": "array"
+                    }
                 },
                 "os": {
-                    "$ref": "#/definitions/OS",
-                    "description": "OS defines the target operating system."
+                    "description": "OS defines the target operating system.",
+                    "type": "string",
+                    "enum": [
+                        "linux",
+                        "windows",
+                        "macos",
+                        "darwin",
+                        "dragonfly",
+                        "freebsd",
+                        "netbsd",
+                        "openbsd",
+                        "plan9",
+                        "solaris"
+                    ]
                 },
                 "variant": {
                     "description": "Variant defines the target cpu architecture variant.",
@@ -1405,45 +1432,6 @@
                 }
             ],
             "x-file": "platform.yaml"
-        },
-        "Arch": {
-            "title": "Arch",
-            "type": "string",
-            "description": "List of cpu architectures.",
-            "enum": [
-                "amd64",
-                "arm",
-                "arm64",
-                "386",
-                "ppc",
-                "ppc64",
-                "ppc64le",
-                "riscv",
-                "riscv64",
-                "s390",
-                "s390x",
-                "sparc",
-                "sparc64"
-            ],
-            "x-file": "enum_arch.yaml"
-        },
-        "OS": {
-            "title": "OS",
-            "type": "string",
-            "description": "List of operating systems.",
-            "enum": [
-                "linux",
-                "windows",
-                "macos",
-                "darwin",
-                "dragonfly",
-                "freebsd",
-                "netbsd",
-                "openbsd",
-                "plan9",
-                "solaris"
-            ],
-            "x-file": "enum_os.yaml"
         },
         "Runtime": {
             "title": "Runtime",
@@ -1721,12 +1709,6 @@
                         "type": "object"
                     },
                     "x-go-type": "map[string]interface{}"
-                },
-                "secerts": {
-                    "type": "object",
-                    "additionalProperties": {
-                        "type": "string"
-                    }
                 }
             },
             "oneOf": [
@@ -2234,26 +2216,6 @@
             "title": "StepRun",
             "type": "object",
             "properties": {
-                "image": {
-                    "type": "string"
-                },
-                "connector": {
-                    "type": "string"
-                },
-                "user": {
-                    "type": "string"
-                },
-                "group": {
-                    "type": "string"
-                },
-                "pull": {
-                    "type": "string",
-                    "enum": [
-                        "always",
-                        "never",
-                        "if-not-exists"
-                    ]
-                },
                 "shell": {
                     "type": "string",
                     "enum": [
@@ -2277,30 +2239,15 @@
                         }
                     ]
                 },
+                "container": {
+                    "$ref": "#/definitions/Container"
+                },
                 "envs": {
                     "type": "object",
                     "additionalProperties": {
                         "type": "string"
                     },
                     "description": "The step environment variables."
-                },
-                "entrypoint": {
-                    "type": "string"
-                },
-                "args": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "privileged": {
-                    "type": "boolean"
-                },
-                "network": {
-                    "type": "string"
-                },
-                "workdir": {
-                    "type": "string"
                 },
                 "reports": {
                     "type": "array",
@@ -2314,9 +2261,6 @@
                         "type": "string"
                     }
                 },
-                "resources": {
-                    "$ref": "#/definitions/Resources"
-                },
                 "mount": {
                     "type": "array",
                     "items": {
@@ -2325,6 +2269,168 @@
                 }
             },
             "x-file": "step_run.yaml"
+        },
+        "Container": {
+            "title": "Container",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "image": {
+                            "type": "string",
+                            "description": "Container image."
+                        },
+                        "connector": {
+                            "type": "string",
+                            "description": "Connect used to authenticate to the registry."
+                        },
+                        "credentials": {
+                            "$ref": "#/definitions/Credentials",
+                            "description": "Credentials used to authenticate to the registry."
+                        },
+                        "pull": {
+                            "type": "string",
+                            "enum": [
+                                "always",
+                                "never",
+                                "if-not-exists"
+                            ]
+                        },
+                        "entrypoint": {
+                            "type": "string"
+                        },
+                        "args": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "dns": {
+                            "anyOf": [
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "dsn_search": {
+                            "anyOf": [
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "extra_hosts": {
+                            "anyOf": [
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "network": {
+                            "type": "string"
+                        },
+                        "network_mode": {
+                            "type": "string"
+                        },
+                        "privileged": {
+                            "type": "boolean"
+                        },
+                        "workdir": {
+                            "type": "string"
+                        },
+                        "ports": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "volumes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "user": {
+                            "type": "string"
+                        },
+                        "group": {
+                            "type": "string"
+                        },
+                        "cpu": {
+                            "type": [
+                                "string",
+                                "number"
+                            ]
+                        },
+                        "memory": {
+                            "format": "bytes",
+                            "type": [
+                                "string",
+                                "number"
+                            ]
+                        },
+                        "shm_size": {
+                            "format": "bytes",
+                            "type": [
+                                "string",
+                                "number"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "x-go-skip": true,
+            "x-file": "container.yaml"
+        },
+        "Credentials": {
+            "type": "object",
+            "title": "Credentials",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "aws": {
+                    "$ref": "#/definitions/CredentialsAWS"
+                }
+            },
+            "x-file": "credentials.yaml"
+        },
+        "CredentialsAWS": {
+            "type": "object",
+            "title": "CredentialsAWS",
+            "properties": {
+                "access_key": {
+                    "type": "string"
+                },
+                "secret_key": {
+                    "type": "string"
+                }
+            },
+            "x-file": "credentials_aws.yaml"
         },
         "StepTest": {
             "title": "StepTest",
