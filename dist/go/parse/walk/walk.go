@@ -38,20 +38,32 @@ func Walk(in *schema.Config, fn Func) error {
 
 	switch v := in.Spec.(type) {
 	case *schema.Pipeline:
-		for _, vv := range v.Stages {
-			err := walkStage(vv, fn)
-			switch {
-			case err == ErrSkipAll:
-				return nil
-			case err == ErrSkip:
-			case err != nil:
-				return err
-			}
-		}
+		return walkPipeline(v, fn)
 	case *schema.PluginStep:
 	case *schema.PluginStage:
 	case *schema.TemplateStage:
 	case *schema.TemplateStep:
+	}
+
+	return nil
+}
+
+func walkPipeline(pipeline *schema.Pipeline, fn Func) error {
+	err := fn(pipeline)
+	switch {
+	case err == ErrSkip:
+		return nil
+	case err != nil:
+		return err
+	}
+
+	for _, vv := range pipeline.Stages {
+		err := walkStage(vv, fn)
+		switch {
+		case err == ErrSkip:
+		case err != nil:
+			return err
+		}
 	}
 
 	return nil
