@@ -31,6 +31,7 @@ type Step struct {
 	When     *When                  `json:"when,omitempty"`
 	Failure  *FailureList           `json:"failure,omitempty"`
 	Inputs   map[string]interface{} `json:"inputs,omitempty"`
+	Secerts  map[string]string      `json:"secerts,omitempty"`
 	Spec     interface{}            `json:"spec,omitempty"`
 }
 
