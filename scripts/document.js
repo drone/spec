@@ -19,7 +19,7 @@ Object.entries(schema.definitions).forEach(([k, v]) => {
 
     // store the go struct details.
     let struct = {
-        name: k,
+        name: v["x-docs-title"] || k,
         desc: v.description,
         enum:  [],
         props: [],
@@ -80,12 +80,16 @@ Object.entries(schema.definitions).forEach(([k, v]) => {
     // and their associated struct types.
     if (v.properties && v.properties.type && v.properties.type.enum && v.oneOf) {
         v.oneOf.forEach(({allOf}) => {
-            const name = allOf[0].properties.type.const;
-            const type = allOf[1].properties.spec.$ref.slice(14);
-            struct.types.push({
-                name: name,
-                type: type,
-            })
+            try {
+                const name = allOf[0].properties.type.const;
+                const type = allOf[1].properties.spec.$ref.slice(14);
+                struct.types.push({
+                    name: name,
+                    type: type,
+                })
+            } catch (e) {
+                console.log(v)
+            }
         });
     }
 
@@ -96,7 +100,7 @@ Object.entries(schema.definitions).forEach(([k, v]) => {
     }
 
     // file name
-    const file = Case.kebab(k);
+    const file = v["x-docs-title"] || Case.kebab(k);
 
     // parse the handlebars templates
     const text = fs.readFileSync(template);
@@ -104,7 +108,7 @@ Object.entries(schema.definitions).forEach(([k, v]) => {
         
     // execute the template and write the contents
     // to the struct filepath.
-    fs.writeFileSync(`docs/content/reference/${file}.md`, tmpl(struct)); 
+    fs.writeFileSync(`docs/content/reference/${file}.md`, tmpl(struct).replaceAll("&quot;", `"`)); 
 
     console.log(`docs/content/reference/${file}.md`)
 });

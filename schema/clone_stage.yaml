@@ -20,3 +20,6 @@ properties:
   trace:
     description: Trace enables trace logging.
     type: boolean
+
+x-docs-skip: false
+x-docs-title: clone.stage

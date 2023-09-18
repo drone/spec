@@ -36,3 +36,6 @@ properties:
 
 type: object
 title: StageCI
+
+x-docs-skip: false
+x-docs-title: stage.type.ci

@@ -1,6 +1,7 @@
 ---
 title: {{name}}
-description: Harness yaml reference - {{desc}}
+#description: Harness yaml reference - {{desc}}
+sidebar_position: 2
 ---
 
 # {{name}}
@@ -10,24 +11,28 @@ description: Harness yaml reference - {{desc}}
 ## Properties
 <!-- properties / start -->
 {{#each props}}
-__{{name}}__ _{{type}}_
-: {{desc}}
+* __{{name}}__ - _{{type}}_<br/>
+  {{desc}}
+{{#if enum}}
 
+  __enum values:__
 {{#each enum}}
-{{this}}
+  * `{{this}}`
 {{/each}}
+{{/if}}
 
 {{/each}}
 <!-- properties / end -->
 
+{{#if examples}}
 ## Examples
 
 <!-- examples / start -->
 {{#each examples}}
-```yaml
-{{ this }}
-```
+```yaml {} showLineNumbers
+{{ this }}```
 
 {{/each}}
+{{/if}}
 <!-- examples / end -->
 

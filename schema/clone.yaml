@@ -1,6 +1,6 @@
 title: Clone
 type: object
-description: Clone defines the default clone behavior.
+description: Clone defines the clone behavior.
 properties:
   depth:
     description: Depth defines the clone depth.
@@ -23,3 +23,6 @@ properties:
   ref:
     $ref: ./reference.yaml
     description: Reference defines the clone ref.
+
+x-docs-skip: false
+x-docs-title: clone

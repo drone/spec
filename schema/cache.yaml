@@ -1,6 +1,6 @@
 title: Cache
 type: object
-description: Cache defines caching behavior.
+description: Cache defines pipeline caching behavior.
 properties:
   enabled:
     description: Enabled enables cache intelligence.
@@ -37,3 +37,4 @@ examples:
     paths:
     - node_modules
     policy: pull
+

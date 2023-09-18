@@ -29,3 +29,6 @@ properties:
     description: The stage environment variables.
 type: object
 title: StageInfra
+
+x-docs-skip: true
+x-docs-title: stage.type.infra

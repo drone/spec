@@ -25,3 +25,14 @@ properties:
       additionalProperties: 
         type: string
 
+examples:
+- matrix:
+    axis:
+      golang:
+      - 1.19
+      - 1.21
+      node:
+      - 16
+      - 18
+
+x-docs-title: matrix

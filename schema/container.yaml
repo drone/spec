@@ -1,4 +1,5 @@
 title: Container
+description: Container configures step execution inside a container.
 oneOf:
 - type: string
 - type: object
@@ -78,3 +79,4 @@ oneOf:
       - number
 
 x-go-skip: true
+x-docs-title: container

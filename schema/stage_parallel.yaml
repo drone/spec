@@ -6,3 +6,33 @@ properties:
     type: array
 type: object
 title: StageParallel
+
+x-docs-skip: false
+x-docs-title: stage.type.parallel
+
+examples:
+- type: parallel
+  spec: 
+    stages:
+    - type: ci
+      spec:
+        steps:
+        - type: run
+          spec:
+            script: go build
+            container: golang
+        - type: run
+          spec:
+            script: go test
+            container: golang
+    - type: ci
+      spec:
+        steps:
+        - type: run
+          spec:
+            script: npm install
+            container: node
+        - type: run
+          spec:
+            script: npm test
+            container: node

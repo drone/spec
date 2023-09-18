@@ -112,3 +112,6 @@ oneOf:
 anyOf:
 - required:
   - type
+
+x-docs-skip: false
+x-docs-title: stage

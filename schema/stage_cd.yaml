@@ -17,3 +17,5 @@ properties:
     description: The stage environment variables.
 type: object
 title: StageCD
+
+x-docs-skip: true

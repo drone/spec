@@ -1,13 +1,25 @@
 properties:
   name:
     type: string
-    description: Template name.
+    description: The template name.
   inputs:
     type: object
+    description: The template inputs.
     additionalProperties:
       type: object
     x-go-type: map[string]interface{}
-  overlays:
-    type: object
+
 type: object
 title: StageTemplate
+description: Configures a Stage Template step.
+
+examples:
+- type: template
+  spec: 
+    name: deploy
+    inputs:
+      environment: prod
+      region: us-east
+
+x-docs-skip: false
+x-docs-title: stage.type.template
