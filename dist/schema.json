@@ -1715,9 +1715,6 @@
                 }
             },
             "x-properties": {
-                "number": {
-                    "type": "number"
-                },
                 "inputs": {
                     "type": "object",
                     "additionalProperties": {
@@ -2998,7 +2995,8 @@
                         "boolean",
                         "array",
                         "object"
-                    ]
+                    ],
+                    "x-go-type": "interface{}"
                 },
                 "required": {
                     "type": "boolean",

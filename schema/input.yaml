@@ -21,6 +21,7 @@ properties:
     - boolean
     - array
     - object
+    x-go-type: interface{}
   required:
     type: boolean
     description: Required indicates the input is required.

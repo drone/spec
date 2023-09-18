@@ -20,7 +20,7 @@ package yaml
 type Input struct {
 	Type        string      `json:"type,omitempty"`
 	Description string      `json:"description,omitempty"`
-	Default     string      `json:"default,omitempty"`
+	Default     interface{} `json:"default,omitempty"`
 	Required    bool        `json:"required,omitempty"`
 	Items       *InputItems `json:"items,omitempty"`
 	Enum        []string    `json:"enum,omitempty"`
