@@ -22,6 +22,7 @@ type StepBackground struct {
 	Run        string            `json:"run,omitempty"`
 	Script     Stringorslice     `json:"script,omitempty"`
 	Container  *Container        `json:"container,omitempty"`
+	Mount      []*Mount          `json:"mount,omitempty"`
 	Image      string            `json:"image,omitempty"`
 	User       string            `json:"user,omitempty"`
 	Pull       string            `json:"pull,omitempty"`
@@ -32,5 +33,4 @@ type StepBackground struct {
 	Privileged bool              `json:"privileged,omitempty"`
 	Resources  *Resources        `json:"resources,omitempty"`
 	Workdir    string            `json:"workdir,omitempty"`
-	Mount      []*Mount          `json:"mount,omitempty"`
 }

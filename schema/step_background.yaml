@@ -17,7 +17,6 @@ properties:
   run:
     type: string
     x-deprecate: true
-
   script:
     anyOf:
     - items:
@@ -26,6 +25,10 @@ properties:
     - type: string
   container:
     $ref: ./container.yaml
+  mount:
+    type: array
+    items:
+      $ref: ./mount.yaml
 
   image:
     type: string
@@ -40,7 +43,6 @@ properties:
     - never
     - if-not-exists
     x-deprecate: true
-
   entrypoint:
     type: string
     x-deprecate: true
@@ -66,8 +68,5 @@ properties:
   workdir:
     type: string
     x-deprecate: true
-  mount:
-    type: array
-    items:
-      $ref: ./mount.yaml
+
 

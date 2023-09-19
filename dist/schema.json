@@ -2066,6 +2066,12 @@
                 "container": {
                     "$ref": "#/definitions/Container"
                 },
+                "mount": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Mount"
+                    }
+                },
                 "image": {
                     "type": "string",
                     "x-deprecate": true
@@ -2116,12 +2122,6 @@
                 "workdir": {
                     "type": "string",
                     "x-deprecate": true
-                },
-                "mount": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Mount"
-                    }
                 }
             },
             "x-file": "step_background.yaml"
