@@ -16,8 +16,8 @@
 
 package yaml
 
+// Configures a Stage Template step.
 type StageTemplate struct {
-	Name     string                 `json:"name,omitempty"`
-	Inputs   map[string]interface{} `json:"inputs,omitempty"`
-	Overlays map[string]interface{} `json:"overlays,omitempty"`
+	Name   string                 `json:"name,omitempty"`
+	Inputs map[string]interface{} `json:"inputs,omitempty"`
 }

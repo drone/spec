@@ -16,7 +16,7 @@
 
 package yaml
 
-// Clone defines the default clone behavior.
+// Clone defines the clone behavior.
 type Clone struct {
 	Depth    int64      `json:"depth,omitempty"`
 	Disabled bool       `json:"disabled,omitempty"`

@@ -16,7 +16,7 @@
 
 package yaml
 
-// Cache defines caching behavior.
+// Cache defines pipeline caching behavior.
 type Cache struct {
 	Enabled bool     `json:"enabled,omitempty"`
 	Paths   []string `json:"paths,omitempty"`

@@ -17,12 +17,14 @@
 package yaml
 
 type StepBackground struct {
-	Image      string            `json:"image,omitempty"`
-	User       string            `json:"user,omitempty"`
-	Pull       string            `json:"pull,omitempty"`
 	Shell      string            `json:"shell,omitempty"`
 	Envs       map[string]string `json:"envs,omitempty"`
 	Run        string            `json:"run,omitempty"`
+	Script     Stringorslice     `json:"script,omitempty"`
+	Container  *Container        `json:"container,omitempty"`
+	Image      string            `json:"image,omitempty"`
+	User       string            `json:"user,omitempty"`
+	Pull       string            `json:"pull,omitempty"`
 	Entrypoint string            `json:"entrypoint,omitempty"`
 	Args       []string          `json:"args,omitempty"`
 	Ports      []string          `json:"ports,omitempty"`
