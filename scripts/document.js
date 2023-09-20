@@ -17,6 +17,12 @@ let schema = JSON.parse(fs.readFileSync("dist/schema.json"));
 // for each definition
 Object.entries(schema.definitions).forEach(([k, v]) => {
 
+    if (v["x-docs-skip"] == true) {
+        return
+    } else {
+        console.log(k, v["x-docs-skip"])
+    }
+
     // store the go struct details.
     let struct = {
         name: v["x-docs-title"] || k,

@@ -9,3 +9,5 @@ properties:
     type:
       - string
       - number
+
+x-docs-title: volume.type.temp

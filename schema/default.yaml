@@ -36,3 +36,6 @@ properties:
     additionalProperties:
       type: string
     description: Provides the default environment variables.
+
+x-docs-skip: false
+x-docs-title: pipeline.options

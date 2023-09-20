@@ -38,3 +38,4 @@ examples:
     - node_modules
     policy: pull
 
+x-docs-skip: true

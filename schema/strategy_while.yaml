@@ -8,3 +8,5 @@ properties:
   iterations:
     type: number
     description: Defines the maximum number of interations.
+
+x-docs-skip: true

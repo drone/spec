@@ -55,3 +55,5 @@ examples:
     splitting:
       enabled: true
       concurrency: 3
+
+x-docs-skip: true

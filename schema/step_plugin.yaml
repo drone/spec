@@ -37,8 +37,6 @@ properties:
     type: object
   inputs:
     type: object
-    additionalProperties:
-      type: object
     x-go-type: "map[string]interface{}"
   outputs:
     type: array

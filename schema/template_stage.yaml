@@ -16,3 +16,5 @@ properties:
     description: Inputs defines the template input parameters.
     additionalProperties: 
       $ref: ./input.yaml
+
+x-docs-skip: true

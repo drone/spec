@@ -9,3 +9,5 @@ properties:
     type: boolean
 required:
 - name
+
+x-docs-title: volume.type.config

@@ -4,10 +4,7 @@ properties:
     description: The template name.
   inputs:
     type: object
-    description: The template inputs.
-    additionalProperties:
-      type: object
-    x-go-type: map[string]interface{}
+    x-go-type: "map[string]interface{}"
 
 type: object
 title: StageTemplate

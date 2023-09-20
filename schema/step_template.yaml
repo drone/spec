@@ -7,8 +7,6 @@ properties:
     description: Template name.
   inputs:
     type: object
-    additionalProperties:
-      type: object
     x-go-type: "map[string]interface{}"
   overlays:
     type: object

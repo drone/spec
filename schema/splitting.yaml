@@ -8,3 +8,5 @@ properties:
     type: number
   strategy:
     type: string # is this needed?
+
+x-docs-skip: true

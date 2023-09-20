@@ -47,3 +47,5 @@ oneOf:
   - properties:
       spec:
         $ref: ./volume_config.yaml
+
+x-docs-title: volume

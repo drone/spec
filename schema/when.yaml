@@ -9,5 +9,5 @@ oneOf:
 
 # skip and manually create go file
 x-go-skip: true
-x-docs-skip: false
+x-docs-skip: true
 x-docs-title: when

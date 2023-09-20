@@ -37,5 +37,19 @@ properties:
 type: object
 title: StageCI
 
+
+examples:
+- type: ci
+  spec: 
+    steps:
+    - type: run
+      spec:
+        script: go build
+        container: golang
+    - type: run
+      spec:
+        script: go test
+        container: golang
+
 x-docs-skip: false
 x-docs-title: stage.type.ci

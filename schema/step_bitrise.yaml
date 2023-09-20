@@ -25,3 +25,5 @@ properties:
     type: array
     items:
       $ref: ./mount.yaml
+
+x-docs-skip: true

@@ -528,6 +528,7 @@
                     "type": "number"
                 }
             },
+            "x-docs-skip": true,
             "x-file": "strategy_for.yaml"
         },
         "Matrix": {
@@ -600,6 +601,7 @@
                     "description": "Defines the maximum number of interations."
                 }
             },
+            "x-docs-skip": true,
             "x-file": "strategy_while.yaml"
         },
         "StatusStage": {
@@ -620,6 +622,7 @@
                     "type": "string"
                 }
             },
+            "x-docs-skip": true,
             "x-file": "status_stage.yaml"
         },
         "When": {
@@ -640,7 +643,7 @@
                 }
             ],
             "x-go-skip": true,
-            "x-docs-skip": false,
+            "x-docs-skip": true,
             "x-docs-title": "when",
             "x-file": "when.yaml"
         },
@@ -1270,6 +1273,7 @@
                     ]
                 }
             ],
+            "x-docs-skip": true,
             "x-file": "timeout_action.yaml"
         },
         "StageCI": {
@@ -1314,6 +1318,29 @@
             },
             "type": "object",
             "title": "StageCI",
+            "examples": [
+                {
+                    "type": "ci",
+                    "spec": {
+                        "steps": [
+                            {
+                                "type": "run",
+                                "spec": {
+                                    "script": "go build",
+                                    "container": "golang"
+                                }
+                            },
+                            {
+                                "type": "run",
+                                "spec": {
+                                    "script": "go test",
+                                    "container": "golang"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ],
             "x-docs-skip": false,
             "x-docs-title": "stage.type.ci",
             "x-file": "stage_ci.yaml"
@@ -1373,6 +1400,7 @@
                     }
                 }
             ],
+            "x-docs-skip": true,
             "x-file": "cache.yaml"
         },
         "CloneStage": {
@@ -2008,6 +2036,7 @@
                     }
                 }
             },
+            "x-docs-skip": true,
             "x-file": "step_action.yaml"
         },
         "Mount": {
@@ -2323,6 +2352,7 @@
                     "type": "string"
                 }
             },
+            "x-docs-skip": true,
             "x-file": "step_barrier.yaml"
         },
         "StepBitrise": {
@@ -2355,6 +2385,7 @@
                     }
                 }
             },
+            "x-docs-skip": true,
             "x-file": "step_bitrise.yaml"
         },
         "StepExec": {
@@ -2438,6 +2469,7 @@
                     }
                 }
             },
+            "x-docs-skip": true,
             "x-file": "step_exec.yaml"
         },
         "Report": {
@@ -2604,6 +2636,7 @@
                     }
                 }
             ],
+            "x-docs-skip": true,
             "x-file": "step_ti.yaml"
         },
         "Splitting": {
@@ -2620,6 +2653,7 @@
                     "type": "string"
                 }
             },
+            "x-docs-skip": true,
             "x-file": "splitting.yaml"
         },
         "StepGroup": {
@@ -2702,9 +2736,6 @@
                 },
                 "inputs": {
                     "type": "object",
-                    "additionalProperties": {
-                        "type": "object"
-                    },
                     "x-go-type": "map[string]interface{}"
                 },
                 "outputs": {
@@ -2735,9 +2766,6 @@
                 },
                 "inputs": {
                     "type": "object",
-                    "additionalProperties": {
-                        "type": "object"
-                    },
                     "x-go-type": "map[string]interface{}"
                 },
                 "overlays": {
@@ -2776,6 +2804,7 @@
                     }
                 }
             },
+            "x-docs-skip": true,
             "x-file": "step_jenkins.yaml"
         },
         "Volume": {
@@ -2873,6 +2902,7 @@
                     ]
                 }
             ],
+            "x-docs-title": "volume",
             "x-file": "volume.yaml"
         },
         "VolumeHost": {
@@ -2886,6 +2916,7 @@
             "required": [
                 "path"
             ],
+            "x-docs-title": "volume.type.host",
             "x-file": "volume_host.yaml"
         },
         "VolumeClaim": {
@@ -2899,6 +2930,7 @@
             "required": [
                 "name"
             ],
+            "x-docs-title": "volume.type.claim",
             "x-file": "volume_claim.yaml"
         },
         "VolumeTemp": {
@@ -2918,6 +2950,7 @@
                     ]
                 }
             },
+            "x-docs-title": "volume.type.temp",
             "x-file": "volume_temp.yaml"
         },
         "VolumeConfigMap": {
@@ -2937,6 +2970,7 @@
             "required": [
                 "name"
             ],
+            "x-docs-title": "volume.type.config",
             "x-file": "volume_config.yaml"
         },
         "StageCD": {
@@ -3147,10 +3181,6 @@
                 },
                 "inputs": {
                     "type": "object",
-                    "description": "The template inputs.",
-                    "additionalProperties": {
-                        "type": "object"
-                    },
                     "x-go-type": "map[string]interface{}"
                 }
             },
@@ -3437,6 +3467,8 @@
                     "description": "Provides the default environment variables."
                 }
             },
+            "x-docs-skip": false,
+            "x-docs-title": "pipeline.options",
             "x-file": "default.yaml"
         },
         "Repository": {
@@ -3600,6 +3632,7 @@
                     "type": "string"
                 }
             },
+            "x-docs-skip": true,
             "x-file": "status.yaml"
         },
         "TemplateStage": {
@@ -3626,6 +3659,7 @@
                     }
                 }
             },
+            "x-docs-skip": true,
             "x-file": "template_stage.yaml"
         },
         "TemplateStep": {
@@ -3652,6 +3686,7 @@
                     }
                 }
             },
+            "x-docs-skip": true,
             "x-file": "template_step.yaml"
         },
         "PluginStep": {

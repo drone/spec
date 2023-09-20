@@ -56,3 +56,5 @@ oneOf:
   - properties:
       spec:
         $ref: ./failure_ignore.yaml
+
+x-docs-skip: true

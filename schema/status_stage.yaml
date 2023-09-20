@@ -11,3 +11,5 @@ properties:
     - summarize
   name:
     type: string
+
+x-docs-skip: true

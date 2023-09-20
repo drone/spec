@@ -6,3 +6,5 @@ properties:
 
 required:
 - name
+
+x-docs-title: volume.type.claim
