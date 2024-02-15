@@ -1,0 +1,43 @@
+title: StepDocker
+type: object
+
+properties:
+  buildArgs:
+    type: object
+    additionalProperties:
+      type: string
+    description: The step build arguments.
+  connector:
+    type: string
+  context:
+    type: string
+  dockerfile:
+    type: string
+  labels:
+    type: object
+    additionalProperties:
+      type: string
+    description: The step lables.
+  optimize:
+    type: boolean
+  privileged:
+    type: boolean
+  remoteCacheRepo:
+    type: string
+  repo:
+    type: string
+  reports:
+    type: array
+    items:
+      $ref: ./report.yaml
+  resources:
+    $ref: ./resources.yaml
+  runAsUser:
+    type: string
+  tags:
+    type: object
+    additionalProperties:
+      type: string
+    description: The step tags.
+  target:
+    type: string

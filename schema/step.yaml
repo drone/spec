@@ -133,3 +133,10 @@ oneOf:
   - properties:
       spec:
         $ref: ./step_jenkins.yaml
+- allOf:
+  - properties:
+      type:
+        const: BuildAndPushDockerRegistry
+  - properties:
+      spec:
+        $ref: ./step_docker.yaml

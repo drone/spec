@@ -2002,6 +2002,24 @@
                             }
                         }
                     ]
+                },
+                {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "type": {
+                                    "const": "BuildAndPushDockerRegistry"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "spec": {
+                                    "$ref": "#/definitions/StepDocker"
+                                }
+                            }
+                        }
+                    ]
                 }
             ],
             "x-file": "step.yaml"
@@ -2806,6 +2824,70 @@
             },
             "x-docs-skip": true,
             "x-file": "step_jenkins.yaml"
+        },
+        "StepDocker": {
+            "title": "StepDocker",
+            "type": "object",
+            "properties": {
+                "buildArgs": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "The step build arguments."
+                },
+                "connector": {
+                    "type": "string"
+                },
+                "context": {
+                    "type": "string"
+                },
+                "dockerfile": {
+                    "type": "string"
+                },
+                "labels": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "The step lables."
+                },
+                "optimize": {
+                    "type": "boolean"
+                },
+                "privileged": {
+                    "type": "boolean"
+                },
+                "remoteCacheRepo": {
+                    "type": "string"
+                },
+                "repo": {
+                    "type": "string"
+                },
+                "reports": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Report"
+                    }
+                },
+                "resources": {
+                    "$ref": "#/definitions/Resources"
+                },
+                "runAsUser": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "The step tags."
+                },
+                "target": {
+                    "type": "string"
+                }
+            },
+            "x-file": "step_docker.yaml"
         },
         "Volume": {
             "title": "Volume",
