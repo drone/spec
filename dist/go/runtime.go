@@ -27,6 +27,15 @@ type Runtime struct {
 	Spec interface{} `json:"spec,omitempty"`
 }
 
+type CloudSpec struct {
+	Image string `json:"image,omitempty"`
+	Size  string `json:"size,omitempty"`
+}
+
+type RuntimeV1 struct {
+	Cloud *CloudSpec `json:"cloud,omitempty"`
+}
+
 // UnmarshalJSON implement the json.Unmarshaler interface.
 func (v *Runtime) UnmarshalJSON(data []byte) error {
 	type S Runtime
@@ -54,4 +63,18 @@ func (v *Runtime) UnmarshalJSON(data []byte) error {
 	}
 
 	return json.Unmarshal(obj.Spec, v.Spec)
+}
+
+func (v *RuntimeV1) UnmarshalJSONV1(data []byte) error {
+    type T struct {
+        Cloud *CloudSpec `json:"cloud"`
+    }
+
+    obj := &T{}
+    if err := json.Unmarshal(data, obj); err != nil {
+        return err
+    }
+
+    v.Cloud = obj.Cloud
+    return nil
 }

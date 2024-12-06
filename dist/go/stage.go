@@ -38,7 +38,8 @@ type Stage struct {
 type StageV1 struct {
 	Name     string                 `json:"name,omitempty"`
 	Clone	 *CloneStage 			`json:"clone,omitempty"`
-	Runtime  *Runtime          		`json:"runtime,omitempty"`
+	Runtime  *RuntimeV1         		`json:"runtime,omitempty"`
+	Steps    []*StepV1           	`json:"steps,omitempty"`
 }
 
 // UnmarshalJSON implement the json.Unmarshaler interface.
@@ -82,7 +83,8 @@ func (v1 *StageV1) UnmarshalJSONV1(data []byte) error {
 	type TempStage struct {
 		Name    string          `json:"name,omitempty"`
 		Clone   *CloneStage     `json:"clone,omitempty"`
-		Runtime *Runtime        `json:"runtime,omitempty"`
+		Runtime *RuntimeV1       `json:"runtime,omitempty"`
+		Steps   []*StepV1       `json:"steps,omitempty"`
 	}
 
 	temp := &TempStage{}
@@ -93,6 +95,7 @@ func (v1 *StageV1) UnmarshalJSONV1(data []byte) error {
 	v1.Name = temp.Name
 	v1.Clone = temp.Clone
 	v1.Runtime = temp.Runtime
+	v1.Steps = temp.Steps
 
 	return nil
 }
