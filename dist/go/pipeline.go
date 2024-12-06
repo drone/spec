@@ -22,3 +22,7 @@ type Pipeline struct {
 	Inputs  map[string]*Input `json:"inputs,omitempty"`
 	Options *Default          `json:"options,omitempty"`
 }
+
+type PipelineV1 struct {
+	Stages  []*StageV1          `json:"stages,omitempty"`
+}
