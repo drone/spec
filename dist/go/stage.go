@@ -35,6 +35,12 @@ type Stage struct {
 	Spec     interface{}            `json:"spec,omitempty"`
 }
 
+type StageV1 struct {
+	Name     string                 `json:"name,omitempty"`
+	Clone	 *CloneStage 			`json:"clone,omitempty"`
+	Runtime  *Runtime          		`json:"runtime,omitempty"`
+}
+
 // UnmarshalJSON implement the json.Unmarshaler interface.
 func (v *Stage) UnmarshalJSON(data []byte) error {
 	type S Stage
@@ -70,4 +76,23 @@ func (v *Stage) UnmarshalJSON(data []byte) error {
 	}
 
 	return json.Unmarshal(obj.Spec, v.Spec)
+}
+
+func (v1 *StageV1) UnmarshalJSONV1(data []byte) error {
+	type TempStage struct {
+		Name    string          `json:"name,omitempty"`
+		Clone   *CloneStage     `json:"clone,omitempty"`
+		Runtime *Runtime        `json:"runtime,omitempty"`
+	}
+
+	temp := &TempStage{}
+	if err := json.Unmarshal(data, temp); err != nil {
+		return err
+	}
+
+	v1.Name = temp.Name
+	v1.Clone = temp.Clone
+	v1.Runtime = temp.Runtime
+
+	return nil
 }

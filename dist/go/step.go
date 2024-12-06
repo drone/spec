@@ -34,6 +34,16 @@ type Step struct {
 	Spec     interface{}            `json:"spec,omitempty"`
 }
 
+type StepV1 struct {
+	Name      string         `json:"name,omitempty"`
+	Container *ContainerSpec `json:"container,omitempty"`
+	Run       interface{}    `json:"run,omitempty"`
+}
+
+type ContainerSpec struct {
+	Image string `json:"image,omitempty"`
+}
+
 // UnmarshalJSON implement the json.Unmarshaler interface.
 func (v *Step) UnmarshalJSON(data []byte) error {
 	type S Step
@@ -78,3 +88,38 @@ func (v *Step) UnmarshalJSON(data []byte) error {
 
 	return json.Unmarshal(obj.Spec, v.Spec)
 }
+
+func (v *StepV1) UnmarshalJSONV1(data []byte) error {
+	type TempStep struct {
+		Name      string          `json:"name,omitempty"`
+		Type      string          `json:"type,omitempty"`
+		Container json.RawMessage `json:"container,omitempty"`
+		Run       json.RawMessage `json:"run,omitempty"`
+	}
+
+	temp := &TempStep{}
+	if err := json.Unmarshal(data, temp); err != nil {
+		return err
+	}
+
+	v.Name = temp.Name
+
+	if temp.Container != nil {
+		var container StepExec
+		if err := json.Unmarshal(temp.Container, &container); err != nil {
+			return err
+		}
+		v.Container = &ContainerSpec{Image: container.Image}
+	}
+
+	if temp.Run != nil {
+		var run StepRun
+		if err := json.Unmarshal(temp.Run, &run); err != nil {
+			return err
+		}
+		v.Run = run
+	}
+
+	return nil
+}
+
