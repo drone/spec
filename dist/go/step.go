@@ -35,13 +35,27 @@ type Step struct {
 }
 
 type StepV1 struct {
-	Name      string         `json:"name,omitempty"`
+	Name string   `json:"name,omitempty"`
+	Run  *RunSpec `json:"run,omitempty"`
+}
+
+type RunSpec struct {
 	Container *ContainerSpec `json:"container,omitempty"`
+	Env       interface{}    `json:"env,omitempty"`
 	Run       interface{}    `json:"run,omitempty"`
 }
 
 type ContainerSpec struct {
-	Image string `json:"image,omitempty"`
+	Image     string `json:"image,omitempty"`
+	Connector string `json:"connector,omitempty"`
+}
+
+type StepRunV1 struct { 
+	Script string `json:"script,omitempty"`
+}
+
+type StepEnv struct {
+	Variables map[string]string `json:"variables,omitempty"`
 }
 
 // UnmarshalJSON implement the json.Unmarshaler interface.
@@ -91,10 +105,8 @@ func (v *Step) UnmarshalJSON(data []byte) error {
 
 func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 	type TempStep struct {
-		Name      string          `json:"name,omitempty"`
-		Type      string          `json:"type,omitempty"`
-		Container json.RawMessage `json:"container,omitempty"`
-		Run       json.RawMessage `json:"run,omitempty"`
+		Name string          `json:"name,omitempty"`
+		Run  json.RawMessage `json:"run,omitempty"`
 	}
 
 	temp := &TempStep{}
@@ -104,22 +116,46 @@ func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 
 	v.Name = temp.Name
 
-	if temp.Container != nil {
-		var container StepExec
-		if err := json.Unmarshal(temp.Container, &container); err != nil {
-			return err
-		}
-		v.Container = &ContainerSpec{Image: container.Image}
-	}
-
 	if temp.Run != nil {
-		var run StepRun
-		if err := json.Unmarshal(temp.Run, &run); err != nil {
+		var runSpec RunSpec
+		runData := map[string]json.RawMessage{}
+
+		// Unmarshal into a temporary map to process specific fields
+		if err := json.Unmarshal(temp.Run, &runData); err != nil {
 			return err
 		}
-		v.Run = run
+
+		// Unmarshal Container field if present
+		if containerData, ok := runData["container"]; ok {
+			var container ContainerSpec
+			if err := json.Unmarshal(containerData, &container); err != nil {
+				return err
+			}
+			runSpec.Container = &container
+		}
+
+		// Unmarshal Env field if present
+		if envData, ok := runData["env"]; ok {
+			var env StepEnv
+			if err := json.Unmarshal(envData, &env); err != nil {
+				runSpec.Env = envData 
+			} else {
+				runSpec.Env = env
+			}
+		}
+
+		// Unmarshal Run field if present
+		if runData, ok := runData["run"]; ok {
+			var run StepRunV1
+			if err := json.Unmarshal(runData, &run); err != nil {
+				runSpec.Run = runData 
+			} else {
+				runSpec.Run = run
+			}
+		}
+
+		v.Run = &runSpec
 	}
 
 	return nil
 }
-
