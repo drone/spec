@@ -33,7 +33,7 @@ type Runtime struct {
 // }
 
 type RuntimeV1 struct {
-    Machine string `json:"machine,omitempty"`
+    Runtime string `json:"runtime,omitempty"`
 }
 
 // UnmarshalJSON implement the json.Unmarshaler interface.
@@ -67,7 +67,7 @@ func (v *Runtime) UnmarshalJSON(data []byte) error {
 
 func (v *RuntimeV1) UnmarshalJSONV1(data []byte) error {
     type T struct {
-        Machine string `json:"machine,omitempty"`
+        Runtime string `json:"runtime,omitempty"`
     }
 
     obj := &T{}
@@ -75,6 +75,12 @@ func (v *RuntimeV1) UnmarshalJSONV1(data []byte) error {
         return err
     }
 
-    v.Machine = obj.Machine
+	if obj.Runtime != "" {
+        v.Runtime = obj.Runtime
+    } else {
+        v.Runtime = "machine"
+    }
+
     return nil
 }
+
