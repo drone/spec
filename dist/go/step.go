@@ -41,7 +41,7 @@ type StepV1 struct {
 
 type RunSpec struct {
 	Container *ContainerSpec `json:"container,omitempty"`
-	Env       interface{}    `json:"env,omitempty"`
+	Env       map[string]string   `json:"env,omitempty"`
 	Run       interface{}    `json:"run,omitempty"`
 }
 
@@ -137,20 +137,24 @@ func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 		// Unmarshal Env field if present
 		if envData, ok := runData["env"]; ok {
 			var env StepEnv
-			if err := json.Unmarshal(envData, &env); err != nil {
-				runSpec.Env = envData 
+			if err := json.Unmarshal(envData, &env); err == nil {
+				if env.Variables != nil {
+					runSpec.Env = env.Variables
+				} else {
+					runSpec.Env = nil
+				}
 			} else {
-				runSpec.Env = env
+				runSpec.Env = nil
 			}
 		} else {
-			runSpec.Env = nil 
+			runSpec.Env = nil
 		}
 
 		// Unmarshal Run field if present
 		if runData, ok := runData["run"]; ok {
 			var run StepRunV1
 			if err := json.Unmarshal(runData, &run); err != nil {
-				runSpec.Run = runData 
+				runSpec.Run = runData
 			} else {
 				runSpec.Run = run
 			}
@@ -161,3 +165,4 @@ func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 
 	return nil
 }
+
