@@ -75,10 +75,10 @@ func (v *RuntimeV1) UnmarshalJSONV1(data []byte) error {
         return err
     }
 
-	if obj.Runtime != "" {
-        v.Runtime = obj.Runtime
-    } else {
+    if obj.Runtime == "" {
         v.Runtime = "machine"
+    } else {
+        v.Runtime = obj.Runtime
     }
 
     return nil
