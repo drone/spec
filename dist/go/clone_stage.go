@@ -16,6 +16,10 @@
 
 package yaml
 
+import (
+	"encoding/json"
+)
+
 // Clone defines the stage clone behavior.
 type CloneStage struct {
 	Depth    int64  `json:"depth,omitempty"`
@@ -23,4 +27,24 @@ type CloneStage struct {
 	Insecure bool   `json:"insecure,omitempty"`
 	Strategy string `json:"strategy,omitempty"`
 	Trace    bool   `json:"trace,omitempty"`
+}
+
+type CloneStageV1 struct {
+	Disabled bool `json:"disabled"`
+}
+
+func (c *CloneStageV1) MarshalJSON() ([]byte, error) {
+	// If CloneStageV1 is nil, provide a default value
+	if c == nil {
+		return json.Marshal(&CloneStageV1{Disabled: true})
+	}
+
+	type Alias CloneStageV1
+	return json.Marshal(&struct {
+		Disabled bool `json:"disabled"`
+		*Alias
+	}{
+		Disabled: c.Disabled,
+		Alias:    (*Alias)(c),
+	})
 }

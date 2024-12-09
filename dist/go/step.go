@@ -142,6 +142,8 @@ func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 			} else {
 				runSpec.Env = env
 			}
+		} else {
+			runSpec.Env = nil 
 		}
 
 		// Unmarshal Run field if present

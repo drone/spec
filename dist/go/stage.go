@@ -37,7 +37,7 @@ type Stage struct {
 
 type StageV1 struct {
 	Name     string                 `json:"name,omitempty"`
-	Clone	 *CloneStage 			`json:"clone,omitempty"`
+	Clone	 *CloneStageV1 			`json:"clone,omitempty"`
 	Runtime  *RuntimeV1         		`json:"runtime,omitempty"`
 	Steps    []*StepV1           	`json:"steps,omitempty"`
 }
@@ -82,8 +82,8 @@ func (v *Stage) UnmarshalJSON(data []byte) error {
 func (v1 *StageV1) UnmarshalJSONV1(data []byte) error {
 	type TempStage struct {
 		Name    string          `json:"name,omitempty"`
-		Clone   *CloneStage     `json:"clone,omitempty"`
-		Runtime *RuntimeV1       `json:"runtime,omitempty"`
+		Clone   *CloneStageV1   `json:"clone,omitempty"`
+		Runtime *RuntimeV1      `json:"runtime,omitempty"`
 		Steps   []*StepV1       `json:"steps,omitempty"`
 	}
 
@@ -93,7 +93,11 @@ func (v1 *StageV1) UnmarshalJSONV1(data []byte) error {
 	}
 
 	v1.Name = temp.Name
-	v1.Clone = temp.Clone
+	if temp.Clone == nil {
+		v1.Clone = &CloneStageV1{Disabled: true}
+	} else {
+		v1.Clone = temp.Clone
+	}
 	v1.Runtime = temp.Runtime
 	v1.Steps = temp.Steps
 
