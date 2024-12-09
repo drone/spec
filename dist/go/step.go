@@ -54,9 +54,9 @@ type StepRunV1 struct {
 	Script string `json:"script,omitempty"`
 }
 
-type StepEnv struct {
-	Variables map[string]string `json:"variables,omitempty"`
-}
+// type StepEnv struct {
+// 	Variables map[string]string `json:"variables,omitempty"`
+// }
 
 // UnmarshalJSON implement the json.Unmarshaler interface.
 func (v *Step) UnmarshalJSON(data []byte) error {
@@ -136,18 +136,10 @@ func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 
 		// Unmarshal Env field if present
 		if envData, ok := runData["env"]; ok {
-			var env StepEnv
+			var env map[string]string 
 			if err := json.Unmarshal(envData, &env); err == nil {
-				if env.Variables != nil {
-					runSpec.Env = env.Variables
-				} else {
-					runSpec.Env = nil
-				}
-			} else {
-				runSpec.Env = nil
+				runSpec.Env = env
 			}
-		} else {
-			runSpec.Env = nil
 		}
 
 		// Unmarshal Run field if present
