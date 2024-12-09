@@ -40,9 +40,9 @@ type StepV1 struct {
 }
 
 type RunSpec struct {
-	Container *ContainerSpec `json:"container,omitempty"`
-	Env       map[string]string   `json:"env,omitempty"`
-	Run       interface{}    `json:"run,omitempty"`
+	Container *ContainerSpec     `json:"container,omitempty"`
+	Env       map[string]string  `json:"env,omitempty"`
+	Script    string             `json:"script,omitempty"` 
 }
 
 type ContainerSpec struct {
@@ -50,13 +50,6 @@ type ContainerSpec struct {
 	Connector string `json:"connector,omitempty"`
 }
 
-type StepRunV1 struct { 
-	Script string `json:"script,omitempty"`
-}
-
-// type StepEnv struct {
-// 	Variables map[string]string `json:"variables,omitempty"`
-// }
 
 // UnmarshalJSON implement the json.Unmarshaler interface.
 func (v *Step) UnmarshalJSON(data []byte) error {
@@ -136,19 +129,17 @@ func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 
 		// Unmarshal Env field if present
 		if envData, ok := runData["env"]; ok {
-			var env map[string]string 
+			var env map[string]string
 			if err := json.Unmarshal(envData, &env); err == nil {
 				runSpec.Env = env
 			}
 		}
 
-		// Unmarshal Run field if present
-		if runData, ok := runData["run"]; ok {
-			var run StepRunV1
-			if err := json.Unmarshal(runData, &run); err != nil {
-				runSpec.Run = runData
-			} else {
-				runSpec.Run = run
+		// Unmarshal Script field if present
+		if scriptData, ok := runData["script"]; ok {
+			var script string
+			if err := json.Unmarshal(scriptData, &script); err == nil {
+				runSpec.Script = script
 			}
 		}
 
@@ -157,4 +148,3 @@ func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 
 	return nil
 }
-
