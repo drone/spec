@@ -87,23 +87,23 @@ func (v1 *StageV1) UnmarshalJSONV1(data []byte) error {
 		Steps   []*StepV1       `json:"steps,omitempty"`
 	}
 
-	temp := &StageV1{}
-	if err := json.Unmarshal(data, temp); err != nil {
+	objV1 := &StageV1{}
+	if err := json.Unmarshal(data, objV1); err != nil {
 		return err
 	}
 
-	v1.Name = temp.Name
-	if temp.Clone == nil {
+	v1.Name = objV1.Name
+	if objV1.Clone == nil {
 		v1.Clone = &CloneStageV1{Disabled: true}
 	} else {
-		v1.Clone = temp.Clone
+		v1.Clone = objV1.Clone
 	}
-	if temp.Runtime != "" {
-		v1.Runtime = temp.Runtime
+	if objV1.Runtime != "" {
+		v1.Runtime = objV1.Runtime
 	} else {
 		v1.Runtime = "machine"
 	}
-	v1.Steps = temp.Steps
+	v1.Steps = objV1.Steps
 
 	return nil
 }

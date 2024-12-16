@@ -102,19 +102,19 @@ func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 		Run  json.RawMessage `json:"run,omitempty"`
 	}
 
-	temp := &StepV1{}
-	if err := json.Unmarshal(data, temp); err != nil {
+	objV1 := &StepV1{}
+	if err := json.Unmarshal(data, objV1); err != nil {
 		return err
 	}
 
-	v.Name = temp.Name
+	v.Name = objV1.Name
 
-	if temp.Run != nil {
+	if objV1.Run != nil {
 		var runSpec RunSpec
 		runData := map[string]json.RawMessage{}
 
 		// Unmarshal into a temporary map to process specific fields
-		if err := json.Unmarshal(temp.Run, &runData); err != nil {
+		if err := json.Unmarshal(objV1.Run, &runData); err != nil {
 			return err
 		}
 
