@@ -80,14 +80,14 @@ func (v *Stage) UnmarshalJSON(data []byte) error {
 }
 
 func (v1 *StageV1) UnmarshalJSONV1(data []byte) error {
-	type TempStage struct {
+	type StageV1 struct {
 		Name    string          `json:"name,omitempty"`
 		Clone   *CloneStageV1   `json:"clone,omitempty"`
 		Runtime string     		`json:"runtime,omitempty"`
 		Steps   []*StepV1       `json:"steps,omitempty"`
 	}
 
-	temp := &TempStage{}
+	temp := &StageV1{}
 	if err := json.Unmarshal(data, temp); err != nil {
 		return err
 	}
@@ -98,7 +98,11 @@ func (v1 *StageV1) UnmarshalJSONV1(data []byte) error {
 	} else {
 		v1.Clone = temp.Clone
 	}
-	v1.Runtime = "machine"
+	if temp.Runtime != "" {
+		v1.Runtime = temp.Runtime
+	} else {
+		v1.Runtime = "machine"
+	}
 	v1.Steps = temp.Steps
 
 	return nil

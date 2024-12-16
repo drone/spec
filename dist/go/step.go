@@ -97,12 +97,12 @@ func (v *Step) UnmarshalJSON(data []byte) error {
 }
 
 func (v *StepV1) UnmarshalJSONV1(data []byte) error {
-	type TempStep struct {
+	type StepV1 struct {
 		Name string          `json:"name,omitempty"`
 		Run  json.RawMessage `json:"run,omitempty"`
 	}
 
-	temp := &TempStep{}
+	temp := &StepV1{}
 	if err := json.Unmarshal(data, temp); err != nil {
 		return err
 	}
