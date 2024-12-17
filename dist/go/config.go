@@ -28,6 +28,10 @@ type Config struct {
 	Spec    interface{} `json:"spec,omitempty"`
 }
 
+type ConfigV1 struct {
+	Pipeline *PipelineV1 `json:"pipeline,omitempty"`
+}
+
 // UnmarshalJSON implement the json.Unmarshaler interface.
 func (v *Config) UnmarshalJSON(data []byte) error {
 	type S Config

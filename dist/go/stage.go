@@ -35,6 +35,13 @@ type Stage struct {
 	Spec     interface{}            `json:"spec,omitempty"`
 }
 
+type StageV1 struct {
+	Name     string                 `json:"name,omitempty"`
+	Clone	 *CloneStageV1 			`json:"clone,omitempty"`
+	Runtime  string        			`json:"runtime,omitempty"`
+	Steps    []*StepV1           	`json:"steps,omitempty"`
+}
+
 // UnmarshalJSON implement the json.Unmarshaler interface.
 func (v *Stage) UnmarshalJSON(data []byte) error {
 	type S Stage
@@ -70,4 +77,33 @@ func (v *Stage) UnmarshalJSON(data []byte) error {
 	}
 
 	return json.Unmarshal(obj.Spec, v.Spec)
+}
+
+func (v1 *StageV1) UnmarshalJSONV1(data []byte) error {
+	type StageV1 struct {
+		Name    string          `json:"name,omitempty"`
+		Clone   *CloneStageV1   `json:"clone,omitempty"`
+		Runtime string     		`json:"runtime,omitempty"`
+		Steps   []*StepV1       `json:"steps,omitempty"`
+	}
+
+	objV1 := &StageV1{}
+	if err := json.Unmarshal(data, objV1); err != nil {
+		return err
+	}
+
+	v1.Name = objV1.Name
+	if objV1.Clone == nil {
+		v1.Clone = &CloneStageV1{Disabled: true}
+	} else {
+		v1.Clone = objV1.Clone
+	}
+	if objV1.Runtime != "" {
+		v1.Runtime = objV1.Runtime
+	} else {
+		v1.Runtime = "machine"
+	}
+	v1.Steps = objV1.Steps
+
+	return nil
 }
