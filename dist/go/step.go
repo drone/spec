@@ -41,18 +41,9 @@ type StepV1 struct {
 
 type RunSpec struct {
 	Container *ContainerSpec     `json:"container,omitempty"`
-	With	  *WithSpec		     `json:"with,omitempty"`
+	With	  map[string]string	 `json:"with,omitempty"`
 	Env       map[string]string  `json:"env,omitempty"`
 	Script    string             `json:"script,omitempty"` 
-}
-
-type WithSpec struct {
-	Dockerfile		string `json:"dockerfile,omitempty"`
-	Username		string `json:"username,omitempty"`
-	Password		string `json:"password,omitempty"`
-	Auto_tag		string `json:"auto_tag,omitempty"`
-	Auto_tag_suffix	string `json:"auto_tag_suffix,omitempty"`
-	Repo			string `json:"repo,omitempty"`
 }
 
 type ContainerSpec struct {
@@ -139,11 +130,11 @@ func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 
 		// Unmarshal With field if present
 		if withData, ok := runData["with"]; ok {
-			var with WithSpec
+			var with map[string]string
 			if err := json.Unmarshal(withData, &with); err != nil {
 				return err
 			}
-			runSpec.With = &with
+			runSpec.With = with
 		}
 
 		// Unmarshal Env field if present
