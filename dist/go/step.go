@@ -41,7 +41,7 @@ type StepV1 struct {
 
 type RunSpec struct {
 	Container *ContainerSpec     `json:"container,omitempty"`
-	With	  map[string]string	 `json:"with,omitempty"`
+	With	  map[string]interface{}	 `json:"with,omitempty"`
 	Env       map[string]string  `json:"env,omitempty"`
 	Script    string             `json:"script,omitempty"` 
 }
@@ -130,7 +130,7 @@ func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 
 		// Unmarshal With field if present
 		if withData, ok := runData["with"]; ok {
-			var with map[string]string
+			var with map[string]interface{}
 			if err := json.Unmarshal(withData, &with); err != nil {
 				return err
 			}
