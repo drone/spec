@@ -37,18 +37,14 @@ type Step struct {
 type StepV1 struct {
 	Name string   `json:"name,omitempty"`
 	Run  *RunSpec `json:"run,omitempty"`
-}
-
-type StepPluginV1 struct {
-	Name 	  string   			 		 `json:"name,omitempty"`
-	Container *ContainerSpec     		 `json:"container,omitempty"`
-	With	  map[string]interface{}	 `json:"with,omitempty"`
+	RunSpec
 }
 
 type RunSpec struct {
 	Container *ContainerSpec     `json:"container,omitempty"`
 	Env       map[string]string  `json:"env,omitempty"`
 	Script    string             `json:"script,omitempty"` 
+	With	  map[string]interface{}	 `json:"with,omitempty"`
 }
 
 type ContainerSpec struct {
@@ -133,6 +129,14 @@ func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 			runSpec.Container = &container
 		}
 
+		if withData, ok := runData["with"]; ok {
+			var with map[string]interface{}
+			if err := json.Unmarshal(withData, &with); err != nil {
+				return err
+			}
+			runSpec.With = with
+		}
+
 		// Unmarshal Env field if present
 		if envData, ok := runData["env"]; ok {
 			var env map[string]string
@@ -150,41 +154,6 @@ func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 		}
 
 		v.Run = &runSpec
-	}
-
-	return nil
-}
-
-func (v *StepPluginV1) UnmarshalJSONPlugin(data []byte) error {
-	type StepPluginV1 struct {
-		Name      string          `json:"name,omitempty"`
-		Container json.RawMessage `json:"container,omitempty"`
-		With      json.RawMessage `json:"with,omitempty"`
-	}
-
-	obj := &StepPluginV1{}
-	if err := json.Unmarshal(data, obj); err != nil {
-		return err
-	}
-
-	v.Name = obj.Name
-
-	// Unmarshal Container field if present
-	if obj.Container != nil {
-		var container ContainerSpec
-		if err := json.Unmarshal(obj.Container, &container); err != nil {
-			return err
-		}
-		v.Container = &container
-	}
-
-	// Unmarshal With field if present
-	if obj.With != nil {
-		var with map[string]interface{}
-		if err := json.Unmarshal(obj.With, &with); err != nil {
-			return err
-		}
-		v.With = with
 	}
 
 	return nil
