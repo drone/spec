@@ -41,9 +41,9 @@ type StepV1 struct {
 }
 
 type RunSpec struct {
-	Container *ContainerSpec     `json:"container,omitempty"`
-	Env       map[string]string  `json:"env,omitempty"`
-	Script    string             `json:"script,omitempty"` 
+	Container *ContainerSpec     		 `json:"container,omitempty"`
+	Env       map[string]string  		 `json:"env,omitempty"`
+	Script    string             		 `json:"script,omitempty"` 
 	With	  map[string]interface{}	 `json:"with,omitempty"`
 }
 
