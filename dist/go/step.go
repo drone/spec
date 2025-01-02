@@ -37,6 +37,7 @@ type Step struct {
 type StepV1 struct {
 	Name string   `json:"name,omitempty"`
 	Run  *RunSpec `json:"run,omitempty"`
+	If	 string   `json:"if,omitempty"`
 	RunSpec
 }
 
@@ -102,6 +103,7 @@ func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 	type StepV1 struct {
 		Name string          `json:"name,omitempty"`
 		Run  json.RawMessage `json:"run,omitempty"`
+		If   string 		 `json:"if,omitempty"`
 	}
 
 	objV1 := &StepV1{}
@@ -110,6 +112,7 @@ func (v *StepV1) UnmarshalJSONV1(data []byte) error {
 	}
 
 	v.Name = objV1.Name
+	v.If = objV1.If
 
 	if objV1.Run != nil {
 		var runSpec RunSpec
