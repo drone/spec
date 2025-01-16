@@ -167,6 +167,12 @@
                 "options": {
                     "$ref": "#/definitions/Default",
                     "description": "Options defines global configuration options."
+                },
+                "labels": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
                 }
             },
             "required": [
