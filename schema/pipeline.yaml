@@ -19,6 +19,11 @@ properties:
     $ref: ./default.yaml
     description: Options defines global configuration options.
 
+  labels:
+    type: object
+    additionalProperties:
+      type: string
+
 required:
   - stages
 
