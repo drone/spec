@@ -1,0 +1,13 @@
+title: BuildIntelligence
+type: object
+description: BuildIntelligence defines pipeline Build Intelligence behavior.
+properties:
+  enabled:
+    description: Enabled enables build intelligence.
+    type: boolean
+
+examples:
+- buildIntelligence:
+    enabled: true
+
+x-docs-skip: true

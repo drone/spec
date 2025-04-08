@@ -2,3 +2,5 @@ node_modules
 docs/content
 _*
 docs.sh
+
+.idea/

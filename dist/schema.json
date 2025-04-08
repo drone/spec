@@ -1278,6 +1278,10 @@
         },
         "StageCI": {
             "properties": {
+                "buildIntelligence": {
+                    "$ref": "#/definitions/BuildIntelligence",
+                    "description": "Configures the build intelligence behavior."
+                },
                 "cache": {
                     "$ref": "#/definitions/Cache",
                     "description": "Configures the cache behavior."
@@ -1344,6 +1348,26 @@
             "x-docs-skip": false,
             "x-docs-title": "stage.type.ci",
             "x-file": "stage_ci.yaml"
+        },
+        "BuildIntelligence": {
+            "title": "BuildIntelligence",
+            "type": "object",
+            "description": "BuildIntelligence defines pipeline Build Intelligence behavior.",
+            "properties": {
+                "enabled": {
+                    "description": "Enabled enables build intelligence.",
+                    "type": "boolean"
+                }
+            },
+            "examples": [
+                {
+                    "buildIntelligence": {
+                        "enabled": true
+                    }
+                }
+            ],
+            "x-docs-skip": true,
+            "x-file": "build_intelligence.yaml"
         },
         "Cache": {
             "title": "Cache",

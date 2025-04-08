@@ -1,4 +1,7 @@
 properties:
+  buildIntelligence:
+    $ref: ./build_intelligence.yaml
+    description: Configures the build intelligence behavior.
   cache:
     $ref: ./cache.yaml
     description: Configures the cache behavior.
